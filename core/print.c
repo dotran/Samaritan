@@ -86,7 +86,7 @@ void print_information (int level, int n, ...)
 
     va_list vl;
     va_start (vl, n);
-    if(DEBUG >= level)
+    if (DEBUG >= level)
     {
         printf ("%s::", symbol[level]);
         for(i = 0; i < n; i++)
@@ -98,6 +98,8 @@ void print_information (int level, int n, ...)
 
     }
     va_end (vl);
+
+    return;
 }
 
 
