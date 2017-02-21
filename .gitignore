@@ -1,6 +1,3 @@
-# ignore the CMake file
-CMakeLists.txt
-
 # ignore the CLion debug folder
 /cmake-build-debug/
 
