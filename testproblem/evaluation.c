@@ -24,7 +24,8 @@
 
 #include "../header/problems.h"
 #include "../header/global.h"
-
+#include "../header/print.h"
+#include "string.h"
 void evaluate_population (population_real* pop)
 {
     int i;
@@ -37,14 +38,21 @@ void evaluate_population (population_real* pop)
 
 void evaluate_individual (individual_real* ind)
 {
-    if (problem_index == 1)
-    {
+
+    if(!strcmp(test_problem,"DTLZ1")){
         dtlz1 (ind->xreal, ind->obj);
+        printInfo(II,1,"Algorithm: NSGA2");
     }
-    else if (problem_index == 2)
+    else if(!strcmp(algorithm_name,"ZDT1")) {
+        zdt1 (ind->xreal, ind->obj);
+        printInfo(II, 1, "Algorithm: MOEAD");
+    }
+    else
     {
-       zdt1 (ind->xreal, ind->obj);
+        printInfo(EE,2,"UNKNOWN test problem:",test_problem);
+        exit(-1);
     }
+
 
     return;
 }

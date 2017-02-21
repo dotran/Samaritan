@@ -30,34 +30,54 @@
 #define DD 2
 #define dd 3
 
+#include <string.h>
 # include "time.h"
 # include "../header/global.h"
 # include "../header/rand.h"
 # include "../header/memory.h"
-# include "print.h"
-
-int init_real ()
+# include "../header/print.h"
+double pmut_real;
+char algorithm_name[20];
+char test_problem[20];
+char dummy[20];
+char analyse_stream[200];
+int init_real (char* argv)
 {
     int i;
     int random;
 
     algorithm_index = 1;
     problem_index   = 1;
+    char configFileName[20];
+    strcpy(configFileName,argv);
+    FILE * config = NULL;
+    config = fopen(configFileName,"r");
+    if(config==NULL)
+    {
+        printInfo(EE,2,"Fail to read configure file:",configFileName);
+        exit(-1);
+    }
 
-//    if(argc == 1)
-//    {
-//        print(II, 1, "Reading Default Configure File configure.cfg");
-//    }
-//    else if(argc > 1)
-//    {
-//        print(II, 2, "Reading from file:",argv[1]);
+    // read from configure file
+    fscanf(config,"%s %s",dummy, algorithm_name);
+    fscanf(config,"%s %s",dummy, test_problem);
+    fgets(analyse_stream, 200, config);
+    fgets(analyse_stream, 200, config);
+    fscanf(config,"%s %d",dummy, &number_variable);
+    fscanf(config,"%s %d",dummy, &number_objective);
+    fscanf(config,"%s %d",dummy, &number_runs);
+    fscanf(config,"%s %d",dummy, &popsize);
+    fscanf(config,"%s %d",dummy, &max_generations);
+    fscanf(config,"%s %d",dummy, &runtime_output);
+    fscanf(config,"%s %d",dummy, &output_interval);
 
-//    }
-//    else
-//    {
-//        print(II, 2, "Extra args ignored, reading from file:",argv[1]);
 
-//    }
+
+    // parameter initialize
+    pcross_real = 0.9;
+    pmut_real   = 1.0 / number_variable;
+    eta_c       = 15.0;
+    eta_m       = 20.0;
 
     // initialize a random seed
     srand ((unsigned) time (NULL));
@@ -69,10 +89,6 @@ int init_real ()
         exit (1);
     }
     /* DEMO this should read from file*/
-    popsize          = 100;
-    number_variable  = 7;
-    number_objective = 3;
-    max_generations  = 1000;
 
     // boundary settings
     variable_lowerbound = (double *)malloc(number_variable * sizeof(double));
@@ -83,11 +99,6 @@ int init_real ()
         variable_upperbound[i] = 1.0;
     }
 
-    // parameter initialize
-    pcross_real = 0.9;
-    pmut_real   = 1.0 / number_variable;
-    eta_c       = 15.0;
-    eta_m       = 20.0;
 
     return 0;
 }

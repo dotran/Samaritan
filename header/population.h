@@ -30,7 +30,7 @@
 
 # include "../header/global.h"
 
-int init_real ();
+int init_real (char *argv);
 void initialize_individual_real (individual_real *ind);
 void initialize_population_real (population_real *pop);
 void copy_ind (individual_real *ind1, individual_real *ind2);

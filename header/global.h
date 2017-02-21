@@ -34,6 +34,7 @@
 
 # define PI  M_PI
 # define INF 1.0e14
+
 # define EPS 1.0e-14
 
 extern int DEBUG;
@@ -50,7 +51,12 @@ extern double eta_c;
 extern double eta_m;
 extern double pcross_real;
 extern double pmut_real;
-
+extern char algorithm_name[20];
+extern char test_problem[20];
+extern char dummy[20];
+extern char analyse_stream[200];
+extern int runtime_output;
+extern int output_interval;
 typedef struct
 {
     int rank;
@@ -73,5 +79,4 @@ typedef struct lists
 
 void insert (list *node, int x);
 list* del (list *node);
-
 # endif // Samaritan_GLOBAL_H
