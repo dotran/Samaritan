@@ -52,7 +52,7 @@ double pmut_real;
 int main(int argc, char *argv[])
 {
     // initialization
-    init_real();
+    init_real(argv);
 
     population_real* parent_pop;
     population_real* offspring_pop;
@@ -70,11 +70,11 @@ int main(int argc, char *argv[])
     switch (algorithm_index)
     {
         case 1:
-            NSGA2(parent_pop, offspring_pop, mixed_pop);
+            NSGA2 (parent_pop, offspring_pop, mixed_pop);
             break;
         default:
-            printf("Please specify an metaheuristic to run.\n");
-            exit(1);
+            printf ("Please specify an metaheuristic to run.\n");
+            exit (1);
     }
 
     // performance assessment

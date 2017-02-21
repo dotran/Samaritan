@@ -67,13 +67,14 @@ void assign_crowding_distance (population_real *pop, int *dist, int **obj_array,
             }
         }
     }
-    for (j=0; j<front_size; j++)
+    for (j = 0; j < front_size; j++)
     {
         if (pop->ind[dist[j]].crowd_dist != INF)
         {
-            pop->ind[dist[j]].crowd_dist = (pop->ind[dist[j]].crowd_dist)/number_objective;
+            pop->ind[dist[j]].crowd_dist = (pop->ind[dist[j]].crowd_dist) / number_objective;
         }
     }
+
     return;
 }
 

@@ -29,7 +29,6 @@
 #include "../header/rand.h"
 #include "../header/population.h"
 
-
 /* Function to allocate memory to an individual */
 void allocate_memory_ind (individual_real *ind)
 {

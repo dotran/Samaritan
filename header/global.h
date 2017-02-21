@@ -51,12 +51,16 @@ extern double eta_c;
 extern double eta_m;
 extern double pcross_real;
 extern double pmut_real;
-extern char algorithm_name[20];
-extern char test_problem[20];
-extern char dummy[20];
+
+extern char algorithm_name[50];
+extern char test_problem[50];
+extern char dummy[50];
 extern char analyse_stream[200];
+extern char symbol[4][3] = {"EE", "II", "DD", "dd"};
+
 extern int runtime_output;
 extern int output_interval;
+
 typedef struct
 {
     int rank;
@@ -75,8 +79,9 @@ typedef struct lists
     int index;
     struct lists *parent;
     struct lists *child;
-}list;
+} list;
 
 void insert (list *node, int x);
 list* del (list *node);
+
 # endif // Samaritan_GLOBAL_H

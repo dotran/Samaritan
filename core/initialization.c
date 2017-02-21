@@ -34,55 +34,50 @@
 # include "time.h"
 # include "../header/global.h"
 # include "../header/rand.h"
-# include "../header/memory.h"
 # include "../header/print.h"
-double pmut_real;
-char algorithm_name[20];
-char test_problem[20];
-char dummy[20];
-char analyse_stream[200];
+
 int init_real (char* argv)
 {
     int i;
     int random;
+    char configFileName[20];
 
     algorithm_index = 1;
-    problem_index   = 1;
-    char configFileName[20];
-    strcpy(configFileName,argv);
+
+    strcpy (configFileName, argv);
     FILE * config = NULL;
-    config = fopen(configFileName,"r");
-    if(config==NULL)
+    config = fopen (configFileName, "r");
+    if(config == NULL)
     {
-        printInfo(EE,2,"Fail to read configure file:",configFileName);
-        exit(-1);
+        print_information (EE, 2, "Fail to read configure file:", configFileName);
+        exit (-1);
     }
 
     // read from configure file
-    fscanf(config,"%s %s",dummy, algorithm_name);
-    fscanf(config,"%s %s",dummy, test_problem);
-    fgets(analyse_stream, 200, config);
-    fgets(analyse_stream, 200, config);
-    fscanf(config,"%s %d",dummy, &number_variable);
-    fscanf(config,"%s %d",dummy, &number_objective);
-    fscanf(config,"%s %d",dummy, &number_runs);
-    fscanf(config,"%s %d",dummy, &popsize);
-    fscanf(config,"%s %d",dummy, &max_generations);
-    fscanf(config,"%s %d",dummy, &runtime_output);
-    fscanf(config,"%s %d",dummy, &output_interval);
+    fscanf (config, "%s %s", dummy, algorithm_name);
+    fscanf (config, "%s %s", dummy, test_problem);
+    fgets (analyse_stream, 200, config);
+    fgets (analyse_stream, 200, config);
+    fscanf (config, "%s %d", dummy, &number_variable);
+    fscanf (config, "%s %d", dummy, &number_objective);
+    fscanf (config, "%s %d", dummy, &number_runs);
+    fscanf (config, "%s %d", dummy, &popsize);
+    fscanf (config, "%s %d", dummy, &max_generations);
+    fscanf (config, "%s %d", dummy, &runtime_output);
+    fscanf (config, "%s %d", dummy, &output_interval);
 
-
-
-    // parameter initialize
+    // SBX parameter settings
     pcross_real = 0.9;
-    pmut_real   = 1.0 / number_variable;
     eta_c       = 15.0;
+
+    // polynomial mutation parameter settings
+    pmut_real   = 1.0 / number_variable;
     eta_m       = 20.0;
 
     // initialize a random seed
     srand ((unsigned) time (NULL));
     random = rand () % 1000;
-    seed = (float) random / 1000.0;
+    seed   = (float) random / 1000.0;
     if (seed <= 0.0 || seed >= 1.0)
     {
         printf ("\n Entered seed value is wrong, seed value must be in (0,1) \n");
@@ -93,12 +88,24 @@ int init_real (char* argv)
     // boundary settings
     variable_lowerbound = (double *)malloc(number_variable * sizeof(double));
     variable_upperbound = (double *)malloc(number_variable * sizeof(double));
-    for (i = 0; i < number_variable; i++)
+    if (!strcmp(test_problem, "ZDT4"))
     {
-        variable_lowerbound[i] = 0.0;
-        variable_upperbound[i] = 1.0;
+        variable_lowerbound[0] = 0.0;
+        variable_lowerbound[0] = 1.0;
+        for (i = 1; i < number_variable; i++)
+        {
+            variable_lowerbound[i] = -5.0;
+            variable_upperbound[i] = 5.0;
+        }
     }
-
+    else
+    {
+        for (i = 0; i < number_variable; i++)
+        {
+            variable_lowerbound[i] = 0.0;
+            variable_upperbound[i] = 1.0;
+        }
+    }
 
     return 0;
 }

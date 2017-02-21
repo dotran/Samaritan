@@ -39,22 +39,21 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     int generation;
 
     generation = 1;
-    printf("running 1%%", generation);
+    printf ("running 1%%");
 
     // initialize population
     initialize_population_real (parent_pop);
 
-
     // population evaluations
     evaluate_population (parent_pop);
+
+    // analyze the current population
     analyse (parent_pop, generation);
 
-    for(generation = 2; generation <= max_generations; generation++)
+    for (generation = 2; generation <= max_generations; generation++)
     {
-        if(generation*100/max_generations != (generation-1)*100/max_generations)
-        {    printf("\rrunning %d%%", generation*100/max_generations);
-            fflush(stdout);
-        }
+        print_progress (generation);
+
         // reproduction (crossover and mutation)
         crossover_real (parent_pop, offspring_pop);
         mutation_real (offspring_pop);
@@ -65,8 +64,9 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
         // environmental selection
         merge (parent_pop, offspring_pop, mixed_pop);
         fill_nondominated_sort (parent_pop, mixed_pop);
-        analyse (parent_pop, generation);
 
+        // analyze the current population
+        analyse (parent_pop, generation);
     }
 
     return;
