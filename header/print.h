@@ -25,8 +25,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# ifndef Samaritan_DOMINANCE_H
-# define Samaritan_DOMINANCE_H
+# ifndef Samaritan_PRINT_H
+# define Samaritan_PRINT_H
 
 # include "../header/global.h"
 
@@ -35,4 +35,4 @@ void print_objective (char *file_name, void * ptr);
 void print_progress (int generation);
 void print_information (int level, int n, ...);
 
-# endif // Samaritan_DOMINANCE_H
+# endif // Samaritan_PRINT_H
