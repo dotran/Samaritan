@@ -31,27 +31,27 @@ void analyse (void *ptr, int id)
 {
     int i, j;
 
-    char output_dir_v1[200];
-    char output_dir_v2[200];    //lower dir
+    char output_dir_level1[200];
+    char output_dir_level2[200];    //lower dir
     char output_file[200];
     char id_char[10];
 
     sprintf (id_char,"%d",id);
     // set the output dir
-    sprintf (output_dir_v1,"./%s_%d_%d/%s/",
+    sprintf (output_dir_level1,"./%s_%d_%d/%s/",
             test_problem,
             number_variable,
             number_objective,
             algorithm_name
     );
-    sprintf (output_dir_v2,"./%s_%d_%d/%s/%d/",
+    sprintf (output_dir_level2,"./%s_%d_%d/%s/%d/",
             test_problem,
             number_variable,
             number_objective,
             algorithm_name,
             number_runs
     );
-    _mkdir (output_dir_v2);
+    _mkdir (output_dir_level2);
 
     // first time output, init the parameter and output var and fun
     if (id == 1)
@@ -90,16 +90,16 @@ void analyse (void *ptr, int id)
         }
     }
 
-    if (runtime_output == 1 && (id%output_interval == 0|| id == 1 || id == max_generations))
+    if (runtime_output == 1 && (id % output_interval == 0|| id == 1 || id == max_generations))
     {
         if (analyse_list[VAR])
         {
-            sprintf(output_file, "%s%s.VAR", output_dir_v2, id_char);
-            print_variable(output_file, ptr);
+            sprintf (output_file, "%s%s.VAR", output_dir_level2, id_char);
+            print_variable (output_file, ptr);
         }
         if (analyse_list[FUN])
         {
-            sprintf (output_file, "%s%s.FUN", output_dir_v2, id_char);
+            sprintf (output_file, "%s%s.FUN", output_dir_level2, id_char);
             print_objective (output_file, ptr);
         }
         if (analyse_list[IGD]) {
@@ -112,19 +112,19 @@ void analyse (void *ptr, int id)
     {
         if (analyse_list[VAR])
         {
-            sprintf (output_file, "%s%d.VAR", output_dir_v1, number_runs);
+            sprintf (output_file, "%s%d.VAR", output_dir_level1, number_runs);
             print_variable (output_file, ptr);
         }
         if (analyse_list[FUN])
         {
-            sprintf (output_file, "%s%d.FUN", output_dir_v1, number_runs);
+            sprintf (output_file, "%s%d.FUN", output_dir_level1, number_runs);
             print_objective (output_file, ptr);
         }
         if (analyse_list[IGD]) {
             if (runtime_output != 1)
             {
                 igd (ptr, id);
-                sprintf (output_file, "%s%d.IGD", output_dir_v1, number_runs);
+                sprintf (output_file, "%s%d.IGD", output_dir_level1, number_runs);
                 print_igd (output_file);
             }
         }
@@ -138,7 +138,7 @@ static void _mkdir (const char *dir)
     size_t len;
 
     snprintf (tmp, sizeof(tmp), "%s", dir);
-    len = strlen(tmp);
+    len = strlen (tmp);
     if (tmp[len - 1] == '/')
         tmp[len - 1] = 0;
     for (p = tmp + 1; *p; p++)
