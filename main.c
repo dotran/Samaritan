@@ -52,7 +52,7 @@ double pmut_real;
 int main(int argc, char *argv[])
 {
     // initialization
-    init_real(argv);
+    init_real("config.txt");
 
     population_real* parent_pop;
     population_real* offspring_pop;

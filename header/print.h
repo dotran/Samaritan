@@ -29,6 +29,7 @@
 # define Samaritan_PRINT_H
 
 # include "../header/global.h"
+# include <stdarg.h>
 
 void print_variable (char *file_name, void * ptr);
 void print_objective (char *file_name, void * ptr);

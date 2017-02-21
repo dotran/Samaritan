@@ -25,7 +25,7 @@ int runtime_output;
 int output_interval;
 
 enum analyse_name{VAR,FUN,IGD,END};
-static void _mkdir(const char *dir) ;
+static void _mkdir(const char *dir);
 
 void analyse (void *ptr, int id)
 {

@@ -25,12 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define EE 0
-#define II 1
-#define DD 2
-#define dd 3
-
-#include <string.h>
+# include <string.h>
 # include "time.h"
 # include "../header/global.h"
 # include "../header/rand.h"

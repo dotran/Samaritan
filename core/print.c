@@ -91,8 +91,8 @@ void print_information (int level, int n, ...)
         printf ("%s::", symbol[level]);
         for(i = 0; i < n; i++)
         {
-            info = va_arg(vl,char*);
-            printf ("%s",info);
+            info = va_arg (vl, char*);
+            printf ("%s", info);
         }
         printf ("\n");
 

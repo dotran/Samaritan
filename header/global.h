@@ -37,6 +37,11 @@
 
 # define EPS 1.0e-14
 
+# define EE 0
+# define II 1
+# define DD 2
+# define dd 3
+
 extern int DEBUG;
 extern int algorithm_index;         // index of the running algorithm
 extern int problem_index;           // index of the test problem
