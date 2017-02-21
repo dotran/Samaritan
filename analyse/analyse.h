@@ -120,7 +120,8 @@ void analyse (void *ptr, int id)
             sprintf (output_file, "%s%d.FUN", output_dir_level1, number_runs);
             print_objective (output_file, ptr);
         }
-        if (analyse_list[IGD]) {
+        if (analyse_list[IGD])
+        {
             if (runtime_output != 1)
             {
                 igd (ptr, id);
