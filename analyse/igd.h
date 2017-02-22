@@ -9,35 +9,13 @@
 //
 #include "analyse.h"
 #include <float.h>
+#include "../header/print.h"
 void igd(void *ptr,int id);
 void print_igd(char * file_name);
+void print_global_igd(char *file_name);
+double point_distance(double *a, double *b, int dim);
+
 static double *record = NULL;
+static double *record_all_run = NULL;
 
-void igd(void *ptr,int id)
-{
-    int i;
-    if(record==NULL)
-    {
-        record = (double *) malloc ((1+max_generations)*sizeof(double));
-        for(i=0;i<1+max_generations;i++)
-        {
-            record[i]=nan("1");
-        }
-
-    }
-    record[id]= 1.0*id; // dummy
-
-}
-void print_igd(char *file_name)
-{
-    FILE *fpt;
-    int i,j;
-    fpt = fopen(file_name,"w");
-    for(i = 0;i< 1+max_generations;i++) {
-        if(!isnan(record[i]))
-            fprintf(fpt, "%d\t%lf\n", i,record[i]);
-    }
-    fclose(fpt);
-    free(record);
-}
 #endif //SAMARITAN_IGD_H

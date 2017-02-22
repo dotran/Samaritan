@@ -47,21 +47,22 @@ extern int algorithm_index;         // index of the running algorithm
 extern int problem_index;           // index of the test problem
 extern int max_generations;         // maximum number of generations
 extern int number_runs;             // number of experiment runs
+extern int run_index;
 extern int popsize;                 // population size
 extern int number_variable;         // number of variables
 extern int number_objective;        // number of objectives
+extern int run_index_begin;
+extern int run_index_end;
 extern double *variable_lowerbound; // variable lower bound
 extern double *variable_upperbound; // variable upper bound
 extern double eta_c;
 extern double eta_m;
 extern double pcross_real;
 extern double pmut_real;
-
 extern char algorithm_name[50];
 extern char test_problem[50];
 extern char dummy[50];
 extern char analyse_stream[200];
-extern char symbol[4][3] = {"EE", "II", "DD", "dd"};
 
 extern int runtime_output;
 extern int output_interval;

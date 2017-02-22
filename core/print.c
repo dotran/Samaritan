@@ -75,12 +75,17 @@ void print_progress (int generation)
         printf ("\rrunning %d%%", generation * 100 / max_generations);
         fflush (stdout);
     }
-
+    if(generation==max_generations)
+    {
+        printf("\nRun ended\n");
+    }
     return;
 }
 
 void print_information (int level, int n, ...)
 {
+    char symbol[4][3] = {"EE", "II", "DD", "dd"};
+
     int i;
     char * info = NULL;
 

@@ -31,6 +31,13 @@
 # include "../header/rand.h"
 # include "../header/print.h"
 
+char algorithm_name[50];
+char test_problem[50];
+char dummy[50];
+char analyse_stream[200];
+int run_index;
+int run_index_begin;
+int run_index_end;
 int init_real (char* argv)
 {
     int i;
@@ -51,16 +58,16 @@ int init_real (char* argv)
     // read from configure file
     fscanf (config, "%s %s", dummy, algorithm_name);
     fscanf (config, "%s %s", dummy, test_problem);
-    fgets (analyse_stream, 200, config);
-    fgets (analyse_stream, 200, config);
     fscanf (config, "%s %d", dummy, &number_variable);
     fscanf (config, "%s %d", dummy, &number_objective);
-    fscanf (config, "%s %d", dummy, &number_runs);
     fscanf (config, "%s %d", dummy, &popsize);
     fscanf (config, "%s %d", dummy, &max_generations);
     fscanf (config, "%s %d", dummy, &runtime_output);
     fscanf (config, "%s %d", dummy, &output_interval);
-
+    fscanf (config, "%s %d", dummy, &run_index_begin);
+    fscanf (config, "%s %d", dummy, &run_index_end);
+    fgets (analyse_stream, 200, config);
+    fgets (analyse_stream, 200, config);
     // SBX parameter settings
     pcross_real = 0.9;
     eta_c       = 15.0;

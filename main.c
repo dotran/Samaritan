@@ -31,7 +31,7 @@
 # include "header/metaheuristics.h"
 # include "header/population.h"
 # include "header/memory.h"
-
+# include "analyse/analyse.h"
 // global variables
 int DEBUG;
 
@@ -64,18 +64,15 @@ int main(int argc, char *argv[])
     allocate_memory_pop (offspring_pop, popsize);
     allocate_memory_pop (mixed_pop, 2 * popsize);
 
+
     randomize();
 
     // run experiments
-    switch (algorithm_index)
-    {
-        case 1:
-            NSGA2 (parent_pop, offspring_pop, mixed_pop);
-            break;
-        default:
-            printf ("Please specify an metaheuristic to run.\n");
-            exit (1);
+    for(run_index=run_index_begin;run_index<=run_index_end;run_index++) {
+        printf("run_index:%d\n",run_index);
+        NSGA2(parent_pop, offspring_pop, mixed_pop);
     }
+    analyse_all();
 
     // performance assessment
     // TODO

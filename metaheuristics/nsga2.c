@@ -30,7 +30,6 @@
 # include "../header/reproduction.h"
 # include "../header/selection.h"
 # include "../header/problems.h"
-
 # include "../analyse/analyse.h"
 
 void NSGA2 (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)

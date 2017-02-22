@@ -1,7 +1,10 @@
 algorithm_name: NSGA2
 test_problem: DTLZ1
-number_variable 7
+number_variable 6
 number_objective 3
 number_runs: 1
-popsize: 100
+popSize: 100
 max_generations: 100
+runtime_output: 1
+output_interval: 100
+analyse: VAR FUN IGD
