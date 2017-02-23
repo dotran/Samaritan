@@ -39,13 +39,13 @@ void track_evolution (void *ptr, int id)
 
     sprintf (id_char, "%d", id);
     // set the output directory
-    sprintf (output_dir_level1,"./%s_%d_%d/%s/",
+    sprintf (output_dir_level1, "./%s_%d_%d/%s/",
              problem_name,
              number_variable,
              number_objective,
              algorithm_name
     );
-    sprintf (output_dir_level2,"./%s_%d_%d/%s/%d/",
+    sprintf (output_dir_level2, "./%s_%d_%d/%s/%d/",
              problem_name,
              number_variable,
              number_objective,

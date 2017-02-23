@@ -38,17 +38,10 @@ void evaluate_population (population_real* pop)
 
 void evaluate_individual (individual_real* ind)
 {
-
     if (!strcmp (problem_name, "DTLZ1"))
-    {
         dtlz1 (ind->xreal, ind->obj);
-        print_information (II, 1, "Algorithm: NSGA2");
-    }
     else if (!strcmp (problem_name, "ZDT1"))
-    {
         zdt1 (ind->xreal, ind->obj);
-        print_information (II, 1, "Algorithm: MOEAD");
-    }
     else
     {
         print_information (EE, 2, "UNKNOWN test problem:", problem_name);

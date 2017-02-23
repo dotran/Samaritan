@@ -42,7 +42,7 @@ int init_real (char* argv)
     // read some parameters from configure file
     strcpy (configFileName, argv);
     config = fopen (configFileName, "r");
-    if(config == NULL)
+    if (config == NULL)
     {
         print_information (EE, 2, "Fail to read configure file:", configFileName);
         exit (-1);
@@ -90,8 +90,8 @@ int init_real (char* argv)
     }
 
     // boundary settings
-    variable_lowerbound = (double *)malloc(number_variable * sizeof(double));
-    variable_upperbound = (double *)malloc(number_variable * sizeof(double));
+    variable_lowerbound = (double *) malloc (number_variable * sizeof(double));
+    variable_upperbound = (double *) malloc (number_variable * sizeof(double));
     if (!strcmp(problem_name, "ZDT4"))
     {
         variable_lowerbound[0] = 0.0;
