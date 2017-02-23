@@ -70,7 +70,7 @@ int init_real (char* argv)
 
     // read true PF data
     sprintf (PF_name, "PF/%s_%dD.pf", problem_name, number_objective);
-    PF = fopen (PF_name , "r");
+    PF = fopen (PF_name, "r");
     if (PF == NULL)
     {
         print_information (EE, 2, "Fail to open PF:", PF_name);
