@@ -25,39 +25,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include <string.h>
-# include "time.h"
 # include "../header/global.h"
 # include "../header/rand.h"
 # include "../header/print.h"
 
-char algorithm_name[50];
-char test_problem[50];
-char dummy[50];
-char analyse_stream[200];
-int run_index;
-int run_index_begin;
-int run_index_end;
 int init_real (char* argv)
 {
-    int i;
+    int i, j;
     int random;
     char configFileName[20];
+    char PF_name[30];
 
-    algorithm_index = 1;
-
-    strcpy (configFileName, argv);
+    FILE * PF = NULL;
     FILE * config = NULL;
+
+    // read some parameters from configure file
+    strcpy (configFileName, argv);
     config = fopen (configFileName, "r");
     if(config == NULL)
     {
         print_information (EE, 2, "Fail to read configure file:", configFileName);
         exit (-1);
     }
-
-    // read from configure file
     fscanf (config, "%s %s", dummy, algorithm_name);
-    fscanf (config, "%s %s", dummy, test_problem);
+    fscanf (config, "%s %s", dummy, problem_name);
     fscanf (config, "%s %d", dummy, &number_variable);
     fscanf (config, "%s %d", dummy, &number_objective);
     fscanf (config, "%s %d", dummy, &popsize);
@@ -68,6 +59,7 @@ int init_real (char* argv)
     fscanf (config, "%s %d", dummy, &run_index_end);
     fgets (analyse_stream, 200, config);
     fgets (analyse_stream, 200, config);
+
     // SBX parameter settings
     pcross_real = 0.9;
     eta_c       = 15.0;
@@ -76,21 +68,31 @@ int init_real (char* argv)
     pmut_real   = 1.0 / number_variable;
     eta_m       = 20.0;
 
-    // initialize a random seed
-    srand ((unsigned) time (NULL));
-    random = rand () % 1000;
-    seed   = (float) random / 1000.0;
-    if (seed <= 0.0 || seed >= 1.0)
+    // read true PF data
+    sprintf (PF_name, "PF/%s_%dD.pf", problem_name, number_objective);
+    PF = fopen (PF_name , "r");
+    if (PF == NULL)
     {
-        printf ("\n Entered seed value is wrong, seed value must be in (0,1) \n");
-        exit (1);
+        print_information (EE, 2, "Fail to open PF:", PF_name);
+        exit (-1);
     }
-    /* DEMO this should read from file*/
+    fscanf (PF, "%d", &PF_size);
+
+    PF_data = (double **) malloc (PF_size * sizeof(double *));
+    for (i = 0; i < PF_size; i++)
+        PF_data[i] = (double *) malloc (number_objective * sizeof(double));
+    for (i = 0; i < PF_size; i++)
+    {
+        for (j = 0; j < number_objective; j++)
+        {
+            fscanf (PF, "%lf", &PF_data[i][j]);
+        }
+    }
 
     // boundary settings
     variable_lowerbound = (double *)malloc(number_variable * sizeof(double));
     variable_upperbound = (double *)malloc(number_variable * sizeof(double));
-    if (!strcmp(test_problem, "ZDT4"))
+    if (!strcmp(problem_name, "ZDT4"))
     {
         variable_lowerbound[0] = 0.0;
         variable_lowerbound[0] = 1.0;
@@ -107,6 +109,16 @@ int init_real (char* argv)
             variable_lowerbound[i] = 0.0;
             variable_upperbound[i] = 1.0;
         }
+    }
+
+    // initialize a random seed
+    srand ((unsigned) time (NULL));
+    random = rand () % 1000;
+    seed   = (float) random / 1000.0;
+    if (seed <= 0.0 || seed >= 1.0)
+    {
+        printf ("\n Entered seed value is wrong, seed value must be in (0,1) \n");
+        exit (1);
     }
 
     return 0;

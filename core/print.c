@@ -72,13 +72,12 @@ void print_progress (int generation)
 {
     if (generation * 100 / max_generations != (generation - 1) * 100 / max_generations)
     {
-        printf ("\rrunning %d%%", generation * 100 / max_generations);
+        printf ("\rProgress %d%%", generation * 100 / max_generations);
         fflush (stdout);
     }
-    if(generation==max_generations)
-    {
-        printf("\nRun ended\n");
-    }
+    if (generation == max_generations)
+        printf ("\nRun ended\n");
+
     return;
 }
 
@@ -106,8 +105,3 @@ void print_information (int level, int n, ...)
 
     return;
 }
-
-
-/* print all non-negative args one at a time;
-   all args are assumed to be of int type */
-

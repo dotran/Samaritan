@@ -1,13 +1,10 @@
 /*
- * rand.h:
- *  This is the header file for random number generation functions.
+ * dominance.h:
+ *  This is the header file for dominance check.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
  *  Ke Li <k.li@exeter.ac.uk>
- *
- * Institution:
- *  Computational Optimization and Data Analytics (CODA) Group @ University of Exeter
  *
  * Copyright (c) 2017 Renzhi Chen, Ke Li
  *
@@ -25,21 +22,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# ifndef Samaritan_RANDOM_H
-# define Samaritan_RANDOM_H
-/* Definition of random number generation routines */
+# ifndef SAMARITAN_ANALYSE_H
+# define SAMARITAN_ANALYSE_H
 
 # include "global.h"
+# include "population.h"
+# include "print.h"
+# include "indicators.h"
 
-extern double seed;
-extern double oldrand[55];
-extern int jrand;
+void track_evolution (void *ptr, int id);
+void analyse_all ();
 
-void advance_random ();
-void warmup_random (double seed);
-void randomize ();
-double randomperc ();
-int rnd (int low, int high);
-double rndreal (double low, double high);
-
-# endif // Samaritan_RANDOM_H
+# endif // SAMARITAN_ANALYSE_H

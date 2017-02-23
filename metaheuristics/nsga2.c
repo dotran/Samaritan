@@ -30,7 +30,7 @@
 # include "../header/reproduction.h"
 # include "../header/selection.h"
 # include "../header/problems.h"
-# include "../analyse/analyse.h"
+# include "../header/analyse.h"
 
 void NSGA2 (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
 {
@@ -38,7 +38,7 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     int generation;
 
     generation = 1;
-    printf ("running 1%%");
+    printf ("Progress: 1%%");
 
     // initialize population
     initialize_population_real (parent_pop);
@@ -46,8 +46,8 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     // population evaluations
     evaluate_population (parent_pop);
 
-    // analyze the current population
-    analyse (parent_pop, generation);
+    // track the current evolutionary progress, including population and metrics
+    track_evolution (parent_pop, generation);
 
     for (generation = 2; generation <= max_generations; generation++)
     {
@@ -64,8 +64,8 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
         merge (parent_pop, offspring_pop, mixed_pop);
         fill_nondominated_sort (parent_pop, mixed_pop);
 
-        // analyze the current population
-        analyse (parent_pop, generation);
+        // track the current evolutionary progress, including population and metrics
+        track_evolution (parent_pop, generation);
     }
 
     return;

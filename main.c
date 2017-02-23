@@ -25,23 +25,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "time.h"
 # include "header/global.h"
 # include "header/rand.h"
 # include "header/metaheuristics.h"
 # include "header/population.h"
 # include "header/memory.h"
-# include "analyse/analyse.h"
-// global variables
+# include "header/analyse.h"
+
 int DEBUG;
 
-int algorithm_index;         // index of the running algorithm
-int problem_index;           // index of the test problem
 int max_generations;         // maximum number of generations
 int number_runs;             // number of experiment runs
 int popsize;                 // population size
 int number_variable;         // number of variables
 int number_objective;        // number of objectives
+int run_index;               // index of the current experiment
+int run_index_begin;
+int run_index_end;
 double *variable_lowerbound; // variable lower bound
 double *variable_upperbound; // variable upper bound
 double eta_c;
@@ -49,10 +49,25 @@ double eta_m;
 double pcross_real;
 double pmut_real;
 
+char dummy[50];
+char problem_name[50];
+char algorithm_name[50];
+char analyse_stream[200];
+
+int runtime_output;
+int output_interval;
+
+int PF_size;                 // size of the true Pareto-optimal Front
+double **PF_data;            // true Pareto-optimal front data
+
+int analyse_list[100];
+
 int main(int argc, char *argv[])
 {
-    // initialization
-    init_real("config.txt");
+    int i;
+
+    // initialize parameter settings
+    init_real ("config.txt");
 
     population_real* parent_pop;
     population_real* offspring_pop;
@@ -64,18 +79,20 @@ int main(int argc, char *argv[])
     allocate_memory_pop (offspring_pop, popsize);
     allocate_memory_pop (mixed_pop, 2 * popsize);
 
-
-    randomize();
+    randomize ();
 
     // run experiments
-    for(run_index=run_index_begin;run_index<=run_index_end;run_index++) {
-        printf("run_index:%d\n",run_index);
-        NSGA2(parent_pop, offspring_pop, mixed_pop);
+    for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
+        printf ("The %d run ...", run_index);
+        if (!strcmp(algorithm_name, "NSGA2"))
+            NSGA2 (parent_pop, offspring_pop, mixed_pop);
+        else
+        {
+            print_information (EE, 2, "UNKNOWN algorithm:", algorithm_name);
+            exit (-1);
+        }
     }
-    analyse_all();
-
-    // performance assessment
-    // TODO
+    analyse_all ();
 
     // free memory
     if (number_variable != 0)
@@ -89,6 +106,10 @@ int main(int argc, char *argv[])
     free (parent_pop);
     free (offspring_pop);
     free (mixed_pop);
+
+    for (i = 0; i < PF_size; i++)
+        free (PF_data[i]);
+    free (PF_data);
 
     return 0;
 }

@@ -1,6 +1,6 @@
 /*
- * print.h:
- *  This is the header file for output information
+ * indicator.h:
+ *  This is the header file for performance metrics.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -25,14 +25,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# ifndef Samaritan_PRINT_H
-# define Samaritan_PRINT_H
+# ifndef SAMARITAN_INDICATOR_H
+# define SAMARITAN_INDICATOR_H
 
-# include "../header/global.h"
+# include "analyse.h"
+# include "print.h"
 
-void print_variable (char *file_name, void * ptr);
-void print_objective (char *file_name, void * ptr);
-void print_progress (int generation);
-void print_information (int level, int n, ...);
+void record_igd (void *ptr, int id);
+double calculate_igd (void *ptr);
+void print_igd (char * file_name);
+void print_global_igd (char *file_name);
 
-# endif // Samaritan_PRINT_H
+# endif //SAMARITAN_INDICATOR_H

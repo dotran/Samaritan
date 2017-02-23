@@ -30,7 +30,14 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdarg.h>
+# include <time.h>
 # include <math.h>
+# include <float.h>
+# include <string.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 # define PI  M_PI
 # define INF 1.0e14
@@ -43,8 +50,6 @@
 # define dd 3
 
 extern int DEBUG;
-extern int algorithm_index;         // index of the running algorithm
-extern int problem_index;           // index of the test problem
 extern int max_generations;         // maximum number of generations
 extern int number_runs;             // number of experiment runs
 extern int run_index;
@@ -59,13 +64,20 @@ extern double eta_c;
 extern double eta_m;
 extern double pcross_real;
 extern double pmut_real;
-extern char algorithm_name[50];
-extern char test_problem[50];
+
 extern char dummy[50];
+extern char problem_name[50];
+extern char algorithm_name[50];
 extern char analyse_stream[200];
 
 extern int runtime_output;
 extern int output_interval;
+
+extern int PF_size;                 // size of the true Pareto-optimal Front
+extern double **PF_data;            // true Pareto-optimal front data
+
+extern int analyse_list[100];
+enum analyse_name{VAR, FUN, IGD, END};
 
 typedef struct
 {

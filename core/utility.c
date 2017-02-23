@@ -1,6 +1,6 @@
 /*
- * evaluation.c:
- *  This file contains the functions to perform function evaluations.
+ * utility.c:
+ *  This file contains the functions to facilitate some common usages.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -22,38 +22,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/problems.h"
-# include "../header/global.h"
-# include "../header/print.h"
+# include "../header/utility.h"
 
-void evaluate_population (population_real* pop)
+/* Calculate the Euclidean distance between two points */
+double euclidian_distance (double *a, double *b, int dimension)
 {
     int i;
+    double distance;
 
-    for (i = 0; i < popsize; i++)
-        evaluate_individual (&(pop->ind[i]));
+    distance = 0.0;
+    for(i = 0; i < dimension; i++)
+        distance += (a[i] - b[i]) * (a[i] - b[i]);
 
-    return;
+    return sqrt(distance);
 }
 
-void evaluate_individual (individual_real* ind)
+/* Build up multi-level directories */
+void _mkdir (const char *dir)
 {
+    char tmp[256];
+    char *p = NULL;
+    size_t len;
 
-    if (!strcmp (problem_name, "DTLZ1"))
+    snprintf (tmp, sizeof(tmp), "%s", dir);
+    len = strlen (tmp);
+    if (tmp[len - 1] == '/')
+        tmp[len - 1] = 0;
+    for (p = tmp + 1; *p; p++)
     {
-        dtlz1 (ind->xreal, ind->obj);
-        print_information (II, 1, "Algorithm: NSGA2");
+        if (*p == '/')
+        {
+            *p = 0;
+            mkdir (tmp, S_IRWXU);
+            *p = '/';
+        }
     }
-    else if (!strcmp (problem_name, "ZDT1"))
-    {
-        zdt1 (ind->xreal, ind->obj);
-        print_information (II, 1, "Algorithm: MOEAD");
-    }
-    else
-    {
-        print_information (EE, 2, "UNKNOWN test problem:", problem_name);
-        exit (-1);
-    }
-
-    return;
+    mkdir (tmp, S_IRWXU);
 }

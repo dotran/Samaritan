@@ -1,44 +1,52 @@
-//
-// Created by rxc332 on 17-2-22.
-//
-#include "analyse.h"
+/*
+ * analyse.c:
+ *  This file contains the functions to record the results, including the population and metric values for analysis.
+ *
+ * Authors:
+ *  Renzhi Chen <rxc332@cs.bham.ac.uk>
+ *  Ke Li <k.li@exeter.ac.uk>
+ *
+ * Copyright (c) 2017 Renzhi Chen, Ke Li
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-void analyse_all()
-{
-    char output_dir_level1[200];
-    char output_file[200];
-    sprintf (output_dir_level1,"./%s_%d_%d/%s/",
-             test_problem,
-             number_variable,
-             number_objective,
-             algorithm_name
-    );
-    if (analyse_list[IGD])
-    {
-        sprintf (output_file, "%sIGD.txt", output_dir_level1);
-        print_global_igd (output_file);
-    }
-}
+# include "../header/analyse.h"
+# include "../header/utility.h"
 
-void analyse (void *ptr, int id)
+void track_evolution (void *ptr, int id)
 {
     int i, j;
+    int read_ptr;
 
-    char output_dir_level1[200];
-    char output_dir_level2[200];    //lower dir
-    char output_file[200];
+    char name[20];
     char id_char[10];
 
-    sprintf (id_char,"%d",id);
-    // set the output dir
+    char output_dir_level1[200];    // upper level directory
+    char output_dir_level2[200];    // lower level directory
+    char output_file[200];
+
+    sprintf (id_char, "%d", id);
+    // set the output directory
     sprintf (output_dir_level1,"./%s_%d_%d/%s/",
-             test_problem,
+             problem_name,
              number_variable,
              number_objective,
              algorithm_name
     );
     sprintf (output_dir_level2,"./%s_%d_%d/%s/%d/",
-             test_problem,
+             problem_name,
              number_variable,
              number_objective,
              algorithm_name,
@@ -52,9 +60,10 @@ void analyse (void *ptr, int id)
         // set analyse list
         for (i = 0; i < 100; i++)
             analyse_list[i] = 0;
-        int  read_ptr = 0;
-        char name[20];
+
+        read_ptr = 0;
         while (1)
+
         {
             int name_c = 0;
             while (analyse_stream[read_ptr] != ' '
@@ -83,68 +92,63 @@ void analyse (void *ptr, int id)
         }
     }
 
-    if (runtime_output == 1 && (id % output_interval == 0|| id == 1 || id == max_generations))
+    if (runtime_output == 1 && (id % output_interval == 0 || id == 1 || id == max_generations))
     {
         if (analyse_list[VAR])
         {
-            sprintf (output_file, "%s%s.VAR", output_dir_level2, id_char);
+            sprintf (output_file, "%smedium_VAR_%s.out", output_dir_level2, id_char);
             print_variable (output_file, ptr);
         }
         if (analyse_list[FUN])
         {
-            sprintf (output_file, "%s%s.FUN", output_dir_level2, id_char);
+            sprintf (output_file, "%smedium_FUN_%s.out", output_dir_level2, id_char);
             print_objective (output_file, ptr);
         }
         if (analyse_list[IGD])
         {
-            igd (ptr, id);
+            record_igd (ptr, id);
         }
-
     }
 
-    if(id == max_generations)
+    if (id == max_generations)
     {
         if (analyse_list[VAR])
         {
-            sprintf (output_file, "%s%d.VAR", output_dir_level2, run_index);
+            sprintf (output_file, "%sVAR%d.out", output_dir_level1, run_index);
             print_variable (output_file, ptr);
         }
         if (analyse_list[FUN])
         {
-            sprintf (output_file, "%s%d.FUN", output_dir_level2, run_index);
+            sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
             print_objective (output_file, ptr);
         }
         if (analyse_list[IGD])
         {
-            if (runtime_output != 1) {
-                igd(ptr, id);
-            }
-            if(runtime_output == 1) {
-                sprintf(output_file, "%sIGD.txt", output_dir_level2, run_index);
-                print_igd(output_file);
+            if (runtime_output == 1)
+            {
+                sprintf (output_file, "%sIGD_%d.txt", output_dir_level2, run_index);
+                print_igd (output_file);
             }
         }
     }
 }
 
-static void _mkdir (const char *dir)
+void analyse_all ()
 {
-    char tmp[256];
-    char *p = NULL;
-    size_t len;
+    char output_dir_level1[200];
+    char output_file[200];
 
-    snprintf (tmp, sizeof(tmp), "%s", dir);
-    len = strlen (tmp);
-    if (tmp[len - 1] == '/')
-        tmp[len - 1] = 0;
-    for (p = tmp + 1; *p; p++)
+    sprintf (output_dir_level1,"./%s_%d_%d/%s/",
+             problem_name,
+             number_variable,
+             number_objective,
+             algorithm_name
+    );
+    if (analyse_list[IGD])
     {
-        if (*p == '/')
-        {
-            *p = 0;
-            mkdir (tmp, S_IRWXU);
-            *p = '/';
-        }
+        sprintf (output_file, "%sIGD.txt", output_dir_level1);
+        print_global_igd (output_file);
     }
-    mkdir (tmp, S_IRWXU);
+
+    return;
 }
