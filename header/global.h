@@ -77,7 +77,7 @@ extern int PF_size;                 // size of the true Pareto-optimal Front
 extern double **PF_data;            // true Pareto-optimal front data
 
 extern int analyse_list[100];
-enum analyse_name{VAR, FUN, IGD, END};
+enum analyse_name{VAR, FUN, IGD, HV, END};
 
 typedef struct
 {

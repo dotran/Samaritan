@@ -39,13 +39,13 @@ void track_evolution (void *ptr, int id)
 
     sprintf (id_char, "%d", id);
     // set the output directory
-    sprintf (output_dir_level1, "./%s_%d_%d/%s/",
+    sprintf (output_dir_level1,"./%s_%d_%d/%s/",
              problem_name,
              number_variable,
              number_objective,
              algorithm_name
     );
-    sprintf (output_dir_level2, "./%s_%d_%d/%s/%d/",
+    sprintf (output_dir_level2,"./%s_%d_%d/%s/%d/",
              problem_name,
              number_variable,
              number_objective,
@@ -85,7 +85,8 @@ void track_evolution (void *ptr, int id)
                 analyse_list[FUN] = 1;
             else if (!strcmp(name, "IGD"))
                 analyse_list[IGD] = 1;
-
+            else if (!strcmp(name, "HV"))
+                analyse_list[HV] = 1;
             if (analyse_stream[read_ptr] == 0)
                 break;
             read_ptr++;
@@ -107,6 +108,10 @@ void track_evolution (void *ptr, int id)
         if (analyse_list[IGD])
         {
             record_igd (ptr, id);
+        }
+        if (analyse_list[HV])
+        {
+            record_hv(ptr,id);
         }
     }
 
@@ -130,9 +135,17 @@ void track_evolution (void *ptr, int id)
                 print_igd (output_file);
             }
         }
+        if (analyse_list[HV])
+        {
+            if (runtime_output == 1)
+            {
+                sprintf (output_file, "%sHV_%d.txt", output_dir_level2, run_index);
+                print_hv (output_file);
+            }
+        }
     }
 }
-
+/*
 void analyse_all ()
 {
     char output_dir_level1[200];
@@ -152,3 +165,4 @@ void analyse_all ()
 
     return;
 }
+*/

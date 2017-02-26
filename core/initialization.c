@@ -42,7 +42,7 @@ int init_real (char* argv)
     // read some parameters from configure file
     strcpy (configFileName, argv);
     config = fopen (configFileName, "r");
-    if (config == NULL)
+    if(config == NULL)
     {
         print_information (EE, 2, "Fail to read configure file:", configFileName);
         exit (-1);
@@ -70,14 +70,13 @@ int init_real (char* argv)
 
     // read true PF data
     sprintf (PF_name, "PF/%s_%dD.pf", problem_name, number_objective);
-    PF = fopen (PF_name, "r");
+    PF = fopen (PF_name , "r");
     if (PF == NULL)
     {
         print_information (EE, 2, "Fail to open PF:", PF_name);
         exit (-1);
     }
     fscanf (PF, "%d", &PF_size);
-
     PF_data = (double **) malloc (PF_size * sizeof(double *));
     for (i = 0; i < PF_size; i++)
         PF_data[i] = (double *) malloc (number_objective * sizeof(double));
@@ -90,8 +89,8 @@ int init_real (char* argv)
     }
 
     // boundary settings
-    variable_lowerbound = (double *) malloc (number_variable * sizeof(double));
-    variable_upperbound = (double *) malloc (number_variable * sizeof(double));
+    variable_lowerbound = (double *)malloc(number_variable * sizeof(double));
+    variable_upperbound = (double *)malloc(number_variable * sizeof(double));
     if (!strcmp(problem_name, "ZDT4"))
     {
         variable_lowerbound[0] = 0.0;

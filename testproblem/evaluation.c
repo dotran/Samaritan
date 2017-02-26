@@ -38,11 +38,13 @@ void evaluate_population (population_real* pop)
 
 void evaluate_individual (individual_real* ind)
 {
-    if (!strcmp (problem_name, "DTLZ1"))
-        dtlz1 (ind->xreal, ind->obj);
-    else if (!strcmp (problem_name, "ZDT1"))
-        zdt1 (ind->xreal, ind->obj);
-    else
+
+    int flag = 0;
+
+    (strcmp (problem_name, "DTLZ1") != 0)?flag = 0:dtlz1 (ind->xreal, ind->obj),flag =1;
+    (strcmp (problem_name, "ZDT1")  != 0)?flag = 0:zdt1 (ind->xreal, ind->obj), flag =1;
+
+    if(flag == 0)
     {
         print_information (EE, 2, "UNKNOWN test problem:", problem_name);
         exit (-1);

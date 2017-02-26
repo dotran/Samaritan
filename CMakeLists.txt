@@ -41,7 +41,13 @@ set(SOURCE_FILES
 
         analyse/analyse.c
 
+        indicators/hv.c
         indicators/igd.c
+
+        indicators/WFG_1.15/read.c
+        indicators/WFG_1.15/wfg.c
+        indicators/WFG_1.15/wfg.h
+
 
         testproblem/DTLZ/DTLZ1.c
         testproblem/ZDT/ZDT1.c

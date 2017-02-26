@@ -100,8 +100,10 @@ void print_information (int level, int n, ...)
         }
         printf ("\n");
 
+
     }
     va_end (vl);
+
 
     return;
 }

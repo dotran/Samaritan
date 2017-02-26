@@ -36,4 +36,9 @@ double calculate_igd (void *ptr);
 void print_igd (char * file_name);
 void print_global_igd (char *file_name);
 
+void record_hv (void *ptr, int id);
+double calculate_hv (void *ptr);
+void print_hv (char * file_name);
+void print_global_hv (char *file_name);
+
 # endif //SAMARITAN_INDICATOR_H

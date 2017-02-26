@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     // run experiments
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
         printf ("The %d run ...\n", run_index);
-        if (!strcmp (algorithm_name, "NSGA2"))
+        if (!strcmp(algorithm_name, "NSGA2"))
             NSGA2 (parent_pop, offspring_pop, mixed_pop);
         else
         {
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
             exit (-1);
         }
     }
-    analyse_all ();
+    //analyse_all ();
 
     // free memory
     if (number_variable != 0)
