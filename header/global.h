@@ -41,8 +41,11 @@
 
 # define PI  M_PI
 # define INF 1.0e14
-
 # define EPS 1.0e-14
+
+# define BUFSIZE_S 64
+# define BUFSIZE_M 128
+# define BUFSIZE_L 256
 
 # define EE 0
 # define II 1
@@ -50,7 +53,8 @@
 # define dd 3
 
 extern int DEBUG;
-extern int max_generations;         // maximum number of generations
+extern int max_iterations;
+extern int iterations;         // maximum number of generations
 extern int number_runs;             // number of experiment runs
 extern int run_index;
 extern int popsize;                 // population size
@@ -65,10 +69,10 @@ extern double eta_m;
 extern double pcross_real;
 extern double pmut_real;
 
-extern char dummy[50];
-extern char problem_name[50];
-extern char algorithm_name[50];
-extern char analyse_stream[200];
+extern char dummy[BUFSIZE_S];
+extern char problem_name[BUFSIZE_S];
+extern char algorithm_name[BUFSIZE_S];
+extern char analyse_stream[BUFSIZE_L];
 
 extern int runtime_output;
 extern int output_interval;
@@ -76,7 +80,9 @@ extern int output_interval;
 extern int PF_size;                 // size of the true Pareto-optimal Front
 extern double **PF_data;            // true Pareto-optimal front data
 
-extern int analyse_list[100];
+extern double * ref_point;
+
+extern int analyse_list[BUFSIZE_S];
 enum analyse_name{VAR, FUN, IGD, HV, END};
 
 typedef struct
@@ -99,6 +105,12 @@ typedef struct lists
     struct lists *child;
 } list;
 
+typedef struct double_lists
+{
+    double value;
+    struct double_lists *parent;
+    struct double_lists *child;
+}double_list;
 void insert (list *node, int x);
 list* del (list *node);
 

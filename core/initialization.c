@@ -29,12 +29,15 @@
 # include "../header/rand.h"
 # include "../header/print.h"
 
+int max_iterations;
+double * ref_point;
+char line[BUFSIZE_L];
 int init_real (char* argv)
 {
     int i, j;
     int random;
-    char configFileName[20];
-    char PF_name[30];
+    char configFileName[BUFSIZE_S];
+    char PF_name[BUFSIZE_S];
 
     FILE * PF = NULL;
     FILE * config = NULL;
@@ -42,24 +45,25 @@ int init_real (char* argv)
     // read some parameters from configure file
     strcpy (configFileName, argv);
     config = fopen (configFileName, "r");
-    if(config == NULL)
-    {
-        print_information (EE, 2, "Fail to read configure file:", configFileName);
-        exit (-1);
-    }
+    print_error (config == NULL, 2, "Fail to read configure file:", configFileName);
     fscanf (config, "%s %s", dummy, algorithm_name);
     fscanf (config, "%s %s", dummy, problem_name);
     fscanf (config, "%s %d", dummy, &number_variable);
     fscanf (config, "%s %d", dummy, &number_objective);
     fscanf (config, "%s %d", dummy, &popsize);
-    fscanf (config, "%s %d", dummy, &max_generations);
+    fscanf (config, "%s %d", dummy, &max_iterations);
     fscanf (config, "%s %d", dummy, &runtime_output);
     fscanf (config, "%s %d", dummy, &output_interval);
     fscanf (config, "%s %d", dummy, &run_index_begin);
     fscanf (config, "%s %d", dummy, &run_index_end);
     fgets (analyse_stream, 200, config);
     fgets (analyse_stream, 200, config);
-
+    // ref point for HV
+    ref_point = (double *) malloc(number_objective*sizeof(double));
+    for(i = 0; i< number_objective;i++)
+    {
+        ref_point[i] = 1.0;
+    }
     // SBX parameter settings
     pcross_real = 0.9;
     eta_c       = 15.0;
@@ -69,23 +73,32 @@ int init_real (char* argv)
     eta_m       = 20.0;
 
     // read true PF data
-    sprintf (PF_name, "PF/%s_%dD.pf", problem_name, number_objective);
+    sprintf (PF_name, "PF/%s.%dD.pf", problem_name, number_objective);
     PF = fopen (PF_name , "r");
-    if (PF == NULL)
+
+    print_error (PF==NULL, 2, "Fail to open PF:", PF_name);
+
+    // cal size the PF_size
+    PF_size = 0;
+    while(fgets(line,BUFSIZE_L,PF)!=NULL)
     {
-        print_information (EE, 2, "Fail to open PF:", PF_name);
-        exit (-1);
+        PF_size++;
     }
-    fscanf (PF, "%d", &PF_size);
+    printf("\nPF_size:%d\n",PF_size);
+    rewind(PF);
     PF_data = (double **) malloc (PF_size * sizeof(double *));
     for (i = 0; i < PF_size; i++)
         PF_data[i] = (double *) malloc (number_objective * sizeof(double));
+    printf("\nPF\n");
     for (i = 0; i < PF_size; i++)
     {
+
         for (j = 0; j < number_objective; j++)
         {
             fscanf (PF, "%lf", &PF_data[i][j]);
+            printf ("%lf\t",PF_data[i][j]);
         }
+        printf("\n");
     }
 
     // boundary settings

@@ -3,7 +3,7 @@ test_problem: DTLZ1
 number_variable 6
 number_objective 3
 popSize: 100
-max_generations: 1000
+max_iteration: 100000
 runtime_output: 1
 output_interval: 100
 run_index_begin: 2

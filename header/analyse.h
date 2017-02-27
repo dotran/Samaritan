@@ -30,7 +30,7 @@
 # include "print.h"
 # include "indicators.h"
 
-void track_evolution (void *ptr, int id);
+void track_evolution (void *ptr, int id,int end);
 void analyse_all ();
 
 # endif // SAMARITAN_ANALYSE_H

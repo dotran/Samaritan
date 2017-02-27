@@ -70,40 +70,34 @@ void print_objective (char *file_name, void * ptr)
 /* Print the current evolution progress */
 void print_progress (int generation)
 {
-    if (generation * 100 / max_generations != (generation - 1) * 100 / max_generations)
-    {
-        printf ("\rProgress %d%%", generation * 100 / max_generations);
-        fflush (stdout);
-    }
-    if (generation == max_generations)
-        printf ("\nRun ended\n");
+    printf ("\rProgress %d%%", iterations * 100 / max_iterations+1);
+    fflush (stdout);
+
 
     return;
 }
 
-void print_information (int level, int n, ...)
+void print_error (int condition, int n, ...)
 {
-    char symbol[4][3] = {"EE", "II", "DD", "dd"};
 
     int i;
     char * info = NULL;
 
     va_list vl;
     va_start (vl, n);
-    if (DEBUG >= level)
+    if(condition)
     {
-        printf ("%s::", symbol[level]);
+        printf ("Error: ");
         for(i = 0; i < n; i++)
         {
             info = va_arg (vl, char*);
             printf ("%s", info);
         }
         printf ("\n");
-
-
+        fflush(stdout);
+        exit(-1);
     }
     va_end (vl);
-
 
     return;
 }

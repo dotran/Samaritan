@@ -17,6 +17,7 @@ set(SOURCE_FILES
         header/selection.h
         header/utility.h
         header/analyse.h
+        header/double_vector.h
 
         core/dominance.c
         core/initialization.c
@@ -26,6 +27,7 @@ set(SOURCE_FILES
         core/print.c
         core/rand.c
         core/utility.c
+        core/double_vector.c
 
         metaheuristics/nsga2.c
 
@@ -50,6 +52,9 @@ set(SOURCE_FILES
 
 
         testproblem/DTLZ/DTLZ1.c
+        testproblem/DTLZ/DTLZ2.c
+        testproblem/DTLZ/DTLZ3.c
+        testproblem/DTLZ/DTLZ4.c
         testproblem/ZDT/ZDT1.c
         testproblem/evaluation.c
 

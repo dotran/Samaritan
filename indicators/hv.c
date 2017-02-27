@@ -1,6 +1,6 @@
 /*
- * igd.c:
- *  This file contains the functions to calculate inverted generation distance (IGD).
+ * hv.c:
+ *  This file contains the functions to calculate inverted generation distance (hv).
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -28,28 +28,46 @@
 # include "../header/indicators.h"
 # include "../header/utility.h"
 # include "./WFG_1.15/wfg.h"
-static double *record         = NULL;
-static double *record_all_run = NULL;
+# include "../header/double_vector.h"
 
-/* Calculate the IGD value of a population */
+static struct double_vector *record         = NULL;
+
+
+/* Calculate the hv value of a population */
 void record_hv (void *ptr, int id)
 {
-    int i;
-
+    double value;
     if (record == NULL)
     {
-        record = (double *) malloc ((max_generations + 1) * sizeof(double));
-        for(i = 0; i < max_generations + 1; i++)
-            record[i] = nan ("1");
+        record = (struct double_vector *)malloc(sizeof(struct double_vector));
+        record -> value = nan("1");
+        record -> next = NULL;
     }
-    if (record_all_run == NULL)
-        record_all_run = (double *) malloc ((run_index_end + 1) * sizeof(double));
 
     // calculate hv
-    record[id] = calculate_hv (ptr);
+    value = calculate_hv (ptr);
+    double_vector_pushback(record,value);
 
-    if (id == max_generations)
-        record_all_run[run_index] = record[id];
+    return;
+}
+
+void print_hv (char *file_name)
+{
+    int i=0;
+    FILE *fpt;
+
+    fpt = fopen (file_name, "w");
+    while(1)
+    {
+        double value = double_vector_get(record->next,i++);
+        if(!isnan(value))
+            fprintf (fpt, "%lf\n", value);
+        else break;
+    }
+
+    fclose (fpt);
+    double_vector_free (record);
+    record = NULL;
 
     return;
 }
@@ -59,44 +77,8 @@ double calculate_hv (void *ptr)
 {
     int i, j;
     double hv_value;
-    double min_distance, cur_distance;
 
     hv_value = hv_wfg(ptr);
 
     return hv_value;
-}
-
-void print_hv (char *file_name)
-{
-    int i;
-    FILE *fpt;
-
-    fpt = fopen (file_name, "w");
-    for (i = 0; i < max_generations + 1; i++)
-    {
-        if (!isnan(record[i]))
-            fprintf (fpt, "%lf\n", record[i]);
-    }
-    fclose (fpt);
-
-    free (record);
-    record = NULL;
-
-    return;
-}
-
-void print_global_hv (char *file_name)
-{
-    int i;
-    FILE *fpt;
-
-    fpt = fopen (file_name, "w");
-    for (i = run_index_begin; i <= run_index_end; i++)
-        fprintf (fpt, "%lf\n", record_all_run[i]);
-    fclose (fpt);
-
-    free (record_all_run);
-    record_all_run = NULL;
-
-    return;
 }

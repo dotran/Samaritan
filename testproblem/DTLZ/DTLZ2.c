@@ -1,13 +1,9 @@
 /*
- * print.h:
- *  This is the header file for output information
+ * DTLZ1.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
  *  Ke Li <k.li@exeter.ac.uk>
- *
- * Institution:
- *  Computational Optimization and Data Analytics (CODA) Group @ University of Exeter
  *
  * Copyright (c) 2017 Renzhi Chen, Ke Li
  *
@@ -25,14 +21,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# ifndef Samaritan_PRINT_H
-# define Samaritan_PRINT_H
+#include "../../header/global.h"
 
-# include "../header/global.h"
+void dtlz2 (double *xreal, double *obj)
+{
 
-void print_variable (char *file_name, void * ptr);
-void print_objective (char *file_name, void * ptr);
-void print_progress (int generation);
-void print_error (int condition, int n, ...);
+    int i, j;
+    int aux;
+    double gx = 0;
+    double sum = 0;
+    int k = number_variable - number_objective + 1;
+    for(i = number_variable - k; i < number_variable; i++)
+        gx += (xreal[i] - 0.5) * (xreal[i] - 0.5);
 
-# endif // Samaritan_PRINT_H
+    for (i = 0; i < number_objective; i++)
+    {
+        obj[i] = (1.0 + gx);
+    }
+
+    for (i = 0; i < number_objective; i++)
+    {
+        for (j = 0; j < number_objective - (i + 1); j++)
+        {
+
+            obj[i] *= cos(PI * 0.5 * xreal[j]);
+        }
+        if (i != 0)
+        {
+            aux = number_objective - (i + 1);
+            obj[i] *= sin(PI * 0.5 * xreal[aux]);
+        }
+    }
+}

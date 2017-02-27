@@ -34,7 +34,7 @@ void insert (list *node, int x)
 
     if (node == NULL)
     {
-        printf("\n Error!!! asked to enter after a NULL pointer, hence exiting \n");
+        printf("\n EE: asked to enter after a NULL pointer, hence exiting \n");
         exit(1);
     }
 
@@ -72,3 +72,4 @@ list* del (list *node)
 
     return (temp);
 }
+

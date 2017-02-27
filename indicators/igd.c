@@ -25,32 +25,50 @@
 # include "../header/global.h"
 # include "../header/indicators.h"
 # include "../header/utility.h"
+#include "../header/double_vector.h"
 
-static double *record         = NULL;
-static double *record_all_run = NULL;
+static struct double_vector *record         = NULL;
 
 /* Calculate the IGD value of a population */
 void record_igd (void *ptr, int id)
 {
-    int i;
-
+    double value;
     if (record == NULL)
     {
-        record = (double *) malloc ((max_generations + 1) * sizeof(double));
-        for(i = 0; i < max_generations + 1; i++)
-            record[i] = nan ("1");
+        record = (struct double_vector *)malloc(sizeof(struct double_vector));
+        record -> value = nan("1");
+        record -> next = NULL;
     }
-    if (record_all_run == NULL)
-        record_all_run = (double *) malloc ((run_index_end + 1) * sizeof(double));
 
     // calculate IGD
-    record[id] = calculate_igd (ptr);
+    value = calculate_igd (ptr);
+    double_vector_pushback(record,value);
+    //double_vector_print(record);
+    return;
+}
 
-    if (id == max_generations)
-        record_all_run[run_index] = record[id];
+void print_igd (char *file_name)
+{
+    int i=0;
+    FILE *fpt;
+
+    //double_vector_print(record);
+    fpt = fopen (file_name, "w");
+    while(1)
+    {
+        double value = double_vector_get(record->next,i++);
+        if(!isnan(value))
+            fprintf (fpt, "%lf\n", value);
+        else break;
+    }
+
+    fclose (fpt);
+    double_vector_free (record);
+    record = NULL;
 
     return;
 }
+
 
 /* Calculate IGD value */
 double calculate_igd (void *ptr)
@@ -76,39 +94,4 @@ double calculate_igd (void *ptr)
     igd_value = igd_value / PF_size;
 
     return igd_value;
-}
-
-void print_igd (char *file_name)
-{
-    int i;
-    FILE *fpt;
-
-    fpt = fopen (file_name, "w");
-    for (i = 0; i < max_generations + 1; i++)
-    {
-        if (!isnan(record[i]))
-            fprintf (fpt, "%lf\n", record[i]);
-    }
-    fclose (fpt);
-
-    free (record);
-    record = NULL;
-
-    return;
-}
-
-void print_global_igd (char *file_name)
-{
-    int i;
-    FILE *fpt;
-
-    fpt = fopen (file_name, "w");
-    for (i = run_index_begin; i <= run_index_end; i++)
-        fprintf (fpt, "%lf\n", record_all_run[i]);
-    fclose (fpt);
-
-    free (record_all_run);
-    record_all_run = NULL;
-
-    return;
 }

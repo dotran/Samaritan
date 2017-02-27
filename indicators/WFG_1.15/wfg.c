@@ -587,7 +587,7 @@ double hv_wfg(void *ptr)
 
 	// setting ref point
 	for ( i = 0; i < maxn; i++) {
-        ref.objectives[i] = 0;
+        ref.objectives[i] = ref_point[i];
     }
 	//
 
@@ -598,7 +598,8 @@ double hv_wfg(void *ptr)
 	for ( i = 0; i < f->nFronts; i++) {
 		for( j = 0; j < f->fronts[i].nPoints; j++) {
 			for( k = 0; k < f->fronts[i].n; k++) {
-				f->fronts[i].points[j].objectives[k] = fabs(f->fronts[i].points[j].objectives[k] - ref.objectives[k]);
+
+				f->fronts[i].points[j].objectives[k] = ref.objectives[k]> f->fronts[i].points[j].objectives[k]?(ref.objectives[k]-f->fronts[i].points[j].objectives[k]):0;
 			}
 		}
 	}

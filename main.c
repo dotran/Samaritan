@@ -34,7 +34,6 @@
 
 int DEBUG;
 
-int max_generations;         // maximum number of generations
 int number_runs;             // number of experiment runs
 int popsize;                 // population size
 int number_variable;         // number of variables
@@ -49,10 +48,10 @@ double eta_m;
 double pcross_real;
 double pmut_real;
 
-char dummy[50];
-char problem_name[50];
-char algorithm_name[50];
-char analyse_stream[200];
+char dummy[BUFSIZE_S];
+char problem_name[BUFSIZE_S];
+char algorithm_name[BUFSIZE_S];
+char analyse_stream[BUFSIZE_L];
 
 int runtime_output;
 int output_interval;
@@ -60,7 +59,7 @@ int output_interval;
 int PF_size;                 // size of the true Pareto-optimal Front
 double **PF_data;            // true Pareto-optimal front data
 
-int analyse_list[100];
+int analyse_list[BUFSIZE_S];
 
 int main(int argc, char *argv[])
 {
@@ -88,8 +87,7 @@ int main(int argc, char *argv[])
             NSGA2 (parent_pop, offspring_pop, mixed_pop);
         else
         {
-            print_information (EE, 2, "UNKNOWN algorithm:", algorithm_name);
-            exit (-1);
+            print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
         }
     }
     //analyse_all ();

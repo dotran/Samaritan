@@ -25,7 +25,7 @@
 # include "../header/analyse.h"
 # include "../header/utility.h"
 
-void track_evolution (void *ptr, int id)
+void track_evolution (void *ptr, int id,int end)
 {
     int i, j;
     int read_ptr;
@@ -33,9 +33,9 @@ void track_evolution (void *ptr, int id)
     char name[20];
     char id_char[10];
 
-    char output_dir_level1[200];    // upper level directory
-    char output_dir_level2[200];    // lower level directory
-    char output_file[200];
+    char output_dir_level1[BUFSIZE_L];    // upper level directory
+    char output_dir_level2[BUFSIZE_L];    // lower level directory
+    char output_file[BUFSIZE_L];
 
     sprintf (id_char, "%d", id);
     // set the output directory
@@ -58,7 +58,7 @@ void track_evolution (void *ptr, int id)
     if (id == 1)
     {
         // set analyse list
-        for (i = 0; i < 100; i++)
+        for (i = 0; i < BUFSIZE_S; i++)
             analyse_list[i] = 0;
 
         read_ptr = 0;
@@ -93,7 +93,7 @@ void track_evolution (void *ptr, int id)
         }
     }
 
-    if (runtime_output == 1 && (id % output_interval == 0 || id == 1 || id == max_generations))
+    if (runtime_output == 1 && (id % output_interval == 0 || id == 1 || end == 1))
     {
         if (analyse_list[VAR])
         {
@@ -115,7 +115,7 @@ void track_evolution (void *ptr, int id)
         }
     }
 
-    if (id == max_generations)
+    if (end == 1)
     {
         if (analyse_list[VAR])
         {

@@ -31,7 +31,8 @@
 # include "../header/selection.h"
 # include "../header/problems.h"
 # include "../header/analyse.h"
-
+int max_iterations;
+int iterations;
 void NSGA2 (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
 {
     int i;
@@ -43,14 +44,17 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     // initialize population
     initialize_population_real (parent_pop);
 
+    iterations = 0;
+
     // population evaluations
     evaluate_population (parent_pop);
 
     // track the current evolutionary progress, including population and metrics
-    track_evolution (parent_pop, generation);
-
-    for (generation = 2; generation <= max_generations; generation++)
+    track_evolution (parent_pop, generation, 0);
+    while(iterations<max_iterations)
     {
+
+        generation ++;
         print_progress (generation);
 
         // reproduction (crossover and mutation)
@@ -64,8 +68,12 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
         merge (parent_pop, offspring_pop, mixed_pop);
         fill_nondominated_sort (parent_pop, mixed_pop);
 
+
         // track the current evolutionary progress, including population and metrics
-        track_evolution (parent_pop, generation);
+        track_evolution (parent_pop, generation,iterations>=max_iterations);
+
+
+
     }
 
     return;
