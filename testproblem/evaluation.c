@@ -49,6 +49,6 @@ void evaluate_individual (individual_real* ind)
 
     print_error (flag == 0, 2, "UNKNOWN test problem:", problem_name);
 
-    iterations ++;
+    evaluation_count ++;
     return;
 }

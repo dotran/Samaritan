@@ -70,7 +70,7 @@ void print_objective (char *file_name, void * ptr)
 /* Print the current evolution progress */
 void print_progress (int generation)
 {
-    printf ("\rProgress %d%%", iterations * 100 / max_iterations+1);
+    printf ("\rProgress %d%%", evaluation_count * 100 / max_evaluation+1);
     fflush (stdout);
 
 

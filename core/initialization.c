@@ -29,7 +29,6 @@
 # include "../header/rand.h"
 # include "../header/print.h"
 
-int max_iterations;
 double * ref_point;
 char line[BUFSIZE_L];
 int init_real (char* argv)
@@ -51,7 +50,7 @@ int init_real (char* argv)
     fscanf (config, "%s %d", dummy, &number_variable);
     fscanf (config, "%s %d", dummy, &number_objective);
     fscanf (config, "%s %d", dummy, &popsize);
-    fscanf (config, "%s %d", dummy, &max_iterations);
+    fscanf (config, "%s %d", dummy, &max_evaluation);
     fscanf (config, "%s %d", dummy, &runtime_output);
     fscanf (config, "%s %d", dummy, &output_interval);
     fscanf (config, "%s %d", dummy, &run_index_begin);

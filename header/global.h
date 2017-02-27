@@ -53,8 +53,8 @@
 # define dd 3
 
 extern int DEBUG;
-extern int max_iterations;
-extern int iterations;         // maximum number of generations
+extern int max_evaluation;
+extern int evaluation_count;         // maximum number of generations
 extern int number_runs;             // number of experiment runs
 extern int run_index;
 extern int popsize;                 // population size

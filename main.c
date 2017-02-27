@@ -55,7 +55,8 @@ char analyse_stream[BUFSIZE_L];
 
 int runtime_output;
 int output_interval;
-
+int evaluation_count;
+int max_evaluation;
 int PF_size;                 // size of the true Pareto-optimal Front
 double **PF_data;            // true Pareto-optimal front data
 
