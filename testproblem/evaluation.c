@@ -29,9 +29,12 @@
 void evaluate_population (population_real* pop)
 {
     int i;
-
+#ifdef  OMP
+#pragma omp parallel for
+#endif
     for (i = 0; i < popsize; i++)
         evaluate_individual (&(pop->ind[i]));
+
 
     return;
 }

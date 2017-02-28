@@ -25,6 +25,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//#define OMP
+
 # ifndef Samaritan_GLOBAL_H
 # define Samaritan_GLOBAL_H
 
@@ -39,6 +41,10 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 
+#ifdef OMP
+#include <omp.h>
+#endif
+
 # define PI  M_PI
 # define INF 1.0e14
 # define EPS 1.0e-14
@@ -47,12 +53,6 @@
 # define BUFSIZE_M 128
 # define BUFSIZE_L 256
 
-# define EE 0
-# define II 1
-# define DD 2
-# define dd 3
-
-extern int DEBUG;
 extern int max_evaluation;
 extern int evaluation_count;         // maximum number of generations
 extern int number_runs;             // number of experiment runs

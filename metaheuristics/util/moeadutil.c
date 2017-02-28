@@ -2,7 +2,6 @@
 // Created by rxc332 on 17-2-27.
 //
 #include "moeadutil.h"
-#include "../../header/global.h"
 #include "../../header/population.h"
 
 
@@ -228,7 +227,6 @@ void update_neighborhood(population_real* pop, individual_real* individual, int 
     perm= malloc(sizeof(int)*size);
 
     random_permutation(perm, size);
-
     for (i = 0; i < size; i++)
     {
 
@@ -245,20 +243,18 @@ void update_neighborhood(population_real* pop, individual_real* individual, int 
         f1 = fitnessFunction(&(pop->ind[k]), lambda[k]);
         f2 = fitnessFunction(individual, lambda[k]);
 
-        if (f2 < f1)
+        if (f2 < f1 && time < maximumNumberOfReplacedSolutions)
         {
             copy_ind(individual,&(pop->ind[k]));
             time++;
         }
-
         if (time >= maximumNumberOfReplacedSolutions)
         {
-            free(perm);
-            return;
+            break;
         }
     }
-
-
+    free(perm);
+    return;
 }
 
 double fitnessFunction(individual_real* individual, double* lambda)

@@ -31,7 +31,9 @@
 void mutation_real (population_real *pop)
 {
     int i;
-
+#ifdef  OMP
+#pragma omp parallel for
+#endif
     for (i = 0; i < popsize; i++)
         mutation_ind (&(pop->ind[i]));
 

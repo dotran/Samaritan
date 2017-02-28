@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(Samaritan)
 
 set(CMAKE_CXX_STANDARD 11)
-
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp")
 set(SOURCE_FILES
         header/dominance.h
         header/global.h
