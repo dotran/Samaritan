@@ -29,8 +29,8 @@ void dtlz1 (double *xreal, double *obj)
     int aux;
     double gx;
     double sum = 0;
-
-    for(i = 2; i < number_variable; i++)
+    int k = number_variable - number_objective + 1;
+    for(i = number_variable - k; i < number_variable; i++)
         sum += (xreal[i] - 0.5) * (xreal[i] - 0.5) - cos(20.0 * PI * (xreal[i] - 0.5));
     gx = 100.0 * (sum + number_variable - number_objective + 1.0);
 
