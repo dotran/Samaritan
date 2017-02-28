@@ -29,17 +29,14 @@
 # include "../../header/reproduction.h"
 # include "../../header/rand.h"
 
-int choose_neighbor_type();
 
 void crossover_moead_real (population_real *parent_pop, individual_real* offspring, int sub_problem_id, int* neighbor_type)
 {
-
     *neighbor_type = choose_neighbor_type();
     individual_real **parents = NULL;
     parent_selection(parent_pop,&parents,sub_problem_id, *neighbor_type);
     differential(parents,offspring);
     free(parents);
-
 }
 
 

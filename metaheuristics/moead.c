@@ -32,7 +32,7 @@
 # include "../header/analyse.h"
 # include "../header/utility.h"
 # include "./util/moeadutil.h"
-
+#include <time.h>
 void MOEAD (population_real* pop, population_real* offspring_pop, population_real* mixed_pop)
 {
     int i,j;
@@ -56,21 +56,17 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
     evaluate_population (pop);
 
     track_evolution (pop, generation, 0);
-
+    permutation = malloc(popsize*sizeof(int));
     while(evaluation_count<max_evaluation) {
-
         generation ++;
-        printf("\n %d \n",generation);
         print_progress (generation);
 
-        permutation = malloc(popsize*sizeof(int));
         random_permutation(permutation,popsize);
 
         for(i = 0 ; i < popsize; i++)
         {
             int neighbor_type;
             int sub_problem_id = permutation[i];
-
             crossover_moead_real (pop, offspring,sub_problem_id,&neighbor_type);
 
             mutation_ind (offspring);
@@ -81,10 +77,11 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
 
             update_neighborhood(pop,offspring, sub_problem_id, neighbor_type);
 
-            track_evolution (pop, generation,evaluation_count>=max_evaluation);
         }
-        free(permutation);
+        track_evolution (pop, generation,evaluation_count>=max_evaluation);
+
     }
+    free(permutation);
     moead_free();
 /*
     evaluation_count = 0;

@@ -58,6 +58,8 @@ double ** lambda;
 int **neighborhood;
 double *ideal_point;
 int * permutation;
+int maximumNumberOfReplacedSolutions; // global
+int function_type;   // global
 
 char dummy[BUFSIZE_S];
 char problem_name[BUFSIZE_S];

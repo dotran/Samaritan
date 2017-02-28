@@ -91,6 +91,8 @@ extern double ** lambda;
 extern int **neighborhood;
 extern double *ideal_point;
 extern int * permutation;
+extern int maximumNumberOfReplacedSolutions; // global
+extern int function_type;   // global
 
 extern int analyse_list[BUFSIZE_S];
 enum analyse_name{VAR, FUN, IGD, HV, END};

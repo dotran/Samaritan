@@ -64,8 +64,11 @@ int init_real (char* argv)
         ref_point[i] = 1.0;
     }
     // neighborhood size
-    neighbor_size = 10;
-    neighborhood_selection_probability = 0.5;
+    neighbor_size = 20;
+    neighborhood_selection_probability = 0.9;
+    maximumNumberOfReplacedSolutions = 2;
+    // fitness function in MOEAD
+    function_type = PBI;
     // SBX parameter settings
     pcross_real = 0.9;
     eta_c       = 15.0;

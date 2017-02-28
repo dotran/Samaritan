@@ -1,6 +1,8 @@
 # Samaritan
 ## Change Log
-### beta-2017/02/27
+### 2017/02/28
+- add MOEAD 
+### 2017/02/27
 - change PF format
 - add PF for dtlz 1-4 (obj 2-7)
 - change from counting generation to counting evaluation

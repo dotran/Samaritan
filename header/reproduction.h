@@ -29,6 +29,7 @@
 
 # include "../header/global.h"
 
+int choose_neighbor_type();
 
 // mating selection
 individual_real* tournament (individual_real *ind1, individual_real *ind2);

@@ -5,8 +5,7 @@
 #include "../../header/global.h"
 #include "../../header/population.h"
 
-int maximumNumberOfReplacedSolutions = 2; // global
-int function_type = TCHE;   // global
+
 int C;
 
 
@@ -85,6 +84,17 @@ void initialize_uniform_weight () {
         free(Vec);
     }
     free(layer_size);
+
+    FILE * weight_file = fopen("weightvector.out","w");
+    for(i=0;i<reference_size;i++)
+    {
+        for(j =0;j<number_objective;j++)
+        {
+            fprintf(weight_file,"%lf\t",lambda[i][j]);
+        }
+        fprintf(weight_file,"\n");
+    }
+    fclose(weight_file);
 }
 
 void setweight( double* v, double unit, double sum, int objdim, int dim)
@@ -237,7 +247,7 @@ void update_neighborhood(population_real* pop, individual_real* individual, int 
 
         if (f2 < f1)
         {
-            copy_ind(&(pop->ind[k]), individual);
+            copy_ind(individual,&(pop->ind[k]));
             time++;
         }
 

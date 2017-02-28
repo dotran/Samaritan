@@ -24,7 +24,8 @@
 
 # include "../header/analyse.h"
 # include "../header/utility.h"
-
+#include <time.h>
+static double t[10] = {0,0,0,0,0,0,0,0,0,0};
 void track_evolution (void *ptr, int id,int end)
 {
     int i, j;
@@ -92,9 +93,9 @@ void track_evolution (void *ptr, int id,int end)
             read_ptr++;
         }
     }
-
     if (runtime_output == 1 && (id % output_interval == 0 || id == 1 || end == 1))
     {
+
         if (analyse_list[VAR])
         {
             sprintf (output_file, "%smedium_VAR_%s.out", output_dir_level2, id_char);
@@ -113,6 +114,7 @@ void track_evolution (void *ptr, int id,int end)
         {
             record_hv(ptr,id);
         }
+
     }
 
     if (end == 1)
