@@ -63,13 +63,23 @@ int init_real (char* argv)
     {
         ref_point[i] = 1.0;
     }
+    // neighborhood size
+    neighbor_size = 10;
+    neighborhood_selection_probability = 0.5;
     // SBX parameter settings
     pcross_real = 0.9;
     eta_c       = 15.0;
 
+    // diff parameter settings
+
+    DEFAULT_CR = 0.5;
+    DEFAULT_F = 0.5;
+    DEFAULT_K = 0.5;
+
     // polynomial mutation parameter settings
     pmut_real   = 1.0 / number_variable;
     eta_m       = 20.0;
+
 
     // read true PF data
     sprintf (PF_name, "PF/%s.%dD.pf", problem_name, number_objective);
@@ -83,21 +93,17 @@ int init_real (char* argv)
     {
         PF_size++;
     }
-    printf("\nPF_size:%d\n",PF_size);
     rewind(PF);
     PF_data = (double **) malloc (PF_size * sizeof(double *));
     for (i = 0; i < PF_size; i++)
         PF_data[i] = (double *) malloc (number_objective * sizeof(double));
-    printf("\nPF\n");
     for (i = 0; i < PF_size; i++)
     {
-
         for (j = 0; j < number_objective; j++)
         {
             fscanf (PF, "%lf", &PF_data[i][j]);
-            printf ("%lf\t",PF_data[i][j]);
+
         }
-        printf("\n");
     }
 
     // boundary settings

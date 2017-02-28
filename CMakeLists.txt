@@ -30,14 +30,21 @@ set(SOURCE_FILES
         core/double_vector.c
 
         metaheuristics/nsga2.c
+        metaheuristics/moead.c
+
+        metaheuristics/util/moeadutil.h
+        metaheuristics/util/moeadutil.c
 
         selection/nsga2/crowddist.c
         selection/nsga2/fillnds.c
         selection/nsga2/qsort.c
 
         reproduction/crossover/crossover_nsga2.c
+        reproduction/crossover/crossover_moead.c
         reproduction/crossover/sbx.c
+        reproduction/crossover/differential.c
         reproduction/mating/tournament_selection.c
+        reproduction/mating/moead_selection.c
         reproduction/mutation/mutation_real.c
         reproduction/mutation/polymut.c
 

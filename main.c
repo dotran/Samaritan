@@ -47,6 +47,17 @@ double eta_c;
 double eta_m;
 double pcross_real;
 double pmut_real;
+int neighbor_size;
+int reference_size;
+double neighborhood_selection_probability;
+double DEFAULT_CR;
+double DEFAULT_F;
+double DEFAULT_K;
+
+double ** lambda;
+int **neighborhood;
+double *ideal_point;
+int * permutation;
 
 char dummy[BUFSIZE_S];
 char problem_name[BUFSIZE_S];
@@ -84,8 +95,9 @@ int main(int argc, char *argv[])
     // run experiments
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
         printf ("The %d run ...\n", run_index);
-        if (!strcmp(algorithm_name, "NSGA2"))
-            NSGA2 (parent_pop, offspring_pop, mixed_pop);
+        if (!strcmp(algorithm_name, "NSGA2"))NSGA2 (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp(algorithm_name, "MOEAD"))MOEAD (parent_pop, offspring_pop, mixed_pop);
+
         else
         {
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);

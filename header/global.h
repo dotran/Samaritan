@@ -58,6 +58,9 @@ extern int evaluation_count;         // maximum number of generations
 extern int number_runs;             // number of experiment runs
 extern int run_index;
 extern int popsize;                 // population size
+extern int neighbor_size;
+extern int reference_size;
+extern double neighborhood_selection_probability;
 extern int number_variable;         // number of variables
 extern int number_objective;        // number of objectives
 extern int run_index_begin;
@@ -68,7 +71,9 @@ extern double eta_c;
 extern double eta_m;
 extern double pcross_real;
 extern double pmut_real;
-
+extern double DEFAULT_CR;
+extern double DEFAULT_F;
+extern double DEFAULT_K;
 extern char dummy[BUFSIZE_S];
 extern char problem_name[BUFSIZE_S];
 extern char algorithm_name[BUFSIZE_S];
@@ -82,8 +87,15 @@ extern double **PF_data;            // true Pareto-optimal front data
 
 extern double * ref_point;
 
+extern double ** lambda;
+extern int **neighborhood;
+extern double *ideal_point;
+extern int * permutation;
+
 extern int analyse_list[BUFSIZE_S];
 enum analyse_name{VAR, FUN, IGD, HV, END};
+enum NeighborType{NEIGHBOR,POPULATION};
+enum MoeadFunction{TCHE,AGG,PBI};
 
 typedef struct
 {

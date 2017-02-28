@@ -21,7 +21,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#ifndef SAMARITAN_INT_VECTOR_H
+#define SAMARITAN_INT_VECTOR_H
 #include "../header/double_vector.h"
 void double_vector_pushback(struct double_vector * head, double value)
 {
@@ -85,3 +86,5 @@ void double_vector_print(struct double_vector * head)
     printf("\n");
     return ;
 }
+
+#endif

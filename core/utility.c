@@ -37,6 +37,7 @@ double euclidian_distance (double *a, double *b, int dimension)
     return sqrt(distance);
 }
 
+
 /* Build up multi-level directories */
 void _mkdir (const char *dir)
 {
@@ -58,4 +59,16 @@ void _mkdir (const char *dir)
         }
     }
     mkdir (tmp, S_IRWXU);
+}
+
+int combination(int n, int k) {
+    int i;
+    if (n < k)
+        return -1;
+    double ans = 1;
+    for (i = k + 1; i <= n; i++) {
+        ans = ans * i;
+        ans = ans / (double) (i - k);
+    }
+    return (int) ans;
 }

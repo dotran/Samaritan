@@ -1,6 +1,6 @@
 /*
- * utility.h:
- *  This is the header file for the utility functions.
+ * crossover_nsga2.c:
+ *  This file contains the functions to perform crossover operations in NSGA-II.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -25,12 +25,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SAMARITAN_UTILITY_H
-#define SAMARITAN_UTILITY_H
+# include "../../header/global.h"
+# include "../../header/reproduction.h"
+# include "../../header/rand.h"
 
-# include "../header/global.h"
+int choose_neighbor_type();
 
-void _mkdir (const char *dir);
-double euclidian_distance (double *a, double *b, int dimension);
-int combination(int n, int k);
-#endif //SAMARITAN_UTILITY_H
+void crossover_moead_real (population_real *parent_pop, individual_real* offspring, int sub_problem_id, int* neighbor_type)
+{
+
+    *neighbor_type = choose_neighbor_type();
+    individual_real **parents = NULL;
+    parent_selection(parent_pop,&parents,sub_problem_id, *neighbor_type);
+    differential(parents,offspring);
+    free(parents);
+
+}
+
+
+int choose_neighbor_type() {
+    double r = rndreal(0,1);
+    int neighbor_type ;
+    if (r < neighborhood_selection_probability)
+    {
+        neighbor_type = NEIGHBOR; //NEIGHBOR;
+    }
+    else
+    {
+        neighbor_type = POPULATION; //POPULATION;
+    }
+    return neighbor_type ;
+}
