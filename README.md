@@ -6,6 +6,7 @@
 - combine int_vector and double_vector into vector
 - adjust moead structure
 - remove openMP option (cannot speedup)
+- add PLOT in analyse.c, calling gnuplot(https://sourceforge.net/projects/gnuplot/files/gnuplot/ )
 
 ### 2017/02/28
 - add MOEAD 
