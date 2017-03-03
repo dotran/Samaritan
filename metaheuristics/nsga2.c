@@ -48,10 +48,6 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     // population evaluations
     evaluate_population (parent_pop);
 
-    double t[10];
-    for(i=0;i<10;i++)t[i] =0;
-    clock_t current;
-
     // track the current evolutionary progress, including population and metrics
     track_evolution (parent_pop, generation, 0);
     while(evaluation_count<max_evaluation)
@@ -61,21 +57,15 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
         print_progress (generation);
 
         // reproduction (crossover and mutation)
-        current = clock();
         crossover_real (parent_pop, offspring_pop);
-        t[0] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
-        current = clock();
+
         mutation_real (offspring_pop);
-        t[1] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
-        current = clock();
+
         // population evaluations
         evaluate_population (offspring_pop);
-        t[2] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
-        current = clock();
+
         // environmental selection
         merge (parent_pop, offspring_pop, mixed_pop);
-        fill_nondominated_sort (parent_pop, mixed_pop);
-        t[3] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
 
         // track the current evolutionary progress, including population and metrics
         track_evolution (parent_pop, generation,evaluation_count>=max_evaluation);
@@ -83,7 +73,6 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
 
 
     }
-    printf("%lf,%lf,%lf,%lf\n",t[0],t[1],t[2],t[3]);
 
     return;
 }

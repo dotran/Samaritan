@@ -89,7 +89,7 @@ extern int maximumNumberOfReplacedSolutions; // global
 extern int function_type;   // global
 
 extern int analyse_list[BUFSIZE_S];
-enum analyse_name{VAR, FUN, IGD, HV, END};
+enum analyse_name{VAR, FUN, IGD, HV, PLOT, END};
 enum NeighborType{NEIGHBOR,POPULATION};
 enum MoeadFunction{TCHE,AGG,PBI};
 

@@ -51,6 +51,7 @@ set(SOURCE_FILES
         reproduction/mutation/polymut.c
 
         analyse/analyse.c
+        analyse/plot.c
 
         indicators/hv.c
         indicators/igd.c

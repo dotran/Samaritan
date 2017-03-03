@@ -88,6 +88,8 @@ void track_evolution (void *ptr, int id,int end)
                 analyse_list[IGD] = 1;
             else if (!strcmp(name, "HV"))
                 analyse_list[HV] = 1;
+            else if (!strcmp(name, "PLOT"))
+                analyse_list[PLOT] = 1;
             if (analyse_stream[read_ptr] == 0)
                 break;
             read_ptr++;
@@ -144,6 +146,11 @@ void track_evolution (void *ptr, int id,int end)
                 sprintf (output_file, "%sHV_%d.txt", output_dir_level2, run_index);
                 print_hv (output_file);
             }
+        }
+        if (analyse_list[PLOT])
+        {
+            sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
+            plot(output_file,"FUN");
         }
     }
 }

@@ -32,5 +32,5 @@
 
 void track_evolution (void *ptr, int id,int end);
 void analyse_all ();
-
+void plot(char *file, char * title);
 # endif // SAMARITAN_ANALYSE_H

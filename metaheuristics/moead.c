@@ -57,9 +57,7 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
 
     track_evolution (pop, generation, 0);
     permutation = malloc(popsize*sizeof(int));
-    double t[10];
-    for(i=0;i<10;i++)t[i] =0;
-    clock_t current;
+
     while(evaluation_count<max_evaluation) {
         generation ++;
         print_progress (generation);
@@ -70,27 +68,22 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
         {
             int neighbor_type;
             int sub_problem_id = permutation[i];
-            current = clock();
+
             crossover_moead_real (pop, offspring,sub_problem_id,&neighbor_type);
-            t[0] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
-            current = clock();
+
             mutation_ind (offspring);
-            t[1] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
-            current = clock();
+
             evaluate_individual (offspring);
-            t[2] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
-            current = clock();
+
             update_ideal_point(offspring);
-            t[3] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
-            current = clock();
+
             update_neighborhood(pop,offspring, sub_problem_id, neighbor_type);
-            t[4] += 1.0 * (clock()-current)/CLOCKS_PER_SEC;
+
         }
 
         track_evolution (pop, generation,evaluation_count>=max_evaluation);
 
     }
-    //printf("%lf,%lf,%lf,%lf,%lf\n",t[0],t[1],t[2],t[3],t[4]);
 
     free(permutation);
     moead_free();
