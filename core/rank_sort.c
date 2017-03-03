@@ -21,8 +21,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "../header/rank_sort.h"
+
 int sort_double_cmp (const void * a, const void * b)
 {
-    return (*(struct double_s *)a).x <(*(struct double_s *)b).x ;
+    return (*(struct double_s *)a).x < (*(struct double_s *)b).x;
 }

@@ -21,33 +21,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../header/global.h"
+#include "../../header/problems.h"
 
 void dtlz1 (double *xreal, double *obj)
 {
-    int i, j;
+    int i, j, k;
     int aux;
     double gx;
-    double sum = 0;
-    int k = number_variable - number_objective + 1;
+
+    gx = 0.0;
+    k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
-        sum += (xreal[i] - 0.5) * (xreal[i] - 0.5) - cos(20.0 * PI * (xreal[i] - 0.5));
-    gx = 100.0 * (sum + number_variable - number_objective + 1.0);
+        gx += pow((xreal[i] - 0.5), 2.0) - cos(20.0 * PI * (xreal[i] - 0.5));
+    gx = 100.0 * (k + gx);
 
     for (i = 0; i < number_objective; i++)
-    {
         obj[i] = (1.0 + gx) * 0.5;
-    }
 
     for (i = 0; i < number_objective; i++)
     {
         for (j = 0; j < number_objective - (i + 1); j++)
-        {
             obj[i] *= xreal[j];
-        }
         if (i != 0)
         {
-            aux = number_objective - (i + 1);
+            aux     = number_objective - (i + 1);
             obj[i] *= 1 - xreal[aux];
         }
     }

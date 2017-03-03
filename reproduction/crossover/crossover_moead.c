@@ -32,24 +32,28 @@
 
 void crossover_moead_real (population_real *parent_pop, individual_real* offspring, int sub_problem_id, int* neighbor_type)
 {
-    *neighbor_type = choose_neighbor_type();
     individual_real **parents = NULL;
-    parent_selection(parent_pop,&parents,sub_problem_id, *neighbor_type);
-    differential(parents,offspring);
+    *neighbor_type = choose_neighbor_type ();
+
+    parent_selection (parent_pop, &parents, sub_problem_id, *neighbor_type);
+    de (parents, offspring);
+
     free(parents);
+
+    return;
 }
 
-
-int choose_neighbor_type() {
-    double r = rndreal(0,1);
+/* Set the neighorhood type used in MOEA/D */
+int choose_neighbor_type ()
+{
     int neighbor_type ;
+    double r;
+
+    r = rndreal (0, 1);
     if (r < neighborhood_selection_probability)
-    {
         neighbor_type = NEIGHBOR; //NEIGHBOR;
-    }
     else
-    {
         neighbor_type = POPULATION; //POPULATION;
-    }
+
     return neighbor_type ;
 }

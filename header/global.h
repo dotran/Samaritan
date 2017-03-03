@@ -49,7 +49,6 @@
 
 extern int max_evaluation;
 extern int evaluation_count;         // maximum number of generations
-extern int number_runs;             // number of experiment runs
 extern int run_index;
 extern int popsize;                 // population size
 extern int neighbor_size;
@@ -59,8 +58,8 @@ extern int number_variable;         // number of variables
 extern int number_objective;        // number of objectives
 extern int run_index_begin;
 extern int run_index_end;
-extern double *variable_lowerbound; // variable lower bound
-extern double *variable_upperbound; // variable upper bound
+extern double* variable_lowerbound; // variable lower bound
+extern double* variable_upperbound; // variable upper bound
 extern double eta_c;
 extern double eta_m;
 extern double pcross_real;
@@ -77,21 +76,21 @@ extern int runtime_output;
 extern int output_interval;
 
 extern int PF_size;                 // size of the true Pareto-optimal Front
-extern double **PF_data;            // true Pareto-optimal front data
+extern double** PF_data;            // true Pareto-optimal front data
+extern double* ref_point;           // reference point for Hypervolume calculation
 
-extern double * ref_point;
-
-extern double ** lambda;
-extern int **neighborhood;
-extern double *ideal_point;
-extern int * permutation;
-extern int maximumNumberOfReplacedSolutions; // global
-extern int function_type;   // global
+extern double** lambda;
+extern int** neighborhood;
+extern double* ideal_point;         // ideal point
+extern double* nadir_point;         // nadir point
+extern int* permutation;
+extern int maximumNumberOfReplacedSolutions; // the maximum replacement number of a superior offspring
+extern int function_type;                    // aggregation function type
 
 extern int analyse_list[BUFSIZE_S];
 enum analyse_name{VAR, FUN, IGD, HV, PLOT, END};
-enum NeighborType{NEIGHBOR,POPULATION};
-enum MoeadFunction{TCHE,AGG,PBI};
+enum NeighborType{NEIGHBOR, POPULATION};
+enum MoeadFunction{WS, TCH, ITCH, PBI};
 
 // gaps setting, read from file?
 static int weight_gaps_table[8][3] = {{0,   0, 0},

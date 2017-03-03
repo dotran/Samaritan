@@ -29,6 +29,7 @@
 #define SAMARITAN_UTILITY_H
 
 # include "../header/global.h"
+# include "../header/rand.h"
 
 void _mkdir (const char *dir);
 double euclidian_distance (double *a, double *b, int dimension);

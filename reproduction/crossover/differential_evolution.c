@@ -1,4 +1,7 @@
 /*
+ * differential_evolution.c:
+ *  This file contains the function to perform the differential evolution mutation.
+ *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
  *  Ke Li <k.li@exeter.ac.uk>
@@ -22,26 +25,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../../header/reproduction.h"
-#include "../../header/global.h"
 #include "../../header/rand.h"
-void differential (individual_real **parents,individual_real *child)
+
+void de (individual_real **parents,individual_real *child)
 {
     int i;
     int r;
     double value;
-    double yl;
+    double yl, yu;
 
-    double yu;
-
-    r = rnd(0, number_variable-1);
+    r = rnd (0, number_variable - 1);
     for (i = 0 ; i < number_variable ;i ++)
     {
         yl = variable_lowerbound[i];
         yu = variable_upperbound[i];
-        if(rndreal(0,1)<DEFAULT_CR || i == r)
+        if (rndreal(0, 1) < DEFAULT_CR || i == r)
         {
             value = parents[2]->xreal[i] + DEFAULT_F * (parents[0] -> xreal[i] - parents[1]->xreal[i]);
-            value = (value>yu)?yu:(value<yl)?yl:value;
+            value = (value > yu) ? yu : (value < yl) ? yl : value;
         }
         else
         {
@@ -49,4 +50,6 @@ void differential (individual_real **parents,individual_real *child)
         }
         child->xreal[i] = value;
     }
+
+    return;
 }

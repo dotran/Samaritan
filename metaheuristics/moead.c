@@ -30,96 +30,52 @@
 # include "../header/selection.h"
 # include "../header/problems.h"
 # include "../header/analyse.h"
-# include "../header/utility.h"
-# include "./util/moeadutil.h"
-#include <time.h>
+
 void MOEAD (population_real* pop, population_real* offspring_pop, population_real* mixed_pop)
 {
-    int i,j;
+    int i, j;
     int generation;
-    individual_real * offspring =&( offspring_pop->ind[0]);
-    generation = 1;
+    int subproblem_id, neighbor_type;
+
+    generation       = 1;
+    evaluation_count = 0;
     printf ("Progress: 1%%");
 
-    // initialize population
-
-    initialize_population_real (pop);
-
+    // initialization process
     initialize_uniform_weight ();
-
     initialize_neighborhood ();
-
+    initialize_population_real (pop);
+    evaluate_population (pop);
     initialize_idealpoint (pop);
 
-    evaluation_count = 0;
-
-    evaluate_population (pop);
-
     track_evolution (pop, generation, 0);
-    permutation = malloc(popsize*sizeof(int));
 
-    while(evaluation_count<max_evaluation) {
-        generation ++;
+    permutation = malloc (popsize * sizeof(int));
+    individual_real* offspring = &(offspring_pop->ind[0]);
+
+    while (evaluation_count < max_evaluation) {
         print_progress (generation);
 
-        random_permutation(permutation,popsize);
-
-        for(i = 0 ; i < popsize; i++)
+        random_permutation (permutation,popsize);
+        for (i = 0; i < popsize; i++)
         {
-            int neighbor_type;
-            int sub_problem_id = permutation[i];
+            subproblem_id = permutation[i];
 
-            crossover_moead_real (pop, offspring,sub_problem_id,&neighbor_type);
-
+            crossover_moead_real (pop, offspring, subproblem_id, &neighbor_type);
             mutation_ind (offspring);
-
             evaluate_individual (offspring);
 
-            update_ideal_point(offspring);
+            update_ideal_point (offspring);
 
-            update_neighborhood(pop,offspring, sub_problem_id, neighbor_type);
-
+            update_neighborhood (pop,offspring, subproblem_id, neighbor_type);
         }
 
-        track_evolution (pop, generation,evaluation_count>=max_evaluation);
-
-    }
-
-    free(permutation);
-    moead_free();
-/*
-    evaluation_count = 0;
-
-    // population evaluations
-    evaluate_population (parent_pop);
-
-    // track the current evolutionary progress, including population and metrics
-    track_evolution (parent_pop, generation, 0);
-    while(evaluation_count<max_evaluation)
-    {
-
         generation ++;
-        print_progress (generation);
-
-        // reproduction (crossover and mutation)
-        crossover_real (parent_pop, offspring_pop);
-        mutation_real (offspring_pop);
-
-        // population evaluations
-        evaluate_population (offspring_pop);
-
-        // environmental selection
-        merge (parent_pop, offspring_pop, mixed_pop);
-        fill_nondominated_sort (parent_pop, mixed_pop);
-
-
-        // track the current evolutionary progress, including population and metrics
-        track_evolution (parent_pop, generation,evaluation_count>=max_evaluation);
-
-
-
+        track_evolution (pop, generation, evaluation_count >= max_evaluation);
     }
-*/
+
+    free (permutation);
+    moead_free ();
+
     return;
 }
-

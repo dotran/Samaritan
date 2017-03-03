@@ -30,7 +30,7 @@
 # include "../../header/selection.h"
 
 /* Randomized quick sort routine to sort a population based on a particular objective chosen */
-void quicksort_front_obj(population_real *pop, int objcount, int obj_array[], int obj_array_size)
+void quicksort_front_obj (population_real *pop, int objcount, int obj_array[], int obj_array_size)
 {
     q_sort_front_obj (pop, objcount, obj_array, 0, obj_array_size - 1);
 
@@ -38,7 +38,7 @@ void quicksort_front_obj(population_real *pop, int objcount, int obj_array[], in
 }
 
 /* Actual implementation of the randomized quick sort used to sort a population based on a particular objective chosen */
-void q_sort_front_obj(population_real *pop, int objcount, int obj_array[], int left, int right)
+void q_sort_front_obj (population_real *pop, int objcount, int obj_array[], int left, int right)
 {
     int i, j;
     int index;
@@ -73,13 +73,15 @@ void q_sort_front_obj(population_real *pop, int objcount, int obj_array[], int l
         q_sort_front_obj (pop, objcount, obj_array, left, index-1);
         q_sort_front_obj (pop, objcount, obj_array, index+1, right);
     }
+
     return;
 }
 
 /* Randomized quick sort routine to sort a population based on crowding distance */
 void quicksort_dist(population_real *pop, int *dist, int front_size)
 {
-    q_sort_dist (pop, dist, 0, front_size-1);
+    q_sort_dist (pop, dist, 0, front_size - 1);
+
     return;
 }
 

@@ -1,3 +1,28 @@
+/*
+ * wfg.c:
+ *  This is a slight modification of the original main function of wfg HV calculation method. We download this file from
+ *  the http://www.wfg.csse.uwa.edu.au/hypervolume/
+ *
+ * Authors:
+ *  Renzhi Chen <rxc332@cs.bham.ac.uk>
+ *  Ke Li <k.li@exeter.ac.uk>
+ *
+ * Copyright (c) 2017 Renzhi Chen, Ke Li
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
@@ -21,8 +46,6 @@ int** prevp;
 int* firstp;
 int* lastp;
 int* psize;
-
-double totaltime;
 
 double hv(FRONT);
 
@@ -543,69 +566,57 @@ double hv(FRONT ps)
 	}
 }
 
-double hv_wfg(void *ptr)
+double hv_wfg (void *ptr)
 // processes each front from the file 
 {
-	FILECONTENTS *f = read_data(ptr);
+	int i, j, k;
+    int maxdepth;
+
+	FILECONTENTS *f = read_data (ptr);
 
 	// find the biggest fronts
-	maxm = 0;
-	maxn = 0;
-    int i,j,k;
-	for ( i = 0; i < f->nFronts; i++) {
-		if (f->fronts[i].nPoints > maxm) { 
+	maxn = maxm = 0;
+	for (i = 0; i < f->nFronts; i++)
+	{
+		if (f->fronts[i].nPoints > maxm)
 			maxm = f->fronts[i].nPoints;
-		}
-		if (f->fronts[i].n       > maxn) {
+		if (f->fronts[i].n > maxn)
 			maxn = f->fronts[i].n;
-		}
 	}
 
-	// allocate memory
-	int maxdepth = maxn - 2; 
-	fs = malloc(sizeof(FRONT) * maxdepth);
-	for ( i = 0; i < maxdepth; i++) {
-		fs[i].points = malloc(sizeof(POINT) * maxm); 
-		for ( j = 0; j < maxm; j++) {
-			fs[i].points[j].objectives = malloc(sizeof(OBJECTIVE) * (maxn - i - 1));
-		}
+	// memory allocation
+	maxdepth = maxn - 2;
+	fs 		 = malloc (sizeof (FRONT) * maxdepth);
+	for (i = 0; i < maxdepth; i++)
+	{
+		fs[i].points = malloc (sizeof (POINT) * maxm);
+		for (j = 0; j < maxm; j++)
+			fs[i].points[j].objectives = malloc (sizeof (OBJECTIVE) * (maxn - i - 1));
 	}
-	nextp = malloc(sizeof(int*) * maxdepth);
-	for ( i=0; i<maxdepth; i++) {
-		nextp[i] = malloc(sizeof(int) * maxm);
-	}
-	prevp = malloc(sizeof(int*) * maxdepth);
-	for ( i=0; i<maxdepth; i++) {
-		prevp[i] = malloc(sizeof(int) * maxm);
-	}
-	firstp = malloc(sizeof(int) * maxdepth);
-	lastp = malloc(sizeof(int) * maxdepth);
-	psize = malloc(sizeof(int) * maxdepth);
+	nextp = malloc (sizeof (int *) * maxdepth);
+	for (i = 0; i < maxdepth; i++)
+		nextp[i] = malloc (sizeof (int) * maxm);
+	prevp = malloc (sizeof (int *) * maxdepth);
+	for (i = 0; i < maxdepth; i++)
+		prevp[i] = malloc(sizeof (int) * maxm);
+	firstp = malloc (sizeof (int) * maxdepth);
+	lastp = malloc (sizeof (int) * maxdepth);
+	psize = malloc (sizeof (int) * maxdepth);
 
 	// initialise the reference point
-	ref.objectives = malloc(sizeof(OBJECTIVE) * maxn);
+	ref.objectives = malloc (sizeof (OBJECTIVE) * maxn);
 
 	// setting ref point
-	for ( i = 0; i < maxn; i++) {
+	for (i = 0; i < maxn; i++)
         ref.objectives[i] = ref_point[i];
-    }
-	//
 
-
-
-
-	// modify the objective values relative to the reference point 
-	for ( i = 0; i < f->nFronts; i++) {
-		for( j = 0; j < f->fronts[i].nPoints; j++) {
-			for( k = 0; k < f->fronts[i].n; k++) {
-
+	// modify the objective values relative to the reference point
+	for (i = 0; i < f->nFronts; i++)
+		for(j = 0; j < f->fronts[i].nPoints; j++)
+			for(k = 0; k < f->fronts[i].n; k++)
 				f->fronts[i].points[j].objectives[k] = ref.objectives[k]> f->fronts[i].points[j].objectives[k]?(ref.objectives[k]-f->fronts[i].points[j].objectives[k]):0;
-			}
-		}
-	}
 
-	totaltime = 0;
-	for ( i = 0; i < f->nFronts; i++) {
+	for (i = 0; i < f->nFronts; i++) {
 		struct timeval tv1, tv2;
 		struct rusage ru_before, ru_after;
 		getrusage (RUSAGE_SELF, &ru_before);
@@ -617,10 +628,7 @@ double hv_wfg(void *ptr)
 		getrusage (RUSAGE_SELF, &ru_after);
 		tv1 = ru_before.ru_utime;
 		tv2 = ru_after.ru_utime;
-		//printf("Time: %f (s)\n", tv2.tv_sec + tv2.tv_usec * 1e-6 - tv1.tv_sec - tv1.tv_usec * 1e-6);
-		totaltime += tv2.tv_sec + tv2.tv_usec * 1e-6 - tv1.tv_sec - tv1.tv_usec * 1e-6;
 	}
-	//printf("Total time = %f (s)\n", totaltime);
-	return  hv(f->fronts[0]);
 
+	return  hv(f->fronts[0]);
 }

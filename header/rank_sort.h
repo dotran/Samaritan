@@ -30,6 +30,7 @@ typedef struct double_s
     int idx;
     double x;
 }mysort;
+
 int sort_double_cmp (const void * a, const void * b);
 
 

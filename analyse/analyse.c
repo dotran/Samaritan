@@ -25,8 +25,10 @@
 # include "../header/analyse.h"
 # include "../header/utility.h"
 #include <time.h>
+
 static double t[10] = {0,0,0,0,0,0,0,0,0,0};
-void track_evolution (void *ptr, int id,int end)
+
+void track_evolution (void *ptr, int id, int end)
 {
     int i, j;
     int read_ptr;

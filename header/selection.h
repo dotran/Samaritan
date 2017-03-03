@@ -29,7 +29,11 @@
 # define Samaritan_SELECTION_H
 
 # include "../header/global.h"
+# include "../header/utility.h"
+# include "../header/rank_sort.h"
+# include "../header/population.h"
 
+/* NSGA-II */
 void fill_nondominated_sort (population_real* new_pop, population_real* mixed_pop);
 void crowding_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
@@ -41,5 +45,16 @@ void quicksort_front_obj(population_real *pop, int objcount, int obj_array[], in
 void q_sort_front_obj(population_real *pop, int objcount, int obj_array[], int left, int right);
 void quicksort_dist(population_real *pop, int *dist, int front_size);
 void q_sort_dist(population_real *pop, int *dist, int left, int right);
+
+/* MOEA/D */
+void moead_free ();
+void initialize_uniform_weight ();
+void initialize_neighborhood ();
+void initialize_idealpoint (void * pop);
+void set_weight (double* v, double unit, double sum, int dim);
+void update_ideal_point (individual_real * individual);
+void update_neighborhood (population_real* pop, individual_real *individual, int subProblemId, int neighborType);
+double fitnessFunction (individual_real* individual, double* lambda);
+void update_neighborhood (population_real* pop, individual_real* individual, int subProblemId, int neighborType);
 
 # endif // Samaritan_SELECTION_H

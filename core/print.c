@@ -31,8 +31,8 @@
 void print_variable (char *file_name, void * ptr)
 {
     int i, j;
-
     FILE *fpt;
+
     fpt = fopen (file_name,"w");
 
     population_real *pop = (population_real*)ptr;
@@ -51,8 +51,8 @@ void print_variable (char *file_name, void * ptr)
 void print_objective (char *file_name, void * ptr)
 {
     int i, j;
-
     FILE *fpt;
+
     fpt = fopen (file_name, "w");
 
     population_real *pop = (population_real*)ptr;
@@ -67,35 +67,51 @@ void print_objective (char *file_name, void * ptr)
     return;
 }
 
+/* Output the weight vectors used in the decomposition-based methods to file */
+void print_weights (char *file_name)
+{
+    int i, j;
+    FILE *fpt;
+
+    fpt = fopen (file_name, "w");
+    for (i = 0; i < reference_size; i++)
+    {
+        for (j = 0; j < number_objective; j++)
+            fprintf (fpt, "%lf\t", lambda[i][j]);
+        fprintf (fpt, "\n");
+    }
+    fclose (fpt);
+
+    return;
+}
+
 /* Print the current evolution progress */
 void print_progress (int generation)
 {
-    printf ("\rProgress %d%%", evaluation_count * 100 / max_evaluation+1);
+    printf ("\rProgress %d%%", evaluation_count * 100 / max_evaluation + 1);
     fflush (stdout);
-
 
     return;
 }
 
 void print_error (int condition, int n, ...)
 {
-
     int i;
     char * info = NULL;
 
     va_list vl;
     va_start (vl, n);
-    if(condition)
+    if (condition)
     {
         printf ("Error: ");
-        for(i = 0; i < n; i++)
+        for (i = 0; i < n; i++)
         {
             info = va_arg (vl, char*);
             printf ("%s", info);
         }
         printf ("\n");
-        fflush(stdout);
-        exit(-1);
+        fflush (stdout);
+        exit (-1);
     }
     va_end (vl);
 

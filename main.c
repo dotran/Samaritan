@@ -34,15 +34,14 @@
 
 int DEBUG;
 
-int number_runs;             // number of experiment runs
 int popsize;                 // population size
 int number_variable;         // number of variables
 int number_objective;        // number of objectives
 int run_index;               // index of the current experiment
 int run_index_begin;
 int run_index_end;
-double *variable_lowerbound; // variable lower bound
-double *variable_upperbound; // variable upper bound
+double* variable_lowerbound; // variable lower bound
+double* variable_upperbound; // variable upper bound
 double eta_c;
 double eta_m;
 double pcross_real;
@@ -54,10 +53,11 @@ double DEFAULT_CR;
 double DEFAULT_F;
 double DEFAULT_K;
 
-double ** lambda;
-int **neighborhood;
-double *ideal_point;
-int * permutation;
+double** lambda;
+int** neighborhood;
+double* ideal_point;        // ideal point
+double* nadir_point;        // nadir point
+int* permutation;
 int maximumNumberOfReplacedSolutions; // global
 int function_type;   // global
 
@@ -71,13 +71,13 @@ int output_interval;
 int evaluation_count;
 int max_evaluation;
 int PF_size;                 // size of the true Pareto-optimal Front
-double **PF_data;            // true Pareto-optimal front data
+double** PF_data;            // true Pareto-optimal front data
+double* ref_point;           // reference point for Hypervolume calculation
 
 int analyse_list[BUFSIZE_S];
 
 int main(int argc, char *argv[])
 {
-
     int i;
     // initialize parameter settings
     init_real ("config.txt");
@@ -97,13 +97,12 @@ int main(int argc, char *argv[])
     // run experiments
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
         printf ("The %d run ...\n", run_index);
-        if (!strcmp(algorithm_name, "NSGA2"))NSGA2 (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp(algorithm_name, "MOEAD"))MOEAD (parent_pop, offspring_pop, mixed_pop);
-
+        if (!strcmp(algorithm_name, "NSGA2"))
+            NSGA2 (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp(algorithm_name, "MOEAD"))
+            MOEAD (parent_pop, offspring_pop, mixed_pop);
         else
-        {
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
-        }
     }
     //analyse_all ();
 

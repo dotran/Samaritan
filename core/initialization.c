@@ -29,8 +29,8 @@
 # include "../header/rand.h"
 # include "../header/print.h"
 
-double * ref_point;
 char line[BUFSIZE_L];
+
 int init_real (char* argv)
 {
     int i, j;
@@ -57,57 +57,49 @@ int init_real (char* argv)
     fscanf (config, "%s %d", dummy, &run_index_end);
     fgets (analyse_stream, 200, config);
     fgets (analyse_stream, 200, config);
-    // ref point for HV
-    ref_point = (double *) malloc(number_objective*sizeof(double));
-    for(i = 0; i< number_objective;i++)
-    {
-        ref_point[i] = 1.0;
-    }
-    // neighborhood size
-    neighbor_size = 20;
-    neighborhood_selection_probability = 0.9;
-    maximumNumberOfReplacedSolutions = 2;
-    // fitness function in MOEAD
-    function_type = PBI;
+
     // SBX parameter settings
     pcross_real = 0.9;
     eta_c       = 15.0;
 
-    // diff parameter settings
-
-    DEFAULT_CR = 0.5;
-    DEFAULT_F = 0.5;
-    DEFAULT_K = 0.5;
-
     // polynomial mutation parameter settings
-    pmut_real   = 1.0 / number_variable;
-    eta_m       = 20.0;
+    pmut_real = 1.0 / number_variable;
+    eta_m     = 20.0;
 
+    // differential evolution parameter settings
+    DEFAULT_CR = 0.5;
+    DEFAULT_F  = 0.5;
+    DEFAULT_K  = 0.5;
 
-    // read true PF data
+    // neighborhood size (belongs to MOEA/D variants)
+    neighbor_size = 20;
+    neighborhood_selection_probability = 0.9;
+    maximumNumberOfReplacedSolutions = 2;
+    // aggregation function (belongs to MOEA/D variants)
+    function_type = PBI;
+
+    // set the reference point for Hypervolume calculation
+    ref_point = (double *) malloc (number_objective * sizeof(double));
+    for(i = 0; i< number_objective; i++)
+        ref_point[i] = 1.0;
+
+    // calculate the number of points in the PF data
     sprintf (PF_name, "PF/%s.%dD.pf", problem_name, number_objective);
-    PF = fopen (PF_name , "r");
+    PF = fopen (PF_name, "r");
+    print_error (PF == NULL, 2, "Fail to open PF: ", PF_name);
 
-    print_error (PF==NULL, 2, "Fail to open PF:", PF_name);
-
-    // cal size the PF_size
     PF_size = 0;
-    while(fgets(line,BUFSIZE_L,PF)!=NULL)
-    {
+    while (fgets (line, BUFSIZE_L, PF) != NULL)
         PF_size++;
-    }
-    rewind(PF);
+
+    // read the PF data
+    rewind (PF);
     PF_data = (double **) malloc (PF_size * sizeof(double *));
     for (i = 0; i < PF_size; i++)
         PF_data[i] = (double *) malloc (number_objective * sizeof(double));
     for (i = 0; i < PF_size; i++)
-    {
         for (j = 0; j < number_objective; j++)
-        {
             fscanf (PF, "%lf", &PF_data[i][j]);
-
-        }
-    }
 
     // boundary settings
     variable_lowerbound = (double *)malloc(number_variable * sizeof(double));

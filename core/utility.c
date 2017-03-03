@@ -61,46 +61,63 @@ void _mkdir (const char *dir)
     mkdir (tmp, S_IRWXU);
 }
 
-int combination(int n, int k) {
+/* Calculate the combinatorial number for n choose k */
+int combination (int n, int k)
+{
     int i;
+
     if (n < k)
         return -1;
     double ans = 1;
-    for (i = k + 1; i <= n; i++) {
+    for (i = k + 1; i <= n; i++)
+    {
         ans = ans * i;
         ans = ans / (double) (i - k);
     }
+
     return (int) ans;
 }
 
-
-void random_permutation(int* perm, int size) {
-
-    int* index = malloc(size*sizeof(int));
-    int * flag = malloc(size*sizeof(int));
+/* Shuffle the 'perm' array */
+void random_permutation (int* perm, int size)
+{
     int i;
-    for ( i = 0; i < size; i++) {
+    int num;
+    int start;
+
+    int* index;
+    int* flag;
+
+    index = malloc (size * sizeof(int));
+    flag  = malloc (size * sizeof(int));
+    for (i = 0; i < size; i++)
+    {
         index[i] = i;
-        flag[i] = 1;
+        flag[i]  = 1;
     }
 
-    int num = 0;
-    while (num < size) {
-        int start = rnd(0, size - 1);
-        while (1) {
-            if (flag[start]) {
+    num = 0;
+    while (num < size)
+    {
+        start = rnd (0, size - 1);
+        while (1)
+        {
+            if (flag[start])
+            {
                 perm[num] = index[start];
                 flag[start] = 0;
                 num++;
                 break;
             }
-            if (start == (size - 1)) {
+            if (start == (size - 1))
                 start = 0;
-            } else {
+            else
                 start++;
-            }
         }
     }
+
     free(index);
     free(flag);
+
+    return;
 }
