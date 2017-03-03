@@ -25,8 +25,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//#define OMP
-
 # ifndef Samaritan_GLOBAL_H
 # define Samaritan_GLOBAL_H
 
@@ -40,10 +38,6 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-
-#ifdef OMP
-#include <omp.h>
-#endif
 
 # define PI  M_PI
 # define INF 1.0e14
@@ -98,6 +92,16 @@ extern int analyse_list[BUFSIZE_S];
 enum analyse_name{VAR, FUN, IGD, HV, END};
 enum NeighborType{NEIGHBOR,POPULATION};
 enum MoeadFunction{TCHE,AGG,PBI};
+
+// gaps setting, read from file?
+static int weight_gaps_table[8][3] = {{0,   0, 0},
+                                      {0,   0, 0},
+                                      {299, 0, 0},  //2 obj
+                                      {23,  0, 0},  //3 obj
+                                      {10,  0, 0},  //4 obj
+                                      {6,   4, 0},  //5 obj
+                                      {5,   2, 0},  //6 obj
+                                      {4,   3, 0}}; //7 obj
 
 typedef struct
 {

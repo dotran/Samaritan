@@ -72,3 +72,35 @@ int combination(int n, int k) {
     }
     return (int) ans;
 }
+
+
+void random_permutation(int* perm, int size) {
+
+    int* index = malloc(size*sizeof(int));
+    int * flag = malloc(size*sizeof(int));
+    int i;
+    for ( i = 0; i < size; i++) {
+        index[i] = i;
+        flag[i] = 1;
+    }
+
+    int num = 0;
+    while (num < size) {
+        int start = rnd(0, size - 1);
+        while (1) {
+            if (flag[start]) {
+                perm[num] = index[start];
+                flag[start] = 0;
+                num++;
+                break;
+            }
+            if (start == (size - 1)) {
+                start = 0;
+            } else {
+                start++;
+            }
+        }
+    }
+    free(index);
+    free(flag);
+}

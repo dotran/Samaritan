@@ -1,15 +1,12 @@
 /*
- * mutation_real.c:
- *  This file contains the functions to perform mutation operations for real-coded individuals.
+ * rank_sort.c:
+ *  This file contains the sorting cmp and struct for sort with rank.
  *
  * Authors:
- *  Ke Li <k.li@exeter.ac.uk>
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
+ *  Ke Li <k.li@exeter.ac.uk>
  *
- * Institution:
- *  Computational Optimization and Data Analytics (CODA) Group @ University of Exeter
- *
- * Copyright (c) 2017 Ke Li, Renzhi Chen
+ * Copyright (c) 2017 Renzhi Chen, Ke Li
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -24,26 +21,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#include "../../header/global.h"
-#include "../../header/reproduction.h"
-
-void mutation_real (population_real *pop)
+#include "../header/rank_sort.h"
+int sort_double_cmp (const void * a, const void * b)
 {
-    int i;
-
-    for (i = 0; i < popsize; i++)
-        mutation_ind (&(pop->ind[i]));
-
-    return;
-}
-
-
-/* Function to perform mutation of an individual */
-void mutation_ind (individual_real *ind)
-{
-    if (number_variable != 0)
-        polymut_ind (ind);
-
-    return;
+    return (*(struct double_s *)a).x <(*(struct double_s *)b).x ;
 }

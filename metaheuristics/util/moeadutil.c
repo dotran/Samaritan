@@ -1,13 +1,35 @@
-//
-// Created by rxc332 on 17-2-27.
-//
+/*
+ * moeadutil.c:
+ *  This is the source file for the utility functions for moead.
+ *
+ * Authors:
+ *  Renzhi Chen <rxc332@cs.bham.ac.uk>
+ *  Ke Li <k.li@exeter.ac.uk>
+ *
+ * Institution:
+ *  Computational Optimization and Data Analytics (CODA) Group @ University of Exeter
+ *
+ * Copyright (c) 2017 Renzhi Chen, Ke Li
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "moeadutil.h"
 #include "../../header/population.h"
-
+#include "../../header/rank_sort.h"
 
 int C;
-
-
 
 void moead_free()
 {
@@ -23,10 +45,7 @@ void moead_free()
     ideal_point = NULL;
     neighborhood = NULL;
 }
-int sort_double_cmp (const void * a, const void * b)
-{
-    return (*(struct double_s *)a).x <(*(struct double_s *)b).x ;
-}
+
 
 void initialize_uniform_weight () {
 
@@ -37,15 +56,6 @@ void initialize_uniform_weight () {
     int ptr;
     double shrink;
     double * Vec;
-    // gaps setting, read from file?
-    int weight_gaps_table[8][3] = {{0,   0, 0},
-                                   {0,   0, 0},
-                                   {299, 0, 0},
-                                   {23,  0, 0},
-                                   {10,  0, 0},
-                                   {6,   4, 0},
-                                   {5,   2, 0},
-                                   {4,   3, 0}};
     gaps_table = weight_gaps_table[number_objective];
     for (layer = 0; layer < number_objective; layer++)
         if (gaps_table[layer] <= 0)
@@ -176,38 +186,6 @@ void update_ideal_point(individual_real * p)
             ideal_point[n] = p->obj[n];
         }
     }
-}
-
-
-void random_permutation(int* perm, int size) {
-
-    int* index = malloc(size*sizeof(int));
-    int * flag = malloc(size*sizeof(int));
-    int i;
-    for ( i = 0; i < size; i++) {
-        index[i] = i;
-        flag[i] = 1;
-    }
-
-    int num = 0;
-    while (num < size) {
-        int start = rnd(0, size - 1);
-        while (1) {
-            if (flag[start]) {
-                perm[num] = index[start];
-                flag[start] = 0;
-                num++;
-                break;
-            }
-            if (start == (size - 1)) {
-                start = 0;
-            } else {
-                start++;
-            }
-        }
-    }
-    free(index);
-    free(flag);
 }
 
 void update_neighborhood(population_real* pop, individual_real* individual, int subProblemId, int neighborType)

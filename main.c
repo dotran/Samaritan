@@ -78,11 +78,6 @@ int analyse_list[BUFSIZE_S];
 int main(int argc, char *argv[])
 {
 
-#ifdef OMP
-    // Explicitly disable dynamic teams
-    omp_set_dynamic(0);
-    omp_set_num_threads(4);
-#endif
     int i;
     // initialize parameter settings
     init_real ("config.txt");

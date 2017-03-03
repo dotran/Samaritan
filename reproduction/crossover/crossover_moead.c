@@ -1,6 +1,6 @@
 /*
- * crossover_nsga2.c:
- *  This file contains the functions to perform crossover operations in NSGA-II.
+ * crossover_moead.c:
+ *  This file contains the functions to perform crossover operations in MOEAD.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>

@@ -1,5 +1,12 @@
 # Samaritan
 ## Change Log
+
+### 2017/03/03
+
+- combine int_vector and double_vector into vector
+- adjust moead structure
+- remove openMP option (cannot speedup)
+
 ### 2017/02/28
 - add MOEAD 
 - add openMP option (ATTENTION: Strongly not recomand using openMP with fewer than 8 core)

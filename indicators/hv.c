@@ -28,7 +28,7 @@
 # include "../header/indicators.h"
 # include "../header/utility.h"
 # include "./WFG_1.15/wfg.h"
-# include "../header/double_vector.h"
+# include "../header/vector.h"
 
 static struct double_vector *record         = NULL;
 

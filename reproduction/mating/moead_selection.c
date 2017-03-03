@@ -1,6 +1,6 @@
 /*
- * crossover_nsga2.c:
- *  This file contains the functions to perform crossover operations in NSGA-II.
+ * moead_selection.c:
+ *  This file contains the selecting functions for moead.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -25,7 +25,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../../header/global.h"
-#include "../../header/int_vector.h"
 #include "../../header/rand.h"
 #include "../../header/reproduction.h"
 void parent_selection(population_real *parent_pop,individual_real*** parents,int sub_problem_id,int neighbor_type)
