@@ -27,7 +27,7 @@
 #include "../../header/reproduction.h"
 #include "../../header/rand.h"
 
-void de (individual_real **parents,individual_real *child)
+void de (individual_real **parents, individual_real *child)
 {
     int i;
     int r;
