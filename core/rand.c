@@ -32,7 +32,7 @@ double oldrand[55];
 int jrand;
 
 /* Get seed number for random and start it up */
-void randomize()
+void randomize ()
 {
     int j1;
     for(j1 = 0; j1 <= 54; j1++)
@@ -99,7 +99,7 @@ void advance_random ()
 }
 
 /* Fetch a single random number between 0.0 and 1.0 */
-double randomperc()
+double randomperc ()
 {
     jrand++;
     if(jrand >= 55)
