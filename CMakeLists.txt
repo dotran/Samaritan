@@ -67,6 +67,9 @@ set(SOURCE_FILES
         testproblem/DTLZ/DTLZ2.c
         testproblem/DTLZ/DTLZ3.c
         testproblem/DTLZ/DTLZ4.c
+        testproblem/DTLZ/DTLZ5.c
+        testproblem/DTLZ/DTLZ6.c
+        testproblem/DTLZ/DTLZ7.c
         testproblem/evaluation.c
 
         config.txt
