@@ -6,6 +6,9 @@
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
  *  Ke Li <k.li@exeter.ac.uk>
  *
+ * Institution:
+ *  Computational Optimization and Data Analytics (CODA) Group @ University of Exeter
+ *
  * Copyright (c) 2017 Renzhi Chen, Ke Li
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +34,5 @@
 # include "indicators.h"
 
 void track_evolution (void *ptr, int id,int end);
-void analyse_all ();
-void plot(char *file, char * title);
+void plot (char *file, char * title);
 # endif // SAMARITAN_ANALYSE_H

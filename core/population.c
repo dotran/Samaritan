@@ -25,8 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/global.h"
-# include "../header/rand.h"
+# include "../header/population.h"
 
 // Function to initialize an individual randomly
 void initialize_individual_real (individual_real *ind)

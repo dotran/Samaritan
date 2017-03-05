@@ -25,26 +25,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/global.h"
-# include "../header/rand.h"
-# include "../header/print.h"
+# include "../header/initialization.h"
 
 char line[BUFSIZE_L];
 
-int init_real (char* argv)
+int initialization_real (char* argv)
 {
     int i, j;
     int random;
     char configFileName[BUFSIZE_S];
     char PF_name[BUFSIZE_S];
 
-    FILE * PF = NULL;
+    FILE * PF     = NULL;
     FILE * config = NULL;
 
     // read some parameters from configure file
     strcpy (configFileName, argv);
     config = fopen (configFileName, "r");
-    print_error (config == NULL, 2, "Fail to read configure file:", configFileName);
+    print_error (config == NULL, 2, "Fail to read configure file: ", configFileName);
     fscanf (config, "%s %s", dummy, algorithm_name);
     fscanf (config, "%s %s", dummy, problem_name);
     fscanf (config, "%s %d", dummy, &number_variable);
@@ -71,12 +69,11 @@ int init_real (char* argv)
     DEFAULT_F  = 0.5;
     DEFAULT_K  = 0.5;
 
-    // neighborhood size (belongs to MOEA/D variants)
+    // intrisic parameters used in MOEA/D variants
     neighbor_size = 20;
+    function_type = PBI;
     neighborhood_selection_probability = 0.9;
     maximumNumberOfReplacedSolutions = 2;
-    // aggregation function (belongs to MOEA/D variants)
-    function_type = PBI;
 
     // set the reference point for Hypervolume calculation
     ref_point = (double *) malloc (number_objective * sizeof(double));
@@ -102,8 +99,8 @@ int init_real (char* argv)
             fscanf (PF, "%lf", &PF_data[i][j]);
 
     // boundary settings
-    variable_lowerbound = (double *)malloc(number_variable * sizeof(double));
-    variable_upperbound = (double *)malloc(number_variable * sizeof(double));
+    variable_lowerbound = (double *) malloc (number_variable * sizeof(double));
+    variable_upperbound = (double *) malloc (number_variable * sizeof(double));
     if (!strcmp(problem_name, "ZDT4"))
     {
         variable_lowerbound[0] = 0.0;
@@ -127,11 +124,7 @@ int init_real (char* argv)
     srand ((unsigned) time (NULL));
     random = rand () % 1000;
     seed   = (float) random / 1000.0;
-    if (seed <= 0.0 || seed >= 1.0)
-    {
-        printf ("\n Entered seed value is wrong, seed value must be in (0,1) \n");
-        exit (1);
-    }
+    print_error (seed <= 0.0 || seed >= 1.0, 1, "Entered seed value is wrong, seed value must be in (0,1)");
 
     return 0;
 }
