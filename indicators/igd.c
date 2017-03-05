@@ -22,44 +22,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/global.h"
 # include "../header/indicators.h"
-# include "../header/utility.h"
-#include "../header/vector.h"
 
-static struct double_vector *record         = NULL;
+static struct double_vector *record = NULL;
 
 /* Calculate the IGD value of a population */
 void record_igd (void *ptr, int id)
 {
     double value;
+
     if (record == NULL)
     {
-        record = (struct double_vector *)malloc(sizeof(struct double_vector));
-        record -> value = nan("1");
-        record -> next = NULL;
+        record = (struct double_vector *) malloc (sizeof(struct double_vector));
+        record->value = nan("1");
+        record->next  = NULL;
     }
 
     // calculate IGD
     value = calculate_igd (ptr);
-    double_vector_pushback(record,value);
-    //double_vector_print(record);
+    double_vector_pushback (record, value);
+
     return;
 }
 
 void print_igd (char *file_name)
 {
-    int i=0;
+    int i;
+    double value;
     FILE *fpt;
 
-    //double_vector_print(record);
     fpt = fopen (file_name, "w");
-    while(1)
+
+    i = 0;
+    while (1)
     {
-        double value = double_vector_get(record->next,i++);
-        if(!isnan(value))
+        value = double_vector_get (record->next, i++);
+        if (!isnan(value))
             fprintf (fpt, "%lf\n", value);
-        else break;
+        else
+            break;
     }
 
     fclose (fpt);
@@ -86,7 +87,7 @@ double calculate_igd (void *ptr)
         for (j = 1; j < popsize; j++)
         {
             cur_distance = euclidian_distance (PF_data[i], pop->ind[j].obj, number_objective);
-            if(min_distance > cur_distance)
+            if(cur_distance < min_distance)
                 min_distance = cur_distance;
         }
         igd_value += min_distance;

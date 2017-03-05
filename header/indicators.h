@@ -28,17 +28,22 @@
 # ifndef SAMARITAN_INDICATOR_H
 # define SAMARITAN_INDICATOR_H
 
+# include "global.h"
 # include "analyse.h"
 # include "print.h"
+# include "vector.h"
+# include "utility.h"
+
+void record_gd (void *ptr, int id);
+void print_gd (char *file_name);
+double calculate_gd (void *ptr);
 
 void record_igd (void *ptr, int id);
 double calculate_igd (void *ptr);
 void print_igd (char * file_name);
-void print_global_igd (char *file_name);
 
 void record_hv (void *ptr, int id);
 double calculate_hv (void *ptr);
 void print_hv (char * file_name);
-void print_global_hv (char *file_name);
 
-# endif //SAMARITAN_INDICATOR_H
+# endif // SAMARITAN_INDICATOR_H

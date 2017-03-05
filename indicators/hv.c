@@ -22,10 +22,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/global.h"
 # include "../header/indicators.h"
 # include "WFG_1.15/wfg.h"
-# include "../header/vector.h"
 
 static struct double_vector *record = NULL;
 

@@ -88,7 +88,7 @@ extern int maximumNumberOfReplacedSolutions; // the maximum replacement number o
 extern int function_type;                    // aggregation function type
 
 extern int analyse_list[BUFSIZE_S];
-enum analyse_name{VAR, FUN, IGD, HV, PLOT, END};
+enum analyse_name{VAR, FUN, GD, IGD, HV, PLOT, END};
 enum NeighborType{NEIGHBOR, POPULATION};
 enum MoeadFunction{WS, TCH, ITCH, PBI};
 

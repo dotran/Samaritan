@@ -23,10 +23,8 @@
  */
 
 # include "../header/analyse.h"
-# include "../header/utility.h"
-#include <time.h>
 
-static double t[10] = {0,0,0,0,0,0,0,0,0,0};
+static double t[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 void track_evolution (void *ptr, int id, int end)
 {
@@ -42,13 +40,13 @@ void track_evolution (void *ptr, int id, int end)
 
     sprintf (id_char, "%d", id);
     // set the output directory
-    sprintf (output_dir_level1,"./%s_%d_%d/%s/",
+    sprintf (output_dir_level1, "./%s_%d_%d/%s/",
              problem_name,
              number_variable,
              number_objective,
              algorithm_name
     );
-    sprintf (output_dir_level2,"./%s_%d_%d/%s/%d/",
+    sprintf (output_dir_level2, "./%s_%d_%d/%s/%d/",
              problem_name,
              number_variable,
              number_objective,
@@ -86,6 +84,8 @@ void track_evolution (void *ptr, int id, int end)
                 analyse_list[VAR] = 1;
             else if (!strcmp(name, "FUN"))
                 analyse_list[FUN] = 1;
+            else if (!strcmp(name, "GD"))
+                analyse_list[GD] = 1;
             else if (!strcmp(name, "IGD"))
                 analyse_list[IGD] = 1;
             else if (!strcmp(name, "HV"))
@@ -110,15 +110,18 @@ void track_evolution (void *ptr, int id, int end)
             sprintf (output_file, "%smedium_FUN_%s.out", output_dir_level2, id_char);
             print_objective (output_file, ptr);
         }
+        if (analyse_list[GD])
+        {
+            record_gd (ptr, id);
+        }
         if (analyse_list[IGD])
         {
             record_igd (ptr, id);
         }
         if (analyse_list[HV])
         {
-            record_hv(ptr,id);
+            record_hv (ptr,id);
         }
-
     }
 
     if (end == 1)
@@ -132,6 +135,14 @@ void track_evolution (void *ptr, int id, int end)
         {
             sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
             print_objective (output_file, ptr);
+        }
+        if (analyse_list[GD])
+        {
+            if (runtime_output == 1)
+            {
+                sprintf (output_file, "%sGD_%d.txt", output_dir_level2, run_index);
+                print_gd (output_file);
+            }
         }
         if (analyse_list[IGD])
         {
@@ -152,10 +163,11 @@ void track_evolution (void *ptr, int id, int end)
         if (analyse_list[PLOT])
         {
             sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
-            plot(output_file,"FUN");
+            plot(output_file, "FUN");
         }
     }
 }
+
 /*
 void analyse_all ()
 {
