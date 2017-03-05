@@ -1,0 +1,8 @@
+//
+// Created by Ke Li on 2017/3/5.
+//
+
+#ifndef SAMARITAN_INITIALIZATION_H
+#define SAMARITAN_INITIALIZATION_H
+
+#endif //SAMARITAN_INITIALIZATION_H

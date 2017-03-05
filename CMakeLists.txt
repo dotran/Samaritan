@@ -3,20 +3,21 @@ project(Samaritan)
 
 set(CMAKE_CXX_STANDARD 11)
 set(SOURCE_FILES
+        header/analyse.h
         header/dominance.h
         header/global.h
-        header/memory.h
         header/indicators.h
+        header/initialization.h
+        header/memory.h
         header/metaheuristics.h
         header/population.h
         header/print.h
         header/problems.h
         header/rand.h
+        header/rank_sort.h
         header/reproduction.h
         header/selection.h
         header/utility.h
-        header/analyse.h
-        header/rank_sort.h
         header/vector.h
 
         core/dominance.c
@@ -26,17 +27,17 @@ set(SOURCE_FILES
         core/population.c
         core/print.c
         core/rand.c
-        core/utility.c
         core/rank_sort.c
+        core/utility.c
         core/vector.c
 
         metaheuristics/nsga2.c
         metaheuristics/moead.c
 
         selection/nsga2/crowddist.c
+        selection/moead/fitness.c
         selection/nsga2/fillnds.c
         selection/nsga2/qsort.c
-        selection/moead/fitness.c
         selection/moead/update.c
         selection/moead/utility.c
 
@@ -59,6 +60,7 @@ set(SOURCE_FILES
         indicators/WFG_1.15/wfg.c
         indicators/WFG_1.15/wfg.h
 
+        testproblem/evaluation.c
         testproblem/ZDT/ZDT1.c
         testproblem/ZDT/ZDT2.c
         testproblem/ZDT/ZDT3.c
@@ -71,7 +73,6 @@ set(SOURCE_FILES
         testproblem/DTLZ/DTLZ5.c
         testproblem/DTLZ/DTLZ6.c
         testproblem/DTLZ/DTLZ7.c
-        testproblem/evaluation.c
 
         config.txt
         main.c
