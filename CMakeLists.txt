@@ -58,11 +58,15 @@ set(SOURCE_FILES
         indicators/WFG_1.15/wfg.c
         indicators/WFG_1.15/wfg.h
 
+        testproblem/ZDT/ZDT1.c
+        testproblem/ZDT/ZDT2.c
+        testproblem/ZDT/ZDT3.c
+        testproblem/ZDT/ZDT4.c
+        testproblem/ZDT/ZDT6.c
         testproblem/DTLZ/DTLZ1.c
         testproblem/DTLZ/DTLZ2.c
         testproblem/DTLZ/DTLZ3.c
         testproblem/DTLZ/DTLZ4.c
-        testproblem/ZDT/ZDT1.c
         testproblem/evaluation.c
 
         config.txt
