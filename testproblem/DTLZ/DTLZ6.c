@@ -1,5 +1,5 @@
 /*
- * DTLZ5.c
+ * DTLZ6.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -23,7 +23,7 @@
 
 #include "../../header/problems.h"
 
-void dtlz5 (double *xreal, double *obj)
+void dtlz6 (double *xreal, double *obj)
 {
     int i, j, k;
     int aux;
@@ -36,7 +36,7 @@ void dtlz5 (double *xreal, double *obj)
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
-        gx += pow((xreal[i] - 0.5), 2.0);
+        gx += pow(xreal[i], 0.1);
 
     temp     = PI / (4.0 * (1.0 + gx));
     theta[0] = xreal[0] * PI / 2.0;

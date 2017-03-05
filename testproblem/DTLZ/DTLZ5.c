@@ -1,5 +1,5 @@
 /*
- * DTLZ2.c
+ * DTLZ5.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -23,16 +23,25 @@
 
 #include "../../header/problems.h"
 
-void dtlz2 (double *xreal, double *obj)
+void dtlz5 (double *xreal, double *obj)
 {
     int i, j, k;
     int aux;
-    double gx;
+    double temp, gx;
+
+    double *theta;
+
+    theta = (double *) malloc (number_variable * sizeof(double));
 
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
         gx += pow((xreal[i] - 0.5), 2.0);
+
+    temp     = PI / (4.0 * (1.0 + gx));
+    theta[0] = xreal[0] * PI / 2.0;
+    for (i = 1; i < (number_objective - 1); i++)
+        theta[i] = temp * (1.0 + 2.0 * gx * xreal[i]);
 
     for (i = 0; i < number_objective; i++)
         obj[i] = 1.0 + gx;
@@ -40,11 +49,11 @@ void dtlz2 (double *xreal, double *obj)
     for (i = 0; i < number_objective; i++)
     {
         for (j = 0; j < number_objective - (i + 1); j++)
-            obj[i] *= cos(PI * 0.5 * xreal[j]);
+            obj[i] *= cos(theta[j]);
         if (i != 0)
         {
             aux     = number_objective - (i + 1);
-            obj[i] *= sin(PI * 0.5 * xreal[aux]);
+            obj[i] *= sin(theta[aux]);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * DTLZ6.c
+ * DTLZ7.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -23,37 +23,25 @@
 
 #include "../../header/problems.h"
 
-void dtlz6 (double *xreal, double *obj)
+void dtlz7 (double *xreal, double *obj)
 {
     int i, j, k;
     int aux;
-    double temp, gx;
-
-    double *theta;
-
-    theta = (double *) malloc (number_variable * sizeof(double));
+    double h, gx;
 
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
-        gx += pow(xreal[i], 0.1);
-
-    temp     = PI / (4.0 * (1.0 + gx));
-    theta[0] = xreal[0] * PI / 2.0;
-    for (i = 1; i < (number_objective - 1); i++)
-        theta[i] = temp * (1.0 + 2.0 * gx * xreal[i]);
+        gx += xreal[i];
+    gx = 1.0 + (9.0 * gx) / k;
 
     for (i = 0; i < number_objective; i++)
-        obj[i] = 1.0 + gx;
+        obj[i] = xreal[i];
 
-    for (i = 0; i < number_objective; i++)
-    {
-        for (j = 0; j < number_objective - (i + 1); j++)
-            obj[i] *= cos(theta[j]);
-        if (i != 0)
-        {
-            aux     = number_objective - (i + 1);
-            obj[i] *= sin(theta[aux]);
-        }
-    }
+    h = 0.0;
+    for (i = 0; i < number_objective - 1; i++)
+        h += (obj[i] / (1.0 + gx)) * (1.0 + sin (3.0 * PI * obj[i]));
+    h = number_objective - h;
+
+    obj[number_objective - 1] = (1 + gx) * h;
 }
