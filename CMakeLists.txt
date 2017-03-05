@@ -53,6 +53,7 @@ set(SOURCE_FILES
         analyse/plot.c
 
         indicators/hv.c
+        indicators/gd.c
         indicators/igd.c
         indicators/WFG_1.15/read.c
         indicators/WFG_1.15/wfg.c
