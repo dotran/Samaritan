@@ -1,5 +1,5 @@
 /*
- * ZDT2.c
+ * ZDT6.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -23,17 +23,17 @@
 
 # include "../../header/global.h"
 
-void zdt2 (double *xreal, double *obj)
+void zdt6 (double *xreal, double *obj)
 {
     int i;
     double f1, f2, g, h;
 
-    f1 = xreal[0];
+    f1 = 1.0 - exp (-4.0 * xreal[0]) * pow (sin (6.0 * PI * xreal[0]), 6.0);
 
     g  = 0.0;
     for (i = 1; i < number_variable; i++)
         g += xreal[i];
-    g = 9.0 * g / (number_variable - 1) + 1.0;
+    g = 9.0 * pow (g / (number_variable - 1), 0.25) + 1.0;
     h = 1.0 - pow (f1 / g, 2.0);
 
     f2 = g * h;

@@ -41,6 +41,10 @@ void evaluate_individual (individual_real* ind)
 
     flag = 0;
     (strcmp (problem_name, "ZDT1")  != 0)? :(zdt1 (ind->xreal, ind->obj), flag =1);
+    (strcmp (problem_name, "ZDT2")  != 0)? :(zdt2 (ind->xreal, ind->obj), flag =1);
+    (strcmp (problem_name, "ZDT3")  != 0)? :(zdt3 (ind->xreal, ind->obj), flag =1);
+    (strcmp (problem_name, "ZDT4")  != 0)? :(zdt4 (ind->xreal, ind->obj), flag =1);
+    (strcmp (problem_name, "ZDT6")  != 0)? :(zdt6 (ind->xreal, ind->obj), flag =1);
     (strcmp (problem_name, "DTLZ1") != 0)? :(dtlz1 (ind->xreal, ind->obj), flag =1);
     (strcmp (problem_name, "DTLZ2") != 0)? :(dtlz2 (ind->xreal, ind->obj), flag =1);
     (strcmp (problem_name, "DTLZ3") != 0)? :(dtlz3 (ind->xreal, ind->obj), flag =1);

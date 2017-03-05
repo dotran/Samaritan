@@ -33,6 +33,10 @@
 void evaluate_population (population_real* pop);
 void evaluate_individual (individual_real* ind);
 void zdt1 (double *xreal, double *obj);
+void zdt2 (double *xreal, double *obj);
+void zdt3 (double *xreal, double *obj);
+void zdt4 (double *xreal, double *obj);
+void zdt6 (double *xreal, double *obj);
 void dtlz1 (double *xreal, double *obj);
 void dtlz2 (double *xreal, double *obj);
 void dtlz3 (double *xreal, double *obj);
