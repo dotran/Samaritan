@@ -40,16 +40,16 @@ void track_evolution (void *ptr, int id, int end)
 
     sprintf (id_char, "%d", id);
     // set the output directory
-    sprintf (output_dir_level1, "./%s_%d_%d/%s/",
+    sprintf (output_dir_level1, "./%s_M%d_D%d/%s/",
              problem_name,
-             number_variable,
              number_objective,
+             number_variable,
              algorithm_name
     );
-    sprintf (output_dir_level2, "./%s_%d_%d/%s/%d/",
+    sprintf (output_dir_level2, "./%s_M%d_D%d/%s/%d/",
              problem_name,
-             number_variable,
              number_objective,
+             number_variable,
              algorithm_name,
              run_index
     );
@@ -64,7 +64,6 @@ void track_evolution (void *ptr, int id, int end)
 
         read_ptr = 0;
         while (1)
-
         {
             int name_c = 0;
             while (analyse_stream[read_ptr] != ' '
@@ -97,6 +96,7 @@ void track_evolution (void *ptr, int id, int end)
             read_ptr++;
         }
     }
+
     if (runtime_output == 1 && (id % output_interval == 0 || id == 1 || end == 1))
     {
 
