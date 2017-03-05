@@ -38,6 +38,7 @@ set(SOURCE_FILES
         selection/nsga2/qsort.c
         selection/moead/fitness.c
         selection/moead/update.c
+        selection/moead/utility.c
 
         reproduction/mating/tournament_selection.c
         reproduction/mating/moead_selection.c
