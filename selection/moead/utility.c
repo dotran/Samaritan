@@ -105,7 +105,7 @@ void initialize_uniform_weight ()
 }
 
 /* Sample uniformly distributed weight vectors according to Das and Denis' method */
-void set_weight (double* v, double unit, double sum, int dim)
+void set_weight (double *v, double unit, double sum, int dim)
 {
     int i;
 
@@ -126,7 +126,7 @@ void set_weight (double* v, double unit, double sum, int dim)
     for (i = 0; i <= unit - sum; i++)
     {
         v[dim - 1] = i;
-        setweight(v, unit, sum + i, dim - 1);
+        set_weight (v, unit, sum + i, dim - 1);
     }
 
     return;
@@ -174,7 +174,7 @@ void initialize_idealpoint (void * pop)
         ideal_point[i] = INF;
 
     for (i = 0 ;i < popsize ; i ++)
-        update_ideal_point(&(ptr->ind[i]));
+        update_ideal_point (&(ptr->ind[i]));
 
     return;
 }
@@ -203,7 +203,7 @@ void initialize_nadirpoint (void * pop)
         nadir_point[i] = -INF;
 
     for (i = 0 ;i < popsize ; i ++)
-        update_nadir_point(&(ptr->ind[i]));
+        update_nadir_point (&(ptr->ind[i]));
 
     return;
 }

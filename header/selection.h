@@ -30,6 +30,7 @@
 
 # include "../header/global.h"
 # include "../header/utility.h"
+# include "../header/print.h"
 # include "../header/rank_sort.h"
 # include "../header/population.h"
 
@@ -50,11 +51,14 @@ void q_sort_dist(population_real *pop, int *dist, int left, int right);
 void moead_free ();
 void initialize_uniform_weight ();
 void initialize_neighborhood ();
-void initialize_idealpoint (void * pop);
-void set_weight (double* v, double unit, double sum, int dim);
-void update_ideal_point (individual_real * individual);
+void set_weight (double *v, double unit, double sum, int dim);
 void update_neighborhood (population_real* pop, individual_real *individual, int subProblemId, int neighborType);
 double fitnessFunction (individual_real* individual, double* lambda);
 void update_neighborhood (population_real* pop, individual_real* individual, int subProblemId, int neighborType);
+
+void initialize_idealpoint (void * pop);
+void update_ideal_point (individual_real * individual);
+void initialize_nadirpoint (void * pop);
+void update_nadir_point (individual_real * individual);
 
 # endif // Samaritan_SELECTION_H

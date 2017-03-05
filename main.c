@@ -28,6 +28,7 @@
 # include "header/global.h"
 # include "header/rand.h"
 # include "header/metaheuristics.h"
+# include "header/initialization.h"
 # include "header/population.h"
 # include "header/memory.h"
 # include "header/analyse.h"
@@ -80,7 +81,7 @@ int main(int argc, char *argv[])
 {
     int i;
     // initialize parameter settings
-    init_real ("config.txt");
+    initialization_real ("config.txt");
 
     population_real* parent_pop;
     population_real* offspring_pop;
@@ -96,14 +97,17 @@ int main(int argc, char *argv[])
 
     // run experiments
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
-        printf ("The %d run ...\n", run_index);
+        printf ("--------------------\n");
+        printf ("|\tThe %d run\t|\t", run_index);
         if (!strcmp(algorithm_name, "NSGA2"))
             NSGA2 (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp(algorithm_name, "MOEAD"))
             MOEAD (parent_pop, offspring_pop, mixed_pop);
         else
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
+        printf ("\n");
     }
+    printf ("--------------------\n");
     //analyse_all ();
 
     // free memory

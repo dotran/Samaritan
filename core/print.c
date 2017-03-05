@@ -88,7 +88,7 @@ void print_weights (char *file_name)
 /* Print the current evolution progress */
 void print_progress (int generation)
 {
-    printf ("\rProgress %d%%", evaluation_count * 100 / max_evaluation + 1);
+    printf ("\r%d%%\t|", evaluation_count * 100 / max_evaluation + 1);
     fflush (stdout);
 
     return;

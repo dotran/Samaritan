@@ -37,20 +37,19 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     int i;
     int generation;
 
-    generation = 1;
+    generation       = 1;
+    evaluation_count = 0;
     printf ("Progress: 1%%");
 
     // initialize population
     initialize_population_real (parent_pop);
-
-    evaluation_count = 0;
 
     // population evaluations
     evaluate_population (parent_pop);
 
     // track the current evolutionary progress, including population and metrics
     track_evolution (parent_pop, generation, 0);
-    while(evaluation_count<max_evaluation)
+    while (evaluation_count<max_evaluation)
     {
 
         generation ++;
@@ -68,10 +67,7 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
         merge (parent_pop, offspring_pop, mixed_pop);
 
         // track the current evolutionary progress, including population and metrics
-        track_evolution (parent_pop, generation,evaluation_count>=max_evaluation);
-
-
-
+        track_evolution (parent_pop, generation, evaluation_count >= max_evaluation);
     }
 
     return;
