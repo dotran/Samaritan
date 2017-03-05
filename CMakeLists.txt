@@ -33,15 +33,11 @@ set(SOURCE_FILES
         metaheuristics/nsga2.c
         metaheuristics/moead.c
 
-        metaheuristics/util/moeadutil.h
-        metaheuristics/util/moeadutil.c
-
         selection/nsga2/crowddist.c
         selection/nsga2/fillnds.c
         selection/nsga2/qsort.c
         selection/moead/fitness.c
         selection/moead/update.c
-        selection/moead/utility.c
 
         reproduction/mating/tournament_selection.c
         reproduction/mating/moead_selection.c
