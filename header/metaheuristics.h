@@ -30,5 +30,6 @@
 
 void NSGA2(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
 void MOEAD(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
+void MOEAD_DRA(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
 
 #endif //SAMARITAN_METAHEURISTICS_H

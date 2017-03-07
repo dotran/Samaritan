@@ -38,6 +38,8 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+#include <limits.h>
+#include "vector.h"
 
 # define PI  M_PI
 # define INF 1.0e14
@@ -86,6 +88,12 @@ extern double* nadir_point;         // nadir point
 extern int* permutation;
 extern int maximumNumberOfReplacedSolutions; // the maximum replacement number of a superior offspring
 extern int function_type;                    // aggregation function type
+
+
+extern double* utility;
+extern int* frequency;
+extern struct int_vector* selected;
+extern struct int_vector* candidate;
 
 extern int analyse_list[BUFSIZE_S];
 enum analyse_name{VAR, FUN, GD, IGD, HV, PLOT, END};

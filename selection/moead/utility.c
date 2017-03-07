@@ -101,6 +101,10 @@ void initialize_uniform_weight ()
     }
     free(layer_size);
 
+    if(reference_size<popsize)
+    {
+        popsize = reference_size;
+    }
     return;
 }
 

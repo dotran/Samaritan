@@ -62,6 +62,13 @@ int* permutation;
 int maximumNumberOfReplacedSolutions; // global
 int function_type;   // global
 
+
+double* utility;
+int* frequency;
+struct int_vector* selected;
+struct int_vector* candidate;
+
+
 char dummy[BUFSIZE_S];
 char problem_name[BUFSIZE_S];
 char algorithm_name[BUFSIZE_S];
@@ -103,6 +110,8 @@ int main(int argc, char *argv[])
             NSGA2 (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp(algorithm_name, "MOEAD"))
             MOEAD (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp(algorithm_name, "MOEAD_DRA"))
+            MOEAD_DRA (parent_pop, offspring_pop, mixed_pop);
         else
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
         printf ("\n");

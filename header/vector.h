@@ -48,8 +48,10 @@ int int_vector_size (struct int_vector* head);
 void int_vector_pushback (struct int_vector* head, int value);
 int int_vector_pop (struct int_vector* head);
 int int_vector_get (struct int_vector* head, int index);
+void int_vector_set (struct int_vector* head, int index, int value);
 void int_vector_free (struct int_vector* head);
 void int_vector_print (struct int_vector* head);
+void int_vector_remove(struct int_vector* head, int index);
 
 int double_vector_size (struct double_vector* head);
 void double_vector_pushback (struct double_vector* head, double value);

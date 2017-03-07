@@ -94,10 +94,51 @@ int int_vector_get (struct int_vector* head, int index)
         if(ptr->next != NULL)
             ptr = ptr-> next;
         else
-            return nan("1");
+            return INT_MIN;
     }
 
     return ptr->value;
+}
+
+void int_vector_set (struct int_vector* head, int index, int value)
+{
+    int i;
+    struct int_vector* ptr;
+
+    print_error(head == NULL, 1, "NULL head in int_vector_get\n");
+
+    ptr = head;
+    for(i = 0 ; i < index; i++)
+    {
+        if(ptr->next != NULL)
+            ptr = ptr-> next;
+        else
+            print_error(1,1,"Error index in int_vector_set");
+    }
+
+    ptr->value = value;
+}
+
+void int_vector_remove(struct int_vector* head, int index)
+{
+    int i;
+    struct int_vector* ptr;
+    struct int_vector* pre;
+
+    print_error(head == NULL, 1, "NULL head in int_vector_get\n");
+
+    ptr = head;
+    pre = head;
+    print_error(index == 0, 1, "Error, cannot remove head ptr in int_vector_remove");
+    for(i = 0 ; i < index; i++)
+    {
+        if(ptr->next != NULL)
+            ptr = ptr-> next;
+        else
+            print_error(1,1,"Error index in int_vector_remove");
+    }
+
+
 }
 
 void int_vector_free (struct int_vector* head)
@@ -199,6 +240,7 @@ double double_vector_get (struct double_vector* head, int index)
 
     return ptr->value;
 }
+
 
 void double_vector_free (struct double_vector* head)
 {
