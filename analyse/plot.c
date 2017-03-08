@@ -43,6 +43,19 @@ void py_plot(population_real *ptr)
             for(j = 0; j < number_objective; j++)
                 fprintf(pythonplot,"%lf \n", ptr->ind[i].obj[j]);
     }
+    if(number_objective==2)
+    {
+        if(pythonplot == NULL)
+        {
+            pythonplot = popen("python -W ignore ./script/plot2D.py","w");
+        }
+        print_error(pythonplot==NULL,1,"cannot open python script");
+
+        fprintf(pythonplot, "%d \n", popsize);
+        for(i = 0; i < popsize; i++)
+            for(j = 0; j < number_objective; j++)
+                fprintf(pythonplot,"%lf \n", ptr->ind[i].obj[j]);
+    }
 }
 
 void plot(char *filename,char *title)
