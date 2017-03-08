@@ -35,4 +35,5 @@
 
 void track_evolution (void *ptr, int id,int end);
 void plot (char *file, char * title);
+void py_plot(population_real *ptr);
 # endif // SAMARITAN_ANALYSE_H

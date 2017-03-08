@@ -22,6 +22,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../header/analyse.h"
+#include "../header/global.h"
+
+void py_plot(population_real *ptr)
+{
+    int i,j;
+
+    if (ptr == NULL && pythonplot != NULL)
+        fprintf(pythonplot, "%d \n", -1);
+    if(number_objective==3)
+    {
+        if(pythonplot == NULL)
+        {
+            pythonplot = popen("python -W ignore ./script/plot3D.py","w");
+        }
+        print_error(pythonplot==NULL,1,"cannot open python script");
+
+        fprintf(pythonplot, "%d \n", popsize);
+        for(i = 0; i < popsize; i++)
+            for(j = 0; j < number_objective; j++)
+                fprintf(pythonplot,"%lf \n", ptr->ind[i].obj[j]);
+    }
+}
 
 void plot(char *filename,char *title)
 {
@@ -43,6 +65,7 @@ void plot(char *filename,char *title)
     }
     else if(number_objective == 3)
     {
+
         sprintf(command,"set title \"%s\"\n",title);
         fprintf(gnuplot, "%s \n", command);
         fprintf(gnuplot,"set view 60,130 \n");
@@ -52,8 +75,8 @@ void plot(char *filename,char *title)
         fprintf(gnuplot,"set zrange [0:]\n");
         sprintf(command,"splot \'%s\'\n",filename);
         fprintf(gnuplot, "%s \n", command);
-
         fflush(gnuplot);
+
     }
     else
     {

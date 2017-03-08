@@ -96,6 +96,9 @@ extern struct int_vector* selected;
 extern struct int_vector* candidate;
 
 extern int analyse_list[BUFSIZE_S];
+
+extern FILE * pythonplot;
+
 enum analyse_name{VAR, FUN, GD, IGD, HV, PLOT, END};
 enum NeighborType{NEIGHBOR, POPULATION};
 enum MoeadFunction{WS, TCH, ITCH, PBI};

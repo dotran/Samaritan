@@ -122,6 +122,10 @@ void track_evolution (void *ptr, int id, int end)
         {
             record_hv (ptr,id);
         }
+        if (analyse_list[PLOT])
+        {
+            py_plot(ptr);
+        }
     }
 
     if (end == 1)
@@ -162,9 +166,11 @@ void track_evolution (void *ptr, int id, int end)
         }
         if (analyse_list[PLOT])
         {
-            sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
-            plot(output_file, "FUN");
+            // for gnuplot
+            // sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
+            // plot(output_file, "FUN");
         }
+
     }
 }
 
