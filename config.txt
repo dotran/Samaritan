@@ -1,11 +1,11 @@
 algorithm_name: MOEAD
 test_problem: DTLZ2
-number_variable 10
-number_objective 7
+number_variable 6
+number_objective 2
 popSize: 300
-max_evaluation: 90000
-runtime_output: 360300
+max_evaluation: 30000
+runtime_output: 1
 output_interval: 10
 run_index_begin: 2
 run_index_end: 2
-analyse: VAR FUN IGD HV
+analyse: VAR FUN IGD HV PLOT
