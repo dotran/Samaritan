@@ -24,12 +24,17 @@
 #include "../header/analyse.h"
 #include "../header/global.h"
 
-void py_plot(population_real *ptr)
+void *py_plot(void *pop,int gen)
 {
+    if (pop == NULL && pythonplot != NULL)
+    {
+        fprintf(pythonplot, "%d \n", -1);
+        return NULL;
+    }
+    population_real * ptr = pop;
     int i,j;
 
-    if (ptr == NULL && pythonplot != NULL)
-        fprintf(pythonplot, "%d \n", -1);
+
     if(number_objective==3)
     {
         if(pythonplot == NULL)
@@ -39,9 +44,13 @@ void py_plot(population_real *ptr)
         print_error(pythonplot==NULL,1,"cannot open python script");
 
         fprintf(pythonplot, "%d \n", popsize);
+        fprintf(pythonplot, "%d \n",gen);
         for(i = 0; i < popsize; i++)
             for(j = 0; j < number_objective; j++)
+            {
                 fprintf(pythonplot,"%lf \n", ptr->ind[i].obj[j]);
+
+            }
     }
     if(number_objective==2)
     {
@@ -49,13 +58,20 @@ void py_plot(population_real *ptr)
         {
             pythonplot = popen("python -W ignore ./script/plot2D.py","w");
         }
+
         print_error(pythonplot==NULL,1,"cannot open python script");
 
         fprintf(pythonplot, "%d \n", popsize);
+        fprintf(pythonplot, "%d \n",gen);
+
         for(i = 0; i < popsize; i++)
             for(j = 0; j < number_objective; j++)
+            {
                 fprintf(pythonplot,"%lf \n", ptr->ind[i].obj[j]);
+
+            }
     }
+    return NULL;
 }
 
 void plot(char *filename,char *title)

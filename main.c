@@ -85,6 +85,7 @@ double* ref_point;           // reference point for Hypervolume calculation
 int analyse_list[BUFSIZE_S];
 
 FILE * pythonplot = NULL;
+pthread_t *plot_thread=NULL;
 
 int main(int argc, char *argv[])
 {

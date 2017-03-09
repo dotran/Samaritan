@@ -40,13 +40,13 @@ void track_evolution (void *ptr, int id, int end)
 
     sprintf (id_char, "%d", id);
     // set the output directory
-    sprintf (output_dir_level1, "./%s_M%d_D%d/%s/",
+    sprintf (output_dir_level1, "./out/%s_M%d_D%d/%s/",
              problem_name,
              number_objective,
              number_variable,
              algorithm_name
     );
-    sprintf (output_dir_level2, "./%s_M%d_D%d/%s/%d/",
+    sprintf (output_dir_level2, "./out/%s_M%d_D%d/%s/%d/",
              problem_name,
              number_objective,
              number_variable,
@@ -124,7 +124,7 @@ void track_evolution (void *ptr, int id, int end)
         }
         if (analyse_list[PLOT])
         {
-            py_plot(ptr);
+            py_plot(ptr,id);
         }
     }
 
@@ -166,6 +166,7 @@ void track_evolution (void *ptr, int id, int end)
         }
         if (analyse_list[PLOT])
         {
+            py_plot(NULL,0);
             // for gnuplot
             // sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
             // plot(output_file, "FUN");

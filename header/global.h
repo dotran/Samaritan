@@ -28,6 +28,7 @@
 # ifndef Samaritan_GLOBAL_H
 # define Samaritan_GLOBAL_H
 
+#include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdarg.h>
@@ -98,6 +99,7 @@ extern struct int_vector* candidate;
 extern int analyse_list[BUFSIZE_S];
 
 extern FILE * pythonplot;
+extern pthread_t *plot_thread;
 
 enum analyse_name{VAR, FUN, GD, IGD, HV, PLOT, END};
 enum NeighborType{NEIGHBOR, POPULATION};
