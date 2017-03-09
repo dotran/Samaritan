@@ -1,6 +1,10 @@
 # Samaritan
 ## Change Log
 
+### 2017/03/08
+- change PLOT from gnuplot to python(mplotlib). Can only plot 2D and 3D objective space.
+- add offline plot script plot.py, (example: python plot.py _you_folder_contained_medium_FUN_*.out) 
+
 ### 2017/03/03
 
 - combine int_vector and double_vector into vector
