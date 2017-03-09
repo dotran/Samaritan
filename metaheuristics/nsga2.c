@@ -65,7 +65,8 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
 
         // environmental selection
         merge (parent_pop, offspring_pop, mixed_pop);
-
+        
+        fill_nondominated_sort (parent_pop, mixed_pop);
         // track the current evolutionary progress, including population and metrics
         track_evolution (parent_pop, generation, evaluation_count >= max_evaluation);
     }
