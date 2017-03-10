@@ -163,64 +163,6 @@ void initialize_neighborhood ()
     return;
 }
 
-/* Initialize the ideal point */
-void initialize_idealpoint (void * pop)
-{
-    int i;
-
-    population_real * ptr = (population_real*) pop;
-    ideal_point = (double *) malloc (sizeof(double) * number_objective);    // free in moead_free
-
-    for (i = 0; i < number_objective; i++)
-        ideal_point[i] = INF;
-
-    for (i = 0 ;i < popsize ; i ++)
-        update_ideal_point (&(ptr->ind[i]));
-
-    return;
-}
-
-/* Update the current ideal point */
-void update_ideal_point (individual_real * individual)
-{
-    int i;
-
-    for (i = 0; i < number_objective; i++)
-        if (individual->obj[i] < ideal_point[i])
-            ideal_point[i] = individual->obj[i];
-
-    return;
-}
-
-/* Initialize the nadir point */
-void initialize_nadirpoint (void * pop)
-{
-    int i;
-
-    population_real * ptr = (population_real*) pop;
-    nadir_point = (double *) malloc (sizeof(double) * number_objective);    // free in moead_free
-
-    for (i = 0; i < number_objective; i++)
-        nadir_point[i] = -INF;
-
-    for (i = 0 ;i < popsize ; i ++)
-        update_nadir_point (&(ptr->ind[i]));
-
-    return;
-}
-
-/* Update the current ideal point */
-void update_nadir_point (individual_real * individual)
-{
-    int i;
-
-    for (i = 0; i < number_objective; i++)
-        if (individual->obj[i] < ideal_point[i])
-            nadir_point[i] = individual->obj[i];
-
-    return;
-}
-
 /* Tournament selection to pick the most active subproblems to evolve (based on the utility) */
 int* tour_selection (int depth)
 {

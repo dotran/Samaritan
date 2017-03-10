@@ -26,6 +26,7 @@
  */
 
 # include "../header/initialization.h"
+# include "../header/utility.h"
 
 char line[BUFSIZE_L];
 
@@ -127,4 +128,38 @@ int initialization_real (char* argv)
     print_error (seed <= 0.0 || seed >= 1.0, 1, "Entered seed value is wrong, seed value must be in (0,1)!");
 
     return 0;
+}
+
+/* Initialize the ideal point */
+void initialize_idealpoint (void * pop)
+{
+    int i;
+
+    population_real * ptr = (population_real*) pop;
+    ideal_point = (double *) malloc (sizeof(double) * number_objective);    // free in moead_free
+
+    for (i = 0; i < number_objective; i++)
+        ideal_point[i] = INF;
+
+    for (i = 0 ;i < popsize ; i ++)
+        update_ideal_point (&(ptr->ind[i]));
+
+    return;
+}
+
+/* Initialize the nadir point */
+void initialize_nadirpoint (void * pop)
+{
+    int i;
+
+    population_real * ptr = (population_real*) pop;
+    nadir_point = (double *) malloc (sizeof(double) * number_objective);    // free in moead_free
+
+    for (i = 0; i < number_objective; i++)
+        nadir_point[i] = -INF;
+
+    for (i = 0 ;i < popsize ; i ++)
+        update_nadir_point (&(ptr->ind[i]));
+
+    return;
 }

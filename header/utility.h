@@ -35,5 +35,7 @@ void _mkdir (const char *dir);
 double euclidian_distance (double *a, double *b, int dimension);
 int combination(int n, int k);
 void random_permutation(int* perm, int size);
+void update_ideal_point (individual_real *individual);
+void update_nadir_point (individual_real *individual);
 
 #endif //SAMARITAN_UTILITY_H

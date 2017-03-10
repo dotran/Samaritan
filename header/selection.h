@@ -56,11 +56,6 @@ void update_neighborhood (population_real* pop, individual_real *individual, int
 double fitnessFunction (individual_real* individual, double* lambda);
 void update_subproblem (population_real* pop, individual_real* individual, int subProblemId, int neighborType);
 
-void initialize_idealpoint (void * pop);
-void update_ideal_point (individual_real * individual);
-void initialize_nadirpoint (void * pop);
-void update_nadir_point (individual_real * individual);
-
 int* tour_selection (int depth);
 void comp_utility (population_real* pop,population_real* saved_values);
 

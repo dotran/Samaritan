@@ -121,3 +121,29 @@ void random_permutation (int* perm, int size)
 
     return;
 }
+
+/* Update the current ideal point */
+void update_ideal_point (individual_real * individual)
+{
+    int i;
+
+    for (i = 0; i < number_objective; i++)
+        if (individual->obj[i] < ideal_point[i])
+            ideal_point[i] = individual->obj[i];
+
+    return;
+}
+
+
+/* Update the current ideal point */
+void update_nadir_point (individual_real * individual)
+{
+    int i;
+
+    for (i = 0; i < number_objective; i++)
+        if (individual->obj[i] < ideal_point[i])
+            nadir_point[i] = individual->obj[i];
+
+    return;
+}
+
