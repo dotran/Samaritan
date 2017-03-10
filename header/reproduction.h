@@ -28,15 +28,14 @@
 # define Samaritan_REPRODUCTION_H
 
 # include "../header/global.h"
+# include "../header/rand.h"
+# include "../header/vector.h"
 # include "../header/selection.h"
+# include "../header/dominance.h"
 
 // mating selection
 individual_real* tournament (individual_real *ind1, individual_real *ind2);
-void parent_selection(population_real *parent_pop,individual_real*** parents,int sub_problem_id,int neighbor_type);
-
-// neighborhood selection
-int* tour_selection(int depth);
-void comp_utility(population_real* pop,population_real* saved_values);
+void parent_selection (population_real *parent_pop, individual_real*** parents, int sub_problem_id, int neighbor_type, int number_parents);
 
 // crossover
 void crossover_real (population_real *parent_pop, population_real* offspring_pop);

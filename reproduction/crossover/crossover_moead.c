@@ -25,17 +25,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../../header/global.h"
 # include "../../header/reproduction.h"
-# include "../../header/rand.h"
 
-
-void crossover_moead_real (population_real *parent_pop, individual_real* offspring, int sub_problem_id, int* neighbor_type)
+void crossover_moead_real (population_real *parent_pop, individual_real *offspring, int sub_problem_id, int *neighbor_type)
 {
     individual_real **parents = NULL;
     *neighbor_type = choose_neighbor_type ();
 
-    parent_selection (parent_pop, &parents, sub_problem_id, *neighbor_type);
+    parent_selection (parent_pop, &parents, sub_problem_id, *neighbor_type, 3);
     de (parents, offspring);
 
     free(parents);

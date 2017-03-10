@@ -42,20 +42,20 @@ set(SOURCE_FILES
         selection/moead/update.c
         selection/moead/utility.c
 
-        reproduction/mating/tournament_selection.c
-        reproduction/mating/moead_selection.c
         reproduction/crossover/crossover_nsga2.c
         reproduction/crossover/crossover_moead.c
-        reproduction/crossover/sbx.c
         reproduction/crossover/differential_evolution.c
+        reproduction/crossover/sbx.c
         reproduction/mutation/mutation_real.c
         reproduction/mutation/polymut.c
+        reproduction/mating/moead_mating.c
+        reproduction/mating/tournament_selection.c
 
         analyse/analyse.c
         analyse/plot.c
 
-        indicators/hv.c
         indicators/gd.c
+        indicators/hv.c
         indicators/igd.c
         indicators/WFG_1.15/read.c
         indicators/WFG_1.15/wfg.c

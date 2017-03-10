@@ -24,7 +24,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-# include "../header/global.h"
 # include "../header/population.h"
 # include "../header/reproduction.h"
 # include "../header/selection.h"
@@ -35,13 +34,14 @@
 void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population_real* mixed_pop)
 {
     int i, j;
-    int generation;
+    int selected_size;
+    int generation_count;
     int subproblem_id, neighbor_type;
-    population_real* saved_values;
+    population_real* saved_pop;
 
-    generation       = 1;
+    generation_count = 1;
     evaluation_count = 0;
-    printf ("Progress: 1%%");
+    printf ("|\tThe %d run\t|\t1%%\t|", run_index);
 
     // initialization process
     initialize_uniform_weight ();
@@ -50,68 +50,72 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
     evaluate_population (pop);
     initialize_idealpoint (pop);
 
-    track_evolution (pop, generation, 0);
+    track_evolution (pop, generation_count, 0);
 
-    saved_values = malloc (popsize * sizeof(population_real));
-    allocate_memory_pop (saved_values, popsize);
+    utility   = malloc (number_weight * sizeof(double));
+    frequency = malloc (number_weight * sizeof(int));
+    saved_pop = malloc (number_weight * sizeof(population_real));
+    allocate_memory_pop (saved_pop, number_weight);
 
-    utility = malloc (popsize * sizeof(double));
-    frequency = malloc (popsize * sizeof(int));
-
-    for (i = 0; i < popsize; i++) {
-        utility[i] = 1.0;
+    for (i = 0; i < number_weight; i++)
+    {
+        utility[i]   = 1.0;
         frequency[i] = 0;
     }
 
-    permutation = malloc (popsize * sizeof(int));
+    permutation = malloc (number_weight * sizeof(int));
     individual_real* offspring = &(offspring_pop->ind[0]);
 
-    while (evaluation_count < max_evaluation) {
-
+    while (evaluation_count < max_evaluation)
+    {
         //create empty head for selected and candidate
-        selected = malloc(sizeof(struct int_vector));
-        candidate = malloc(sizeof(struct int_vector));
-        selected->value = INT_MIN;
-        selected->next=NULL;
+        selected  = malloc (sizeof(struct int_vector));
+        candidate = malloc (sizeof(struct int_vector));
+        selected->value  = INT_MIN;
+        selected->next   = NULL;
         candidate->value = INT_MIN;
-        candidate->next=NULL;
+        candidate->next  = NULL;
 
-        print_progress (generation);
-        random_permutation (permutation,popsize);
-        tour_selection(neighbor_size);
-        for (i = 0; i < int_vector_size(selected); i++)
+        print_progress ();
+        random_permutation (permutation, number_weight);
+        // select the current most active subproblems to evolve (based on utility)
+        tour_selection (neighbor_size);
+        selected_size = int_vector_size (selected);
+        for (i = 0; i < selected_size; i++)
         {
-
-            int n = int_vector_get(selected,i+1);
-            frequency[n]++;
+            j = int_vector_get (selected, i + 1);
+            frequency[j]++;
 
             subproblem_id = permutation[i];
 
-            crossover_moead_real (pop, offspring, n, &neighbor_type);
+            // crossover and mutation
+            crossover_moead_real (pop, offspring, j, &neighbor_type);
             mutation_ind (offspring);
             evaluate_individual (offspring);
 
+            // update the ideal point
             update_ideal_point (offspring);
 
-            update_neighborhood (pop,offspring, n, neighbor_type);
+            // update the subproblem
+            update_subproblem (pop, offspring, j, neighbor_type);
         }
 
-        generation ++;
-        if (generation % 30 == 0) {
-            comp_utility(pop,saved_values);
-        }
-        track_evolution (pop, generation, evaluation_count >= max_evaluation);
+        generation_count++;
+        if (generation_count % 30 == 0)
+            comp_utility (pop, saved_pop);
 
-        int_vector_free(selected);
-        int_vector_free(candidate);
+        track_evolution (pop, generation_count, evaluation_count >= max_evaluation);
+
+        int_vector_free (selected);
+        int_vector_free (candidate);
     }
 
     free (permutation);
     moead_free ();
-    free(utility);
-    free(frequency);
-    deallocate_memory_pop(saved_values,popsize);
-    free(saved_values);
+    free (utility);
+    free (frequency);
+    deallocate_memory_pop (saved_pop, number_weight);
+    free (saved_pop);
 
     return;
 }

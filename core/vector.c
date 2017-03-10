@@ -28,10 +28,10 @@
 #include "../header/vector.h"
 
 /* int vector */
-int int_vector_size (struct int_vector* head)
+int int_vector_size (struct int_vector *head)
 {
     int size;
-    struct int_vector* node;
+    struct int_vector *node;
 
     size = 0;
     node = head;
@@ -44,18 +44,18 @@ int int_vector_size (struct int_vector* head)
     return size;
 }
 
-void int_vector_pushback (struct int_vector* head, int value)
+void int_vector_pushback (struct int_vector *head, int value)
 {
-    struct int_vector* ptr;
-    struct int_vector* temp;
+    struct int_vector *ptr;
+    struct int_vector *temp;
 
-    print_error (head == NULL, 1, "NULL head in int_vector_push\n");
+    print_error (head == NULL, 1, "NULL head in int_vector_push!");
 
     ptr = head;
     while (ptr->next != NULL)
         ptr = ptr->next;
 
-    temp = (struct int_vector *) malloc (sizeof(struct int_vector));
+    temp        = (struct int_vector *) malloc (sizeof(struct int_vector));
     ptr->next   = temp;
     temp->value = value;
     temp->next  = NULL;
@@ -63,12 +63,12 @@ void int_vector_pushback (struct int_vector* head, int value)
     return;
 }
 
-int int_vector_pop (struct int_vector* head)
+int int_vector_pop (struct int_vector *head)
 {
     int value;
-    struct int_vector* ptr;
+    struct int_vector *ptr;
 
-    print_error (head == NULL, 1, "NULL head in int_vector_pop\n");
+    print_error (head == NULL, 1, "NULL head in int_vector_pop!");
 
     ptr = head;
     while (ptr->next != NULL && ptr->next->next != NULL)
@@ -81,12 +81,12 @@ int int_vector_pop (struct int_vector* head)
     return value;
 }
 
-int int_vector_get (struct int_vector* head, int index)
+int int_vector_get (struct int_vector *head, int index)
 {
     int i;
-    struct int_vector* ptr;
+    struct int_vector *ptr;
 
-    print_error(head == NULL, 1, "NULL head in int_vector_get\n");
+    print_error(head == NULL, 1, "NULL head in int_vector_get!");
 
     ptr = head;
     for(i = 0 ; i < index; i++)
@@ -103,62 +103,64 @@ int int_vector_get (struct int_vector* head, int index)
 void int_vector_set (struct int_vector* head, int index, int value)
 {
     int i;
-    struct int_vector* ptr;
+    struct int_vector *ptr;
 
-    print_error(head == NULL, 1, "NULL head in int_vector_get\n");
+    print_error (head == NULL, 1, "NULL head in int_vector_get!");
 
     ptr = head;
-    for(i = 0 ; i < index; i++)
+    for (i = 0 ; i < index; i++)
     {
-        if(ptr->next != NULL)
+        if (ptr->next != NULL)
             ptr = ptr-> next;
         else
-            print_error(1,1,"Error index in int_vector_set");
+            print_error (1, 1, "Error index in int_vector_set!");
     }
 
     ptr->value = value;
+
+    return;
 }
 
-void int_vector_remove(struct int_vector* head, int index)
+void int_vector_remove (struct int_vector *head, int index)
 {
     int i;
-    struct int_vector* ptr;
-    struct int_vector* pre;
+    struct int_vector *ptr;
+    struct int_vector *pre;
 
-    print_error(head == NULL, 1, "NULL head in int_vector_get\n");
+    print_error (head == NULL, 1, "NULL head in int_vector_get!");
 
     ptr = head;
     pre = head;
-    print_error(index == 0, 1, "Error, cannot remove head ptr in int_vector_remove");
-    for(i = 0 ; i < index; i++)
+    print_error (index == 0, 1, "Error, cannot remove head ptr in int_vector_remove!");
+    for (i = 0 ; i < index; i++)
     {
         if(ptr->next != NULL)
             ptr = ptr-> next;
         else
-            print_error(1,1,"Error index in int_vector_remove");
+            print_error (1, 1, "Error index in int_vector_remove!");
     }
 
-
+    return;
 }
 
-void int_vector_free (struct int_vector* head)
+void int_vector_free (struct int_vector *head)
 {
-    if(head != NULL)
+    if (head != NULL)
         int_vector_free (head->next);
     free (head);
 
     return;
 }
 
-void int_vector_print (struct int_vector* head)
+void int_vector_print (struct int_vector *head)
 {
     int index;
-    struct int_vector* ptr;
+    struct int_vector *ptr;
 
     index = 0;
-    ptr = head;
+    ptr   = head;
     printf ("\n");
-    while(ptr != NULL)
+    while (ptr != NULL)
     {
         printf ("(%d, %d)", index, ptr->value);
         index++;
@@ -170,10 +172,10 @@ void int_vector_print (struct int_vector* head)
 }
 
 /* double vector */
-int double_vector_size (struct double_vector* head)
+int double_vector_size (struct double_vector *head)
 {
     int size;
-    struct double_vector * node;
+    struct double_vector *node;
 
     size = 0;
     node = head;
@@ -185,18 +187,18 @@ int double_vector_size (struct double_vector* head)
     return size;
 }
 
-void double_vector_pushback (struct double_vector* head, double value)
+void double_vector_pushback (struct double_vector *head, double value)
 {
-    struct double_vector* ptr;
-    struct double_vector* temp;
+    struct double_vector *ptr;
+    struct double_vector *temp;
 
-    print_error (head == NULL, 1, "NULL head in double_vector_push\n");
+    print_error (head == NULL, 1, "NULL head in double_vector_push!");
 
     ptr = head;
     while (ptr->next != NULL)
         ptr = ptr->next;
 
-    temp = (struct double_vector *) malloc (sizeof(struct double_vector));
+    temp        = (struct double_vector *) malloc (sizeof(struct double_vector));
     ptr->next   = temp;
     temp->value = value;
     temp->next  = NULL;
@@ -204,12 +206,12 @@ void double_vector_pushback (struct double_vector* head, double value)
     return;
 }
 
-double double_vector_pop (struct double_vector* head)
+double double_vector_pop (struct double_vector *head)
 {
     double value;
-    struct double_vector * ptr;
+    struct double_vector *ptr;
 
-    print_error (head == NULL, 1, "NULL head in double_vector_pop\n");
+    print_error (head == NULL, 1, "NULL head in double_vector_pop!");
 
     ptr = head;
     while (ptr->next != NULL && ptr->next->next != NULL)
@@ -222,12 +224,12 @@ double double_vector_pop (struct double_vector* head)
     return value;
 }
 
-double double_vector_get (struct double_vector* head, int index)
+double double_vector_get (struct double_vector *head, int index)
 {
     int i;
-    struct double_vector* ptr;
+    struct double_vector *ptr;
 
-    print_error (head == NULL, 1, "NULL head in double_vector_get\n");
+    print_error (head == NULL, 1, "NULL head in double_vector_get!");
 
     ptr = head;
     for(i = 0; i < index; i++)
@@ -242,7 +244,7 @@ double double_vector_get (struct double_vector* head, int index)
 }
 
 
-void double_vector_free (struct double_vector* head)
+void double_vector_free (struct double_vector *head)
 {
     if (head != NULL)
         double_vector_free (head->next);
@@ -251,10 +253,10 @@ void double_vector_free (struct double_vector* head)
     return;
 }
 
-void double_vector_print (struct double_vector* head)
+void double_vector_print (struct double_vector *head)
 {
     int index;
-    struct double_vector* ptr;
+    struct double_vector *ptr;
 
     index = 0;
     ptr   = head;

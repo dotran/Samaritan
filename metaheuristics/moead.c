@@ -39,7 +39,7 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
 
     generation       = 1;
     evaluation_count = 0;
-    printf ("Progress: 1%%");
+    printf ("|\tThe %d run\t|\t1%%\t|", run_index);
 
     // initialization process
     initialize_uniform_weight ();
@@ -50,27 +50,29 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
 
     track_evolution (pop, generation, 0);
 
-    permutation = malloc (popsize * sizeof(int));
+    permutation = malloc (number_weight * sizeof(int));
     individual_real* offspring = &(offspring_pop->ind[0]);
 
     while (evaluation_count < max_evaluation) {
-        print_progress (generation);
+        print_progress ();
 
-        random_permutation (permutation,popsize);
-        for (i = 0; i < popsize; i++)
+        random_permutation (permutation, number_weight);
+        for (i = 0; i < number_weight; i++)
         {
             subproblem_id = permutation[i];
 
+            // crossover and mutation
             crossover_moead_real (pop, offspring, subproblem_id, &neighbor_type);
             mutation_ind (offspring);
             evaluate_individual (offspring);
 
+            // update ideal point
             update_ideal_point (offspring);
 
-            update_neighborhood (pop,offspring, subproblem_id, neighbor_type);
+            // update subproblem
+            update_subproblem (pop, offspring, subproblem_id, neighbor_type);
         }
-
-        generation ++;
+        generation++;
         track_evolution (pop, generation, evaluation_count >= max_evaluation);
     }
 

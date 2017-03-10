@@ -36,7 +36,7 @@ void moead_free ()
 
     free (ideal_point);
 
-    for (i = 0; i < reference_size; i++)
+    for (i = 0; i < number_weight; i++)
         free (lambda[i]);
     free (lambda);
 
@@ -69,16 +69,17 @@ void initialize_uniform_weight ()
         if (gaps_table[layer] <= 0)
             break;
 
-    reference_size = 0;
+    number_weight = 0;
     layer_size = (int *) malloc (sizeof(int) * layer);
     for (i = 0; i < layer; i++)
     {
         layer_size[i]  = combination (number_objective + gaps_table[i] - 1, gaps_table[i]);
-        reference_size = reference_size + layer_size[i];
+        number_weight = number_weight + layer_size[i];
     }
+    print_error (number_weight != popsize, 1, "Number of weight vectors must be equal to the population size!");
 
-    lambda = (double **) malloc (reference_size * sizeof(double *));
-    for (i = 0; i < reference_size; i++)
+    lambda = (double **) malloc (number_weight * sizeof(double *));
+    for (i = 0; i < number_weight; i++)
         lambda[i] = (double *) malloc(number_objective * sizeof(double));
 
     C   = 0;
@@ -97,14 +98,10 @@ void initialize_uniform_weight ()
             }
         ptr    = ptr + layer_size[l];
         shrink = shrink * 0.8;
-        free(Vec);
+        free (Vec);
     }
-    free(layer_size);
+    free (layer_size);
 
-    if(reference_size<popsize)
-    {
-        popsize = reference_size;
-    }
     return;
 }
 
@@ -142,21 +139,21 @@ void initialize_neighborhood ()
     int i, j;
     struct double_s *dist;
 
-    dist         = (struct double_s*) malloc (sizeof(struct double_s) * reference_size);
+    dist         = (struct double_s*) malloc (sizeof(struct double_s) * number_weight);
     neighborhood = (int **) malloc (popsize * sizeof(int *));   // free in moead_free
 
     for (i = 0; i < popsize; i++)
         neighborhood[i] = (int *) malloc (neighbor_size * sizeof(int));
     for (i = 0; i < popsize; i++)
     {
-        int id = i % reference_size;
+        int id = i % number_weight;
         // calculate the distances based on weight vectors
-        for (j = 0; j < reference_size; j++)
+        for (j = 0; j < number_weight; j++)
         {
             dist[j].x   = euclidian_distance (lambda[id], lambda[j], number_objective);
             dist[j].idx = j;
         }
-        qsort (dist, reference_size, sizeof(struct double_s), sort_double_cmp);  // ascending order
+        qsort (dist, number_weight, sizeof(struct double_s), sort_double_cmp);  // ascending order
         for( j = 0 ; j < neighbor_size ; j ++)
             neighborhood[i][j] = dist[j].idx;
     }
@@ -220,6 +217,69 @@ void update_nadir_point (individual_real * individual)
     for (i = 0; i < number_objective; i++)
         if (individual->obj[i] < ideal_point[i])
             nadir_point[i] = individual->obj[i];
+
+    return;
+}
+
+/* Tournament selection to pick the most active subproblems to evolve (based on the utility) */
+int* tour_selection (int depth)
+{
+    int i;
+    int selected_size, candidate_size;
+    int best_candidate_id, best_subproblem_id;
+    int random, temp_candidate_id;
+
+    for (i = 0; i < number_objective; i++)
+        int_vector_pushback (selected, i);
+    selected_size = int_vector_size (selected);
+
+    for (i = number_objective; i < number_weight; i++)
+        int_vector_pushback (candidate, i);
+    candidate_size = int_vector_size (candidate);
+
+    while (selected_size < (int) (number_weight / 5.0))
+    {
+        best_candidate_id  = (int) (rndreal(0,1) * candidate_size);
+        best_subproblem_id = int_vector_get (candidate, best_candidate_id + 1);
+        for (i = 1; i < depth; i++)
+        {
+            random            = (int) (rndreal (0, 1) * candidate_size);
+            temp_candidate_id = int_vector_get (candidate, random + 1);
+            if (utility[temp_candidate_id] > utility[best_subproblem_id])
+            {
+                best_candidate_id  = random;
+                best_subproblem_id = temp_candidate_id;
+            }
+        }
+        int_vector_pushback (selected, best_subproblem_id);
+        selected_size++;
+
+        int_vector_remove (candidate, best_candidate_id + 1);
+        candidate_size--;
+    }
+}
+
+/* Update the utility of each subproblem */
+void comp_utility (population_real* pop, population_real* saved_values)
+{
+    int i;
+    double f1, f2, cur_utility, delta;
+
+    for (i = 0; i < popsize; i++)
+    {
+        f1 = fitnessFunction (&(pop->ind[i]), lambda[i]);
+        f2 = fitnessFunction (&(saved_values->ind[i]), lambda[i]);
+
+        delta = f2 - f1;
+        if (delta > 0.001)
+            utility[i] = 1.0;
+        else
+        {
+            cur_utility = (0.95 + (0.05 * delta / 0.001)) * utility[i];
+            utility[i] = cur_utility < 1.0 ? cur_utility : 1.0;
+        }
+        copy_ind (&(pop->ind[i]), &(saved_values->ind[i]));
+    }
 
     return;
 }

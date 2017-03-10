@@ -65,9 +65,9 @@ int initialization_real (char* argv)
     eta_m     = 20.0;
 
     // differential evolution parameter settings
-    DEFAULT_CR = 0.5;
-    DEFAULT_F  = 0.5;
-    DEFAULT_K  = 0.5;
+    CR = 0.5;
+    F  = 0.5;
+    K  = 0.5;
 
     // intrisic parameters used in MOEA/D variants
     neighbor_size = 20;
@@ -124,7 +124,7 @@ int initialization_real (char* argv)
     srand ((unsigned) time (NULL));
     random = rand () % 1000;
     seed   = (float) random / 1000.0;
-    print_error (seed <= 0.0 || seed >= 1.0, 1, "Entered seed value is wrong, seed value must be in (0,1)");
+    print_error (seed <= 0.0 || seed >= 1.0, 1, "Entered seed value is wrong, seed value must be in (0,1)!");
 
     return 0;
 }

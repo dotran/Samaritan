@@ -27,7 +27,7 @@
 
 # include "../../header/selection.h"
 
-void update_neighborhood (population_real* pop, individual_real* individual, int subProblemId, int neighborType)
+void update_subproblem (population_real* pop, individual_real* individual, int subProblemId, int neighborType)
 {
     int i, k;
     int time, size;

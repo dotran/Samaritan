@@ -50,54 +50,56 @@
 # define BUFSIZE_M 128
 # define BUFSIZE_L 256
 
-extern int max_evaluation;
-extern int evaluation_count;         // maximum number of generations
+/* common paramters */
 extern int run_index;
-extern int popsize;                 // population size
-extern int neighbor_size;
-extern int reference_size;
-extern double neighborhood_selection_probability;
-extern int number_variable;         // number of variables
-extern int number_objective;        // number of objectives
 extern int run_index_begin;
 extern int run_index_end;
-extern double* variable_lowerbound; // variable lower bound
-extern double* variable_upperbound; // variable upper bound
-extern double eta_c;
-extern double eta_m;
-extern double pcross_real;
-extern double pmut_real;
-extern double DEFAULT_CR;
-extern double DEFAULT_F;
-extern double DEFAULT_K;
+extern int max_evaluation;              // maximum number of evaluations (stopping criterion)
+extern int evaluation_count;            // evaluation counter
+extern int popsize;                     // population size
+extern int number_variable;             // number of variables
+extern int number_objective;            // number of objectives
+extern double* ideal_point;             // ideal point
+extern double* nadir_point;             // nadir point
+extern double* variable_lowerbound;     // variable lower bound
+extern double* variable_upperbound;     // variable upper bound
 extern char dummy[BUFSIZE_S];
 extern char problem_name[BUFSIZE_S];
 extern char algorithm_name[BUFSIZE_S];
 extern char analyse_stream[BUFSIZE_L];
 
-extern int runtime_output;
-extern int output_interval;
+/* crossover and mutation */
+extern double eta_c;                    // eta_c in SBX
+extern double eta_m;                    // eta_m in polynomial mutation
+extern double pcross_real;              // crossover rate for real encoded
+extern double pmut_real;                // mutation rate for real encoded
+extern double CR;                       // CR in DE
+extern double F;                        // F in DE
+extern double K;
 
+/* performance metrics */
 extern int PF_size;                 // size of the true Pareto-optimal Front
 extern double** PF_data;            // true Pareto-optimal front data
 extern double* ref_point;           // reference point for Hypervolume calculation
 
-extern double** lambda;
-extern int** neighborhood;
-extern double* ideal_point;         // ideal point
-extern double* nadir_point;         // nadir point
-extern int* permutation;
-extern int maximumNumberOfReplacedSolutions; // the maximum replacement number of a superior offspring
-extern int function_type;                    // aggregation function type
-
-
-extern double* utility;
-extern int* frequency;
+/* MOEA/D variants */
+extern int neighbor_size;                           // neighborhood length
+extern int number_weight;                           // number of weight vectors
+extern int function_type;                           // type of the aggregation function
+extern int maximumNumberOfReplacedSolutions;        // the maximum replacement number of a superior offspring
+extern double neighborhood_selection_probability;   // probability to replace in the neighborhood
+extern double** lambda;                             // weight vectors
+extern int** neighborhood;                          // neighborhood structure
+extern int* permutation;                            // subproblem index permutation
+extern int* frequency;                              // subproblem usages counter arrary
+extern double* utility;                             // subproblem utility array
 extern struct int_vector* selected;
 extern struct int_vector* candidate;
 
+/* analysis platform */
+extern int runtime_output;
+extern int output_interval;
 extern int analyse_list[BUFSIZE_S];
-
 extern FILE * pythonplot;
 extern pthread_t *plot_thread;
 

@@ -25,9 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../../header/global.h"
 # include "../../header/reproduction.h"
-# include "../../header/rand.h"
 
 void crossover_real (population_real *parent_pop, population_real* offspring_pop)
 {

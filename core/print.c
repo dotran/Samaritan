@@ -74,7 +74,7 @@ void print_weights (char *file_name)
     FILE *fpt;
 
     fpt = fopen (file_name, "w");
-    for (i = 0; i < reference_size; i++)
+    for (i = 0; i < number_weight; i++)
     {
         for (j = 0; j < number_objective; j++)
             fprintf (fpt, "%lf\t", lambda[i][j]);
@@ -86,11 +86,9 @@ void print_weights (char *file_name)
 }
 
 /* Print the current evolution progress */
-void print_progress (int generation)
+void print_progress ()
 {
-
-
-    printf ("\r|The %d run | %d%%\t|", run_index ,evaluation_count * 100 / max_evaluation + 1);
+    printf ("\r|\tThe %d run\t|\t%d%%\t|", run_index, evaluation_count * 100 / max_evaluation + 1);
     fflush (stdout);
 
     return;

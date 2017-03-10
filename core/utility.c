@@ -116,8 +116,8 @@ void random_permutation (int* perm, int size)
         }
     }
 
-    free(index);
-    free(flag);
+    free (index);
+    free (flag);
 
     return;
 }

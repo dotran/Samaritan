@@ -33,59 +33,58 @@
 # include "header/memory.h"
 # include "header/analyse.h"
 
-int DEBUG;
-
-int popsize;                 // population size
-int number_variable;         // number of variables
-int number_objective;        // number of objectives
-int run_index;               // index of the current experiment
+/* common paramters */
+int run_index;
 int run_index_begin;
 int run_index_end;
-double* variable_lowerbound; // variable lower bound
-double* variable_upperbound; // variable upper bound
-double eta_c;
-double eta_m;
-double pcross_real;
-double pmut_real;
-int neighbor_size;
-int reference_size;
-double neighborhood_selection_probability;
-double DEFAULT_CR;
-double DEFAULT_F;
-double DEFAULT_K;
-
-double** lambda;
-int** neighborhood;
-double* ideal_point;        // ideal point
-double* nadir_point;        // nadir point
-int* permutation;
-int maximumNumberOfReplacedSolutions; // global
-int function_type;   // global
-
-
-double* utility;
-int* frequency;
-struct int_vector* selected;
-struct int_vector* candidate;
-
-
+int max_evaluation;              // maximum number of evaluations (stopping criterion)
+int evaluation_count;            // evaluation counter
+int popsize;                     // population size
+int number_variable;             // number of variables
+int number_objective;            // number of objectives
+double* ideal_point;             // ideal point
+double* nadir_point;             // nadir point
+double* variable_lowerbound;     // variable lower bound
+double* variable_upperbound;     // variable upper bound
 char dummy[BUFSIZE_S];
 char problem_name[BUFSIZE_S];
 char algorithm_name[BUFSIZE_S];
 char analyse_stream[BUFSIZE_L];
 
-int runtime_output;
-int output_interval;
-int evaluation_count;
-int max_evaluation;
+/* crossover and mutation */
+double eta_c;                    // eta_c in SBX
+double eta_m;                    // eta_m in polynomial mutation
+double pcross_real;              // crossover rate for real encoded
+double pmut_real;                // mutation rate for real encoded
+double CR;                       // CR in DE
+double F;                        // F in DE
+double K;
+
+/* performance metrics */
 int PF_size;                 // size of the true Pareto-optimal Front
 double** PF_data;            // true Pareto-optimal front data
 double* ref_point;           // reference point for Hypervolume calculation
 
-int analyse_list[BUFSIZE_S];
+/* MOEA/D variants */
+int neighbor_size;                           // neighborhood length
+int number_weight;                           // number of weight vectors
+int function_type;                           // type of the aggregation function
+int maximumNumberOfReplacedSolutions;        // the maximum replacement number of a superior offspring
+double neighborhood_selection_probability;   // probability to replace in the neighborhood
+double** lambda;                             // weight vectors
+int** neighborhood;                          // neighborhood structure
+int* permutation;                            // subproblem index permutation
+int* frequency;                              // subproblem usages counter arrary
+double* utility;                             // subproblem utility array
+struct int_vector* selected;
+struct int_vector* candidate;
 
-FILE * pythonplot = NULL;
-pthread_t *plot_thread=NULL;
+/* analysis platform */
+int runtime_output;
+int output_interval;
+int analyse_list[BUFSIZE_S];
+FILE * pythonplot;
+pthread_t *plot_thread;
 
 int main(int argc, char *argv[])
 {
@@ -107,7 +106,7 @@ int main(int argc, char *argv[])
 
     // run experiments
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
-        printf ("--------------------\n");
+        printf ("-----------------------------\n");
         printf ("|\tThe %d run\t|\t", run_index);
         if (!strcmp(algorithm_name, "NSGA2"))
             NSGA2 (parent_pop, offspring_pop, mixed_pop);
@@ -119,8 +118,7 @@ int main(int argc, char *argv[])
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
         printf ("\n");
     }
-    printf ("--------------------\n");
-    //analyse_all ();
+    printf ("-----------------------------\n");
 
     // free memory
     if (number_variable != 0)

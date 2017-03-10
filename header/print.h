@@ -32,7 +32,7 @@
 
 void print_variable (char *file_name, void * ptr);
 void print_objective (char *file_name, void * ptr);
-void print_progress (int generation);
+void print_progress ();
 void print_error (int condition, int n, ...);
 
 # endif // Samaritan_PRINT_H

@@ -25,7 +25,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../../header/reproduction.h"
-#include "../../header/rand.h"
 
 void de (individual_real **parents, individual_real *child)
 {

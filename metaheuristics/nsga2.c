@@ -53,7 +53,7 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     {
 
         generation ++;
-        print_progress (generation);
+        print_progress ();
 
         // reproduction (crossover and mutation)
         crossover_real (parent_pop, offspring_pop);
