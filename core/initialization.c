@@ -37,8 +37,8 @@ int initialization_real (char* argv)
     char configFileName[BUFSIZE_S];
     char PF_name[BUFSIZE_S];
 
-    FILE * PF     = NULL;
-    FILE * config = NULL;
+    FILE *PF     = NULL;
+    FILE *config = NULL;
 
     // read some parameters from configure file
     strcpy (configFileName, argv);
