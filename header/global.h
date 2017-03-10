@@ -59,10 +59,10 @@ extern int evaluation_count;            // evaluation counter
 extern int popsize;                     // population size
 extern int number_variable;             // number of variables
 extern int number_objective;            // number of objectives
-extern double* ideal_point;             // ideal point
-extern double* nadir_point;             // nadir point
-extern double* variable_lowerbound;     // variable lower bound
-extern double* variable_upperbound;     // variable upper bound
+extern double *ideal_point;             // ideal point
+extern double *nadir_point;             // nadir point
+extern double *variable_lowerbound;     // variable lower bound
+extern double *variable_upperbound;     // variable upper bound
 extern char dummy[BUFSIZE_S];
 extern char problem_name[BUFSIZE_S];
 extern char algorithm_name[BUFSIZE_S];
@@ -79,8 +79,8 @@ extern double K;
 
 /* performance metrics */
 extern int PF_size;                 // size of the true Pareto-optimal Front
-extern double** PF_data;            // true Pareto-optimal front data
-extern double* ref_point;           // reference point for Hypervolume calculation
+extern double **PF_data;            // true Pareto-optimal front data
+extern double *ref_point;           // reference point for Hypervolume calculation
 
 /* MOEA/D variants */
 extern int neighbor_size;                           // neighborhood length
@@ -88,19 +88,19 @@ extern int number_weight;                           // number of weight vectors
 extern int function_type;                           // type of the aggregation function
 extern int maximumNumberOfReplacedSolutions;        // the maximum replacement number of a superior offspring
 extern double neighborhood_selection_probability;   // probability to replace in the neighborhood
-extern double** lambda;                             // weight vectors
-extern int** neighborhood;                          // neighborhood structure
-extern int* permutation;                            // subproblem index permutation
-extern int* frequency;                              // subproblem usages counter arrary
+extern double **lambda;                             // weight vectors
+extern int **neighborhood;                          // neighborhood structure
+extern int *permutation;                            // subproblem index permutation
+extern int *frequency;                              // subproblem usages counter arrary
 extern double* utility;                             // subproblem utility array
-extern struct int_vector* selected;
-extern struct int_vector* candidate;
+extern struct int_vector *selected;
+extern struct int_vector *candidate;
 
 /* analysis platform */
 extern int runtime_output;
 extern int output_interval;
 extern int analyse_list[BUFSIZE_S];
-extern FILE * pythonplot;
+extern FILE *pythonplot;
 extern pthread_t *plot_thread;
 
 enum analyse_name{VAR, FUN, GD, IGD, HV, PLOT, END};
