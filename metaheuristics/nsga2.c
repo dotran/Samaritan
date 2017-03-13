@@ -51,7 +51,6 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     track_evolution (parent_pop, generation, 0);
     while (evaluation_count<max_evaluation)
     {
-
         generation ++;
         print_progress ();
 

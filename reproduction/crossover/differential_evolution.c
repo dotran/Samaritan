@@ -38,9 +38,9 @@ void de (individual_real **parents, individual_real *child)
     {
         yl = variable_lowerbound[i];
         yu = variable_upperbound[i];
-        if (rndreal(0, 1) < DEFAULT_CR || i == r)
+        if (rndreal(0, 1) < CR || i == r)
         {
-            value = parents[2]->xreal[i] + DEFAULT_F * (parents[0] -> xreal[i] - parents[1]->xreal[i]);
+            value = parents[2]->xreal[i] + F * (parents[0] -> xreal[i] - parents[1]->xreal[i]);
             value = (value > yu) ? yu : (value < yl) ? yl : value;
         }
         else
