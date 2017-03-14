@@ -168,8 +168,8 @@ void track_evolution (void *ptr, int id, int end)
         {
             py_plot(NULL,0);
             // for gnuplot
-            // sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
-            // plot(output_file, "FUN");
+            sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
+            plot(output_file, "FUN");
         }
 
     }

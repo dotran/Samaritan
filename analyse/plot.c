@@ -71,6 +71,7 @@ void *py_plot(void *pop,int gen)
 
             }
     }
+    fflush(pythonplot);
     return NULL;
 }
 

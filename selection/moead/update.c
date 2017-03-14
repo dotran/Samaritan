@@ -26,6 +26,7 @@
  */
 
 # include "../../header/selection.h"
+# include "../../header/global.h"
 
 void update_subproblem (population_real* pop, individual_real* individual, int subProblemId, int neighborType)
 {
@@ -37,7 +38,7 @@ void update_subproblem (population_real* pop, individual_real* individual, int s
     if (neighborType == NEIGHBOR)
         size = neighbor_size;
     else
-        size = reference_size;
+        size = number_weight;
 
     perm = malloc (sizeof(int) * size);
     random_permutation (perm, size);

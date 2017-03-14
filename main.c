@@ -114,6 +114,9 @@ int main(int argc, char *argv[])
             MOEAD (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp(algorithm_name, "MOEAD_DRA"))
             MOEAD_DRA (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp(algorithm_name, "MOEAD_STM"))
+            MOEAD_STM (parent_pop, offspring_pop, mixed_pop);
+
         else
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
         printf ("\n");
