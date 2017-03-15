@@ -44,5 +44,6 @@ void dtlz4 (double *xreal, double *obj);
 void dtlz5 (double *xreal, double *obj);
 void dtlz6 (double *xreal, double *obj);
 void dtlz7 (double *xreal, double *obj);
+void uf1 (double *xreal, double *obj);
 
 # endif // Samaritan_PROBLEMS_H
