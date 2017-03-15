@@ -24,6 +24,19 @@
 
 # include "../header/utility.h"
 
+/* Calculate the L2-norm of a vector */
+double norm_vector (double *a)
+{
+    int i;
+    double sum;
+
+    sum = 0;
+    for (i = 0; i < number_objective; i++)
+        sum += a[i] * a[i];
+
+    return sqrt (sum);
+}
+
 /* Calculate the Euclidean distance between two points */
 double euclidian_distance (double *a, double *b, int dimension)
 {
