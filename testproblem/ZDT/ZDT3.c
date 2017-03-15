@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../../header/global.h"
+# include "../../header/problems.h"
 
 void zdt3 (double *xreal, double *obj)
 {
