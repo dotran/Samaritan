@@ -43,6 +43,7 @@ set(SOURCE_FILES
         selection/nsga2/qsort.c
         selection/moead/update.c
         selection/moead/utility.c
+        selection/moead_stm/stm_selection.c
         selection/moead_stm/utility.c
 
         reproduction/crossover/crossover_nsga2.c
