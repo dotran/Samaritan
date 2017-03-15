@@ -1,4 +1,4 @@
-algorithm_name: MOEAD_STM
+algorithm_name: MOEAD_STM_DRA
 test_problem: DTLZ2
 number_variable 10
 number_objective 2

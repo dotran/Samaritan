@@ -24,7 +24,12 @@
 
 #include "../header/rank_sort.h"
 
-int sort_double_cmp (const void * a, const void * b)
+int double_with_index_smaller_cmp (const void * a, const void * b)
 {
-    return (*(struct double_s *)a).x < (*(struct double_s *)b).x;
+    return (*(struct double_with_index *)a).x < (*(struct double_with_index *)b).x;
+}
+
+int double_with_index_greater_cmp (const void * a, const void * b)
+{
+    return (*(struct double_with_index *)a).x > (*(struct double_with_index *)b).x;
 }

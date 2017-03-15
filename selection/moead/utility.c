@@ -137,9 +137,9 @@ void set_weight (double *v, double unit, double sum, int dim)
 void initialize_neighborhood ()
 {
     int i, j;
-    struct double_s *dist;
+    struct double_with_index *dist;
 
-    dist         = (struct double_s*) malloc (sizeof(struct double_s) * number_weight);
+    dist         = (struct double_with_index*) malloc (sizeof(struct double_with_index) * number_weight);
     neighborhood = (int **) malloc (popsize * sizeof(int *));   // free in moead_free
 
     for (i = 0; i < popsize; i++)
@@ -153,7 +153,7 @@ void initialize_neighborhood ()
             dist[j].x   = euclidian_distance (lambda[id], lambda[j], number_objective);
             dist[j].idx = j;
         }
-        qsort (dist, number_weight, sizeof(struct double_s), sort_double_cmp);  // ascending order
+        qsort (dist, number_weight, sizeof(struct double_with_index), double_with_index_smaller_cmp);  // ascending order
         for( j = 0 ; j < neighbor_size ; j ++)
             neighborhood[i][j] = dist[j].idx;
     }

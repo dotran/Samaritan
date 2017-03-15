@@ -59,4 +59,11 @@ void update_subproblem (population_real* pop, individual_real* individual, int s
 int* tour_selection (int depth);
 void comp_utility (population_real* pop,population_real* saved_values);
 
+/* MOEA/D-STM */
+
+int prefers(int x, int y, struct double_with_index* womanPref, int size);
+void stableMatching(int *statusMan,int * statusWoman , int * next, struct double_with_index** man_pref, struct double_with_index** woman_pref, int menSize, int womenSize);
+double norm_vector(double* z);
+double calculateDistance2(individual_real* individual, double* lambda);
+
 # endif // Samaritan_SELECTION_H

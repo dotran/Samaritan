@@ -25,13 +25,15 @@
 #ifndef SAMARITAN_RANK_SORT_H
 #define SAMARITAN_RANK_SORT_H
 
-typedef struct double_s
+typedef struct double_with_index
 {
     int idx;
     double x;
 }mysort;
 
-int sort_double_cmp (const void * a, const void * b);
+int double_with_index_smaller_cmp (const void * a, const void * b);
+
+int double_with_index_greater_cmp (const void * a, const void * b);
 
 
 #endif //SAMARITAN_RANK_SORT_H

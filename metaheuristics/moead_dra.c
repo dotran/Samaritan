@@ -65,7 +65,6 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
         frequency[i] = 0;
     }
 
-    permutation = malloc (number_weight * sizeof(int));
     individual_real* offspring = &(offspring_pop->ind[0]);
 
     while (evaluation_count < max_evaluation)
@@ -79,7 +78,6 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
         candidate->next  = NULL;
 
         print_progress ();
-        random_permutation (permutation, number_weight);
         // select the current most active subproblems to evolve (based on utility)
         tour_selection (neighbor_size);
         selected_size = int_vector_size (selected);
@@ -88,7 +86,6 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
             j = int_vector_get (selected, i + 1);
             frequency[j]++;
 
-            subproblem_id = permutation[i];
 
             // crossover and mutation
             crossover_moead_real (pop, offspring, j, &neighbor_type);
@@ -112,7 +109,6 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
         int_vector_free (candidate);
     }
 
-    free (permutation);
     moead_free ();
     free (utility);
     free (frequency);
