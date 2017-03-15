@@ -28,10 +28,20 @@
 #ifndef SAMARITAN_METAHEURISTICS_H
 #define SAMARITAN_METAHEURISTICS_H
 
-void NSGA2(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
-void MOEAD(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
-void MOEAD_DRA(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
-void MOEAD_STM(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
-void MOEAD_STM_DRA(population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
+/* external variables used by MOEA/D-STM variants */
+extern int *idx ;
+extern int *next;
+extern int *statusWoman;
+extern double *nicheCount;
+extern double **distMatrix;
+extern double **fitnessMatrix;
+extern struct double_with_index **solMatrix;
+extern struct double_with_index **subpMatrix;
+
+void NSGA2 (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
+void MOEAD (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
+void MOEAD_DRA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
+void MOEAD_STM (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
+void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
 
 #endif //SAMARITAN_METAHEURISTICS_H

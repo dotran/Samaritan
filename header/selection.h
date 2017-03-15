@@ -48,22 +48,21 @@ void quicksort_dist(population_real *pop, int *dist, int front_size);
 void q_sort_dist(population_real *pop, int *dist, int left, int right);
 
 /* MOEA/D */
+double fitnessFunction (individual_real* individual, double* lambda);
+void comp_utility (population_real* pop,population_real* saved_values);
 void moead_free ();
 void initialize_uniform_weight ();
 void initialize_neighborhood ();
 void set_weight (double *v, double unit, double sum, int dim);
-void update_neighborhood (population_real* pop, individual_real *individual, int subProblemId, int neighborType);
-double fitnessFunction (individual_real* individual, double* lambda);
+void tour_selection_subproblem (int depth);
 void update_subproblem (population_real* pop, individual_real* individual, int subProblemId, int neighborType);
 
-int* tour_selection (int depth);
-void comp_utility (population_real* pop,population_real* saved_values);
-
 /* MOEA/D-STM */
-
-int prefers(int x, int y, struct double_with_index* womanPref, int size);
-void stableMatching(int *statusMan,int * statusWoman , int * next, struct double_with_index** man_pref, struct double_with_index** woman_pref, int menSize, int womenSize);
-double norm_vector(double* z);
-double calculateDistance2(individual_real* individual, double* lambda);
+double calculateDistance2 (individual_real* individual, double* lambda);
+double norm_vector (double* z);
+int prefers (int x, int y, struct double_with_index* womanPref, int size);
+void stableMatching (int *statusMan,int * statusWoman , int * next, struct double_with_index** man_pref, struct double_with_index** woman_pref, int menSize, int womenSize);
+void stm_selection (population_real *parent_pop, population_real *mixed_pop);
+void stm_dra_selection (population_real *parent_pop, population_real *mixed_pop, int size);
 
 # endif // Samaritan_SELECTION_H
