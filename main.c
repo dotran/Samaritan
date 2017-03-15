@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
         printf ("-----------------------------\n");
         printf ("|\tThe %d run\t|\t", run_index);
-        if (!strcmp(algorithm_name, "NSGA2"))
+        if (!strcmp (algorithm_name, "NSGA2"))
             NSGA2 (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp(algorithm_name, "MOEAD"))
             MOEAD (parent_pop, offspring_pop, mixed_pop);
