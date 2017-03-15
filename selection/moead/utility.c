@@ -164,7 +164,7 @@ void initialize_neighborhood ()
 }
 
 /* Tournament selection to pick the most active subproblems to evolve (based on the utility) */
-int* tour_selection (int depth)
+void tour_selection_subproblem (int depth)
 {
     int i;
     int selected_size, candidate_size;
