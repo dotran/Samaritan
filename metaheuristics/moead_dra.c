@@ -40,6 +40,7 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
     int generation_count;
     int subproblem_id, neighbor_type;
     population_real* saved_pop;
+    individual_real *offspring;
 
     generation_count = 1;
     evaluation_count = 0;
@@ -65,8 +66,7 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
         frequency[i] = 0;
     }
 
-    individual_real* offspring = &(offspring_pop->ind[0]);
-
+    offspring = &(offspring_pop->ind[0]);
     while (evaluation_count < max_evaluation)
     {
         //create empty head for selected and candidate
@@ -79,7 +79,7 @@ void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population
 
         print_progress ();
         // select the current most active subproblems to evolve (based on utility)
-        tour_selection (neighbor_size);
+        tour_selection_subproblem (neighbor_size);
         selected_size = int_vector_size (selected);
         for (i = 0; i < selected_size; i++)
         {

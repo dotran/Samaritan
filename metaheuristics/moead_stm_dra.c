@@ -1,6 +1,6 @@
 /*
  * moead_stm.c:
- *  This file contains the all procedures of the MOEAD-STM.
+ *  This file contains the all procedures of the MOEA/D-STM (DRA version).
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -25,96 +25,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/global.h"
-# include "../header/population.h"
-# include "../header/reproduction.h"
-# include "../header/problems.h"
 # include "../header/analyse.h"
 # include "../header/initialization.h"
 # include "../header/memory.h"
+# include "../header/metaheuristics.h"
+# include "../header/problems.h"
+# include "../header/population.h"
+# include "../header/reproduction.h"
 
-extern int* idx ;
-extern double* nicheCount;
-extern struct double_with_index** solMatrix;
-extern double** distMatrix;
-extern double** fitnessMatrix;
-extern struct double_with_index** subpMatrix;
-extern int* statusWoman;
-extern int* next;
-
-
-
-
-
-void stm_dra_selection(population_real* parent_pop,population_real* mixed_pop, int size)
-{
-
-    int i,j;
-
-    // Calculate the preference values of solution matrix
-    for (i = 0; i < size; i++)
-    {
-        int minIndex = 0;
-        for (j = 0; j < number_weight; j++) {
-            fitnessMatrix[i][j] = fitnessFunction(&(mixed_pop->ind[i]), lambda[j]);
-            distMatrix[i][j]  	= calculateDistance2(&(mixed_pop->ind[i]), lambda[j]);
-            if (distMatrix[i][j] < distMatrix[i][minIndex])
-                minIndex = j;
-        }
-        nicheCount[minIndex] = nicheCount[minIndex] + 1;
-    }
-
-    // calculate the preference values of subproblem matrix and solution matrix
-    for (i = 0; i < size; i++)
-    {
-        for (j = 0; j < number_weight; j++) {
-            subpMatrix[j][i].x = fitnessFunction(&(mixed_pop->ind[i]), lambda[j]);
-            subpMatrix[j][i].idx = i;
-            solMatrix[i][j].x = distMatrix[i][j] + nicheCount[j];
-            solMatrix[i][j].idx = j;
-        }
-    }
-
-    for ( i = 0 ; i < number_weight ; i++)
-    {
-        qsort(subpMatrix[i],size,sizeof(struct double_with_index),double_with_index_greater_cmp);
-    }
-    for ( i = 0 ; i < size ; i++)
-    {
-        qsort(solMatrix[i],number_weight,sizeof(struct double_with_index),double_with_index_greater_cmp);
-    }
-    /*
-    printf("subpMatrix:\n");
-    for(i =0;i<popsize;i++) {
-        for (j = 0; j < 2 * popsize; j++)
-            printf("%lf(%d) ", subpMatrix[i][j].x, subpMatrix[i][j].idx);
-        printf("\n");
-    }
-    printf("solMatrix:\n");
-    for(i =0;i<2*popsize;i++) {
-        for (j = 0; j < popsize; j++)
-            printf("%lf(%d) ", solMatrix[i][j].x, solMatrix[i][j].idx);
-        printf("\n");
-    }
-    */
-    stableMatching(idx,statusWoman,next,subpMatrix, solMatrix, number_weight, size);
-
-    for (i = 0; i < number_weight; i++)
-    {
-
-        copy_ind(&(mixed_pop->ind[idx[i]]), &(parent_pop->ind[i]));
-    }
-}
-
+int *idx ;
+int *next;
+int *statusWoman;
+double *nicheCount;
+double **distMatrix;
+double **fitnessMatrix;
+struct double_with_index **solMatrix;
+struct double_with_index **subpMatrix;
 
 void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
 {
-    int i,j;
+    int i, j;
     int generation;
     int selected_size;
     int neighbor_type;
-    population_real* saved_pop;
+    population_real *saved_pop;
 
+    // initialize uniform weight vectors
     initialize_uniform_weight ();
 
     utility   = malloc (number_weight * sizeof(double));
@@ -128,46 +64,34 @@ void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop,
         frequency[i] = 0;
     }
 
+    idx           = malloc (sizeof(int) * number_weight);
+    nicheCount    = malloc (sizeof(double) * number_weight);
+    distMatrix    = malloc (sizeof(double *) * number_weight * 2);
+    fitnessMatrix = malloc (sizeof(double *) * number_weight * 2);
+    next          = malloc (sizeof(int) * number_weight * 2);
+    statusWoman   = malloc (sizeof(int) * number_weight * 2);
+    solMatrix     = malloc (sizeof(struct double_with_index *) * number_weight * 2);
+    subpMatrix    = malloc(sizeof(struct double_with_index *) * number_weight);
 
-    idx = malloc(sizeof(int)*number_weight);
-    nicheCount = malloc(sizeof(double)*number_weight);
-    distMatrix    = malloc(sizeof(double*)*number_weight*2);
-    fitnessMatrix = malloc(sizeof(double*)*number_weight*2);
-
-    statusWoman = malloc(sizeof(int)*number_weight*2);
-    next = malloc(sizeof(int)*number_weight*2);
-
-    solMatrix = malloc(sizeof(struct double_with_index*)*number_weight*2);
-
-    for (i = 0; i < 2*number_weight; i++)
+    for (i = 0; i < 2 * number_weight; i++)
     {
-        solMatrix[i] = malloc(sizeof(struct double_with_index)*number_weight);
-        distMatrix[i]    = malloc(sizeof(double)*number_weight);
-        fitnessMatrix[i] = malloc(sizeof(double)*number_weight);
+        solMatrix[i]     = malloc(sizeof(struct double_with_index) * number_weight);
+        distMatrix[i]    = malloc(sizeof(double) * number_weight);
+        fitnessMatrix[i] = malloc(sizeof(double) * number_weight);
     }
 
-    subpMatrix = malloc(sizeof(struct double_with_index*)*number_weight);
-
-    for ( i = 0; i < number_weight; i++)
-    {
-        subpMatrix[i] = malloc(sizeof(struct double_with_index)*number_weight*2);
-    }
+    for (i = 0; i < number_weight; i++)
+        subpMatrix[i] = malloc(sizeof(struct double_with_index) * number_weight * 2);
 
     generation       = 1;
     evaluation_count = 0;
     printf ("Progress: 1%%");
 
-
-    // initialize population
+    // initialize process
     initialize_population_real (parent_pop);
-
-    // population evaluations
     evaluate_population (parent_pop);
-
     initialize_neighborhood ();
-
     initialize_idealpoint (parent_pop);
-
     initialize_nadirpoint(parent_pop);
 
     // track the current evolutionary progress, including population and metrics
@@ -182,11 +106,12 @@ void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop,
         candidate->value = INT_MIN;
         candidate->next  = NULL;
 
-        tour_selection (neighbor_size);
+        tour_selection_subproblem (neighbor_size);
         selected_size = int_vector_size (selected);
 
         print_progress (generation);
 
+        // offspring generation
         for (i = 0; i < selected_size; i++)
         {
             j = int_vector_get (selected, i + 1);
@@ -194,28 +119,25 @@ void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop,
             mutation_ind (&(offspring_pop->ind[i]));
             evaluate_individual (&(offspring_pop->ind[i]));
             update_ideal_point (&(offspring_pop->ind[i]));
-            update_nadir_point(&(offspring_pop->ind[i]));
+            update_nadir_point (&(offspring_pop->ind[i]));
         }
-
         merge (parent_pop, offspring_pop, mixed_pop);
 
+        // environmental selection
         stm_dra_selection(parent_pop,mixed_pop,selected_size+number_weight);
-
         generation++;
 
         if (generation % 30 == 0)
             comp_utility (parent_pop, saved_pop);
 
-
         track_evolution (parent_pop, generation, evaluation_count >= max_evaluation);
 
         int_vector_free (selected);
         int_vector_free (candidate);
-
     }
 
     // free all malloc memory
-    for (i = 0; i < 2*number_weight; i++)
+    for (i = 0; i < 2 * number_weight; i++)
     {
         free(solMatrix[i]);
         free(distMatrix[i]);
@@ -223,9 +145,7 @@ void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop,
     }
 
     for (i = 0; i < number_weight; i++)
-    {
         free(subpMatrix[i]);
-    }
     free(permutation);
     free(idx) ;
     free(nicheCount);
