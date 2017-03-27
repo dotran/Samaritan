@@ -52,7 +52,7 @@ void evaluate_individual (individual_real *ind)
     (strcmp (problem_name, "DTLZ5") != 0)? :(dtlz5 (ind->xreal, ind->obj), flag =1);
     (strcmp (problem_name, "DTLZ6") != 0)? :(dtlz6 (ind->xreal, ind->obj), flag =1);
     (strcmp (problem_name, "DTLZ7") != 0)? :(dtlz7 (ind->xreal, ind->obj), flag =1);
-    (strcmp (problem_name, "UF1") != 0)? :(uf1 (ind->xreal, ind->obj), flag =1);
+//    (strcmp (problem_name, "UF1") != 0)? :(uf1 (ind->xreal, ind->obj), flag =1);
 
     print_error (flag == 0, 2, "UNKNOWN test problem: ", problem_name);
 
