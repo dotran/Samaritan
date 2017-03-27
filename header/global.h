@@ -110,7 +110,7 @@ enum MoeadFunction{WS, TCH, ITCH, PBI};
 // gaps setting, read from file?
 static int weight_gaps_table[8][3] = {{0,   0, 0},
                                       {0,   0, 0},
-                                      {99, 0, 0},  //2 obj
+                                      {299, 0, 0},  //2 obj
                                       {23,  0, 0},  //3 obj
                                       {10,  0, 0},  //4 obj
                                       {6,   4, 0},  //5 obj
