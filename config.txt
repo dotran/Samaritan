@@ -1,11 +1,11 @@
-algorithm_name: MOEAD_STM_DRA
-test_problem: DTLZ2
-number_variable 10
-number_objective 2
-popSize: 300
-max_evaluation: 100000
+algorithm_name: SMSEMOA
+test_problem: DTLZ1
+number_variable 6
+number_objective 3
+popSize: 100
+max_evaluation: 30000
 runtime_output: 1
 output_interval: 10
 run_index_begin: 2
 run_index_end: 2
-analyse: VAR FUN IGD PLOT
+analyse: VAR FUN IGD HV PLOT

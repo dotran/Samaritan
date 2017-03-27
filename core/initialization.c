@@ -79,7 +79,7 @@ int initialization_real (char* argv)
     // set the reference point for Hypervolume calculation
     ref_point = (double *) malloc (number_objective * sizeof(double));
     for(i = 0; i< number_objective; i++)
-        ref_point[i] = 1.0;
+        ref_point[i] = 4.0;
 
     // calculate the number of points in the PF data
     sprintf (PF_name, "PF/%s.%dD.pf", problem_name, number_objective);

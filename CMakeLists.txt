@@ -36,6 +36,7 @@ set(SOURCE_FILES
         metaheuristics/moead_dra.c
         metaheuristics/moead_stm.c
         metaheuristics/moead_stm_dra.c
+        metaheuristics/smsemoa.c
 
         selection/nsga2/crowddist.c
         selection/moead/fitness.c
@@ -45,6 +46,11 @@ set(SOURCE_FILES
         selection/moead/utility.c
         selection/moead_stm/stm_selection.c
         selection/moead_stm/utility.c
+
+        selection/smsemoa/iwfg.c
+        selection/smsemoa/iwfg.h
+        selection/smsemoa/read.c
+        selection/smsemoa/fill.c
 
         reproduction/crossover/crossover_nsga2.c
         reproduction/crossover/crossover_moead.c
