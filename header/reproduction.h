@@ -24,8 +24,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-# ifndef Samaritan_REPRODUCTION_H
-# define Samaritan_REPRODUCTION_H
+
+#ifndef Samaritan_REPRODUCTION_H
+#define Samaritan_REPRODUCTION_H
 
 # include "../header/global.h"
 # include "../header/rand.h"
@@ -39,6 +40,7 @@ void parent_selection (population_real *parent_pop, individual_real ***parents, 
 
 // crossover
 void crossover_real (population_real *parent_pop, population_real* offspring_pop);
+void crossover_real_steadystate (population_real *parent_pop, individual_real* offspring1,individual_real* offspring2);
 void sbx_crossover (individual_real *parent1, individual_real *parent2, individual_real *child1, individual_real *child2);
 void crossover_moead_real(population_real *parent_pop, individual_real *offspring, int sub_problem_id, int *neighbor_type);
 void de (individual_real **parents,individual_real *child);
@@ -50,4 +52,4 @@ void mutation_real (population_real *pop);
 
 int choose_neighbor_type ();
 
-# endif // Samaritan_REPRODUCTION_H
+#endif // Samaritan_REPRODUCTION_H

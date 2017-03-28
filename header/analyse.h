@@ -34,6 +34,7 @@
 # include "indicators.h"
 
 void track_evolution (void *ptr, int id,int end);
-void plot (char *file, char * title);
+void gnu_plot (char *file, char * title);
 void* py_plot(void *ptr,int gen);
+
 # endif // SAMARITAN_ANALYSE_H

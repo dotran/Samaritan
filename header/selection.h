@@ -33,7 +33,9 @@
 # include "../header/print.h"
 # include "../header/rank_sort.h"
 # include "../header/population.h"
-#include "../selection/smsemoa/iwfg.h"
+# include "../header/dominance.h"
+# include "../externals/IWFG/iwfg.h"
+
 /* NSGA-II */
 void fill_nondominated_sort (population_real* new_pop, population_real* mixed_pop);
 void crowding_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
@@ -65,8 +67,7 @@ void stableMatching (int *statusMan,int * statusWoman , int * next, struct doubl
 void stm_selection (population_real *parent_pop, population_real *mixed_pop);
 void stm_dra_selection (population_real *parent_pop, population_real *mixed_pop, int size);
 
-
-
+/* SMS-EMOA */
 void fill_hv_sort (FILECONTENTS *f,population_real* new_pop, population_real* mixed_pop,int size);
 void hv_fill (FILECONTENTS *f,population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
