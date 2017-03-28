@@ -25,15 +25,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/analyse.h"
-# include "../header/initialization.h"
-# include "../header/memory.h"
 # include "../header/metaheuristics.h"
-# include "../header/problems.h"
-# include "../header/population.h"
-# include "../header/reproduction.h"
 
-int *idx ;
+int *idx;
 int *next;
 int *statusWoman;
 double *nicheCount;
@@ -71,7 +65,7 @@ void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop,
     next          = malloc (sizeof(int) * number_weight * 2);
     statusWoman   = malloc (sizeof(int) * number_weight * 2);
     solMatrix     = malloc (sizeof(struct double_with_index *) * number_weight * 2);
-    subpMatrix    = malloc(sizeof(struct double_with_index *) * number_weight);
+    subpMatrix    = malloc (sizeof(struct double_with_index *) * number_weight);
 
     for (i = 0; i < 2 * number_weight; i++)
     {

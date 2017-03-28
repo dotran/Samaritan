@@ -25,12 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/global.h"
-# include "../header/population.h"
-# include "../header/reproduction.h"
-# include "../header/selection.h"
-# include "../header/problems.h"
-# include "../header/analyse.h"
+# include "../header/metaheuristics.h"
 
 void NSGA2 (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
 {
@@ -51,7 +46,7 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
     track_evolution (parent_pop, generation, 0);
     while (evaluation_count<max_evaluation)
     {
-        generation ++;
+        generation++;
         print_progress ();
 
         // reproduction (crossover and mutation)

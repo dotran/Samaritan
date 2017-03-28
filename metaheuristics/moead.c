@@ -25,12 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/initialization.h"
-# include "../header/population.h"
-# include "../header/reproduction.h"
-# include "../header/selection.h"
-# include "../header/problems.h"
-# include "../header/analyse.h"
+# include "../header/metaheuristics.h"
 
 void MOEAD (population_real* pop, population_real* offspring_pop, population_real* mixed_pop)
 {
@@ -54,7 +49,8 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
     permutation = malloc (number_weight * sizeof(int));
     individual_real* offspring = &(offspring_pop->ind[0]);
 
-    while (evaluation_count < max_evaluation) {
+    while (evaluation_count < max_evaluation)
+    {
         print_progress ();
 
         random_permutation (permutation, number_weight);

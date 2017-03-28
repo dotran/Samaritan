@@ -25,11 +25,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/population.h"
-# include "../header/reproduction.h"
-# include "../header/problems.h"
-# include "../header/analyse.h"
-# include "../header/initialization.h"
 # include "../header/metaheuristics.h"
 
 int *idx ;
@@ -119,9 +114,7 @@ void MOEAD_STM (population_real* parent_pop, population_real* offspring_pop, pop
     }
 
     for (i = 0; i < number_weight; i++)
-    {
         free(subpMatrix[i]);
-    }
     free(permutation);
     free(idx) ;
     free(nicheCount);

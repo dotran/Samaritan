@@ -25,13 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../header/global.h"
-#include "../header/population.h"
-#include "../header/reproduction.h"
-#include "../header/selection.h"
-#include "../header/problems.h"
-#include "../header/analyse.h"
-#include "../header/initialization.h"
+# include "../header/metaheuristics.h"
 
 void SMSEMOA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
 {
@@ -63,9 +57,9 @@ void SMSEMOA (population_real* parent_pop, population_real* offspring_pop, popul
     torder       = malloc (sizeof(int *) * MAX(i_maxm, i_maxn));
     tcompare     = malloc (sizeof(int *) * i_maxm);
     maxStackSize = MIN(i_maxn - 2, i_slicingDepth (i_maxn)) + 1;
-    for ( i = 0; i < maxdepth; i++) {
+    for (i = 0; i < maxdepth; i++) {
         i_fs[i].points = malloc(sizeof(POINT) * i_maxm);
-        for ( j = 0; j < i_maxm; j++) {
+        for (j = 0; j < i_maxm; j++) {
             i_fs[i].points[j].objectives = malloc(sizeof(OBJECTIVE) * (i_maxn - i - 1));
         }
     }
@@ -94,7 +88,7 @@ void SMSEMOA (population_real* parent_pop, population_real* offspring_pop, popul
             // reproduction (crossover and mutation)
             crossover_real_steadystate (parent_pop, &(offspring_pop->ind[0]), &(offspring_pop->ind[1]));
 
-            mutation_ind(&(offspring_pop->ind[0]));
+            mutation_ind (&(offspring_pop->ind[0]));
 
             // population evaluations
             evaluate_individual (&(offspring_pop->ind[0]));

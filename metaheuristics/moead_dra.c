@@ -25,13 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "../header/initialization.h"
-# include "../header/population.h"
-# include "../header/reproduction.h"
-# include "../header/selection.h"
-# include "../header/problems.h"
-# include "../header/analyse.h"
-# include "../header/memory.h"
+# include "../header/metaheuristics.h"
 
 void MOEAD_DRA (population_real* pop, population_real* offspring_pop, population_real* mixed_pop)
 {
