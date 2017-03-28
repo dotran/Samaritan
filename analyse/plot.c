@@ -1,6 +1,6 @@
 /*
- * analyse.c:
- *  This file contains the functions to record the results, including the population and metric values for analysis.
+ * plot.c:
+ *  This file contains the functions to plot the population distribution (Python or GNU Plot).
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -21,95 +21,89 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../header/analyse.h"
-#include "../header/global.h"
 
-void *py_plot(void *pop,int gen)
+# include "../header/analyse.h"
+
+void *py_plot (void *pop,int gen)
 {
+    int i, j;
+
     if (pop == NULL && pythonplot != NULL)
     {
-        fprintf(pythonplot, "%d \n", -1);
+        fprintf (pythonplot, "%d \n", -1);
         return NULL;
     }
     population_real * ptr = pop;
-    int i,j;
 
-
-    if(number_objective==3)
+    if (number_objective == 3)
     {
         if(pythonplot == NULL)
-        {
-            pythonplot = popen("python -W ignore ./script/plot3D.py","w");
-        }
-        print_error(pythonplot==NULL,1,"cannot open python script");
+            pythonplot = popen ("python -W ignore ./script/plot3D.py", "w");
+        print_error (pythonplot == NULL, 1, "cannot open python script");
 
-        fprintf(pythonplot, "%d \n", popsize);
-        fprintf(pythonplot, "%d \n",gen);
+        fprintf (pythonplot, "%d \n", popsize);
+        fprintf (pythonplot, "%d \n", gen);
         for(i = 0; i < popsize; i++)
+        {
             for(j = 0; j < number_objective; j++)
             {
                 fprintf(pythonplot,"%lf \n", ptr->ind[i].obj[j]);
-
             }
-    }
-    if(number_objective==2)
-    {
-        if(pythonplot == NULL)
-        {
-            pythonplot = popen("python -W ignore ./script/plot2D.py","w");
         }
-
-        print_error(pythonplot==NULL,1,"cannot open python script");
-
-        fprintf(pythonplot, "%d \n", popsize);
-        fprintf(pythonplot, "%d \n",gen);
-
-        for(i = 0; i < popsize; i++)
-            for(j = 0; j < number_objective; j++)
-            {
-                fprintf(pythonplot,"%lf \n", ptr->ind[i].obj[j]);
-
-            }
     }
-    fflush(pythonplot);
+    if (number_objective == 2)
+    {
+        if (pythonplot == NULL)
+            pythonplot = popen ("python -W ignore ./script/plot2D.py", "w");
+
+        print_error (pythonplot == NULL, 1, "cannot open python script");
+
+        fprintf (pythonplot, "%d \n", popsize);
+        fprintf (pythonplot, "%d \n", gen);
+
+        for (i = 0; i < popsize; i++)
+        {
+            for (j = 0; j < number_objective; j++)
+            {
+                fprintf (pythonplot, "%lf \n", ptr->ind[i].obj[j]);
+            }
+        }
+    }
+    fflush (pythonplot);
+
     return NULL;
 }
 
-void plot(char *filename,char *title)
+/* plot the population by GNU Plot */
+void gnu_plot (char *filename, char *title)
 {
-
-    FILE * gnuplot = NULL;
-    gnuplot = popen("gnuplot  -persistent","w");
-
     char command[BUFSIZE_L];
+    FILE * gnuplot = NULL;
 
-    print_error(gnuplot == NULL, 1, "Error: gnuplot not found.");
+    gnuplot = popen ("gnuplot -persistent", "w");
+    print_error (gnuplot == NULL, 1, "Error: gnuplot not found.");
 
     if (number_objective == 2)
     {
-        sprintf(command,"set title \"%s\"\n",title);
-        fprintf(gnuplot, "%s \n", command);
-        sprintf(command,"plot \'%s\'\n",filename);
-        fprintf(gnuplot, "%s \n", command);
-        fflush(gnuplot);
+        sprintf (command, "set title \"%s\"\n", title);
+        fprintf (gnuplot, "%s \n", command);
+        sprintf (command, "plot \'%s\'\n", filename);
+        fprintf (gnuplot, "%s \n", command);
+        fflush (gnuplot);
     }
-    else if(number_objective == 3)
+    else if (number_objective == 3)
     {
-
-        sprintf(command,"set title \"%s\"\n",title);
-        fprintf(gnuplot, "%s \n", command);
-        fprintf(gnuplot,"set view 60,130 \n");
-        fprintf(gnuplot,"set ticslevel 0\n");
-        fprintf(gnuplot,"set xrange [0:]\n");
-        fprintf(gnuplot,"set yrange [0:]\n");
-        fprintf(gnuplot,"set zrange [0:]\n");
-        sprintf(command,"splot \'%s\'\n",filename);
-        fprintf(gnuplot, "%s \n", command);
-        fflush(gnuplot);
-
+        sprintf (command,"set title \"%s\"\n",title);
+        fprintf (gnuplot, "%s \n", command);
+        fprintf (gnuplot, "set view 60, 130 \n");
+        fprintf (gnuplot, "set ticslevel 0\n");
+        fprintf (gnuplot, "set xrange [0:]\n");
+        fprintf (gnuplot, "set yrange [0:]\n");
+        fprintf (gnuplot, "set zrange [0:]\n");
+        sprintf (command, "splot \'%s\'\n", filename);
+        fprintf (gnuplot, "%s \n", command);
+        fflush (gnuplot);
     }
     else
-    {
-        print_error(1,1,"Error: Unsupported number of objective in plot\n");
-    }
+        print_error (1, 1, "Error: Unsupported number of objective in plot\n");
 }
