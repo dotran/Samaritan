@@ -4,3 +4,5 @@ out/
 *~
 # ideaJ file
 .idea
+Samaritan
+*.DS_store
