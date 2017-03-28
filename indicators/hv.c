@@ -23,7 +23,7 @@
  */
 
 # include "../header/indicators.h"
-# include "WFG_1.15/wfg.h"
+# include "../externals/WFG_1.15/wfg.h"
 
 static struct double_vector *record = NULL;
 
@@ -34,7 +34,7 @@ void record_hv (void *ptr, int id)
     if (record == NULL)
     {
         record = (struct double_vector *) malloc (sizeof(struct double_vector));
-        record->value = nan("1");
+        record->value = nan ("1");
         record->next  = NULL;
     }
 
@@ -48,7 +48,6 @@ void record_hv (void *ptr, int id)
 /* Calculate HV value */
 double calculate_hv (void *ptr)
 {
-    int i, j;
     double hv_value;
 
     // call wfg's hv calculation method
@@ -69,7 +68,7 @@ void print_hv (char *file_name)
     while (1)
     {
         value = double_vector_get (record->next, i++);
-        if (!isnan(value))
+        if (!isnan (value))
             fprintf (fpt, "%lf\n", value);
         else break;
     }
