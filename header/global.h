@@ -28,7 +28,7 @@
 # ifndef Samaritan_GLOBAL_H
 # define Samaritan_GLOBAL_H
 
-#include <pthread.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdarg.h>
@@ -39,8 +39,8 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-#include <limits.h>
-#include "vector.h"
+# include <limits.h>
+# include "vector.h"
 
 # define PI  M_PI
 # define INF 1.0e14
