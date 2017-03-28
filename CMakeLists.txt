@@ -46,14 +46,11 @@ set(SOURCE_FILES
         selection/moead/utility.c
         selection/moead_stm/stm_selection.c
         selection/moead_stm/utility.c
+        selection/smsemoa/fillnds_hv.c
 
-        selection/smsemoa/iwfg.c
-        selection/smsemoa/iwfg.h
-        selection/smsemoa/read.c
-        selection/smsemoa/fill.c
-
-        reproduction/crossover/crossover_nsga2.c
         reproduction/crossover/crossover_moead.c
+        reproduction/crossover/crossover_nsga2.c
+        reproduction/crossover/crossover_steadystate.c
         reproduction/crossover/differential_evolution.c
         reproduction/crossover/sbx.c
         reproduction/mutation/mutation_real.c
@@ -67,9 +64,13 @@ set(SOURCE_FILES
         indicators/gd.c
         indicators/hv.c
         indicators/igd.c
-        indicators/WFG_1.15/read.c
-        indicators/WFG_1.15/wfg.c
-        indicators/WFG_1.15/wfg.h
+
+        externals/WFG_1.15/read.c
+        externals/WFG_1.15/wfg.c
+        externals/WFG_1.15/wfg.h
+        externals/IWFG/iwfg.c
+        externals/IWFG/iwfg.h
+        externals/IWFG/read.c
 
         testproblem/evaluation.c
         testproblem/ZDT/ZDT1.c
@@ -84,6 +85,16 @@ set(SOURCE_FILES
         testproblem/DTLZ/DTLZ5.c
         testproblem/DTLZ/DTLZ6.c
         testproblem/DTLZ/DTLZ7.c
+        testproblem/UF/UF1.c
+        testproblem/UF/UF2.c
+        testproblem/UF/UF3.c
+        testproblem/UF/UF4.c
+        testproblem/UF/UF5.c
+        testproblem/UF/UF6.c
+        testproblem/UF/UF7.c
+        testproblem/UF/UF8.c
+        testproblem/UF/UF9.c
+        testproblem/UF/UF10.c
 
         config.txt
         main.c
