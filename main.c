@@ -25,11 +25,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-# include "header/global.h"
 # include "header/rand.h"
 # include "header/metaheuristics.h"
-# include "header/initialization.h"
-# include "header/memory.h"
 
 /* common paramters */
 int run_index;
