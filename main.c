@@ -29,9 +29,7 @@
 # include "header/rand.h"
 # include "header/metaheuristics.h"
 # include "header/initialization.h"
-# include "header/population.h"
 # include "header/memory.h"
-# include "header/analyse.h"
 
 /* common paramters */
 int run_index;
@@ -110,15 +108,15 @@ int main(int argc, char *argv[])
         printf ("|\tThe %d run\t|\t", run_index);
         if (!strcmp (algorithm_name, "NSGA2"))
             NSGA2 (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp(algorithm_name, "MOEAD"))
+        else if(!strcmp (algorithm_name, "MOEAD"))
             MOEAD (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp(algorithm_name, "MOEAD_DRA"))
+        else if(!strcmp (algorithm_name, "MOEAD_DRA"))
             MOEAD_DRA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp(algorithm_name, "MOEAD_STM"))
+        else if(!strcmp (algorithm_name, "MOEAD_STM"))
             MOEAD_STM (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp(algorithm_name, "MOEAD_STM_DRA"))
+        else if(!strcmp (algorithm_name, "MOEAD_STM_DRA"))
             MOEAD_STM_DRA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp(algorithm_name, "SMSEMOA"))
+        else if(!strcmp (algorithm_name, "SMSEMOA"))
             SMSEMOA (parent_pop, offspring_pop, mixed_pop);
         else
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
