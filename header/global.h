@@ -44,7 +44,7 @@
 
 # define PI  M_PI
 # define INF 1.0e14
-# define EPS 1.0e-14
+# define EPS 1.0e-7
 
 # define BUFSIZE_S 64
 # define BUFSIZE_M 128

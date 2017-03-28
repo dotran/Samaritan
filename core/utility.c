@@ -148,13 +148,13 @@ void update_ideal_point (individual_real * individual)
 }
 
 
-/* Update the current ideal point */
+/* Update the current nadir point */
 void update_nadir_point (individual_real * individual)
 {
     int i;
 
     for (i = 0; i < number_objective; i++)
-        if (individual->obj[i] < ideal_point[i])
+        if (individual->obj[i] > nadir_point[i])
             nadir_point[i] = individual->obj[i];
 
     return;
