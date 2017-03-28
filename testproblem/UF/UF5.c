@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../header/problems.h"
+# include "../../header/problems.h"
 
 void uf5 (double *xreal, double *obj)
 {
@@ -31,9 +31,9 @@ void uf5 (double *xreal, double *obj)
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
     Nm = 10.0; Em = 0.1;
-    for (i = 2; i <= nreal; i++)
+    for (i = 2; i <= number_variable; i++)
     {
-        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / nreal);
+        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / number_variable);
         hj = 2.0 * yj * yj - cos (4.0 * PI * yj) + 1.0;
         if (i % 2 == 0)
         {

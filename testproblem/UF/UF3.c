@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../header/problems.h"
+# include "../../header/problems.h"
 
 void uf3 (double *xreal, double *obj)
 {
@@ -31,9 +31,9 @@ void uf3 (double *xreal, double *obj)
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
     prod1  = prod2  = 1.0;
-    for (i = 2; i <= nreal; i++)
+    for (i = 2; i <= number_variable; i++)
     {
-        yj = xreal[i -1 ] - pow (xreal[0], 0.5 * (1.0 + 3.0 * (i - 2.0) / (nreal - 2.0)));
+        yj = xreal[i -1 ] - pow (xreal[0], 0.5 * (1.0 + 3.0 * (i - 2.0) / (number_variable - 2.0)));
         pj = cos (20.0 * yj * PI / sqrt (i + 0.0));
         if (i % 2 == 0)
         {

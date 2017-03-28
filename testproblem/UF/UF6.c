@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../header/problems.h"
+# include "../../header/problems.h"
 
 void uf6 (double *xreal, double *obj)
 {
@@ -32,9 +32,9 @@ void uf6 (double *xreal, double *obj)
     count1 = count2 = 0;
     prod1  = prod2  = 1.0;
     Nm = 2.0; Em = 0.1;
-    for (i = 2; i <= nreal; i++)
+    for (i = 2; i <= number_variable; i++)
     {
-        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / nreal);
+        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / number_variable);
         pj = cos (20.0 * yj * PI / sqrt (i + 0.0));
         if (i % 2 == 0)
         {
