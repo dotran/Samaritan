@@ -1,8 +1,8 @@
 algorithm_name: SMSEMOA
-test_problem: DTLZ1
-number_variable 6
+test_problem: DTLZ2
+number_variable 12
 number_objective 3
-popSize: 300
+popSize: 100
 max_evaluation: 30000
 runtime_output: 1
 output_interval: 10
