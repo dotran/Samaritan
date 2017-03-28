@@ -1,5 +1,5 @@
 /*
- * fillnd.c:
+ * fillnds.c:
  *  This file contains the functions to perform non-dominated sorting in NSGA-II.
  *
  * Authors:
@@ -25,10 +25,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../header/global.h"
-#include "../../header/dominance.h"
-#include "../../header/selection.h"
-#include "../../header/population.h"
+# include "../../header/selection.h"
 
 void fill_nondominated_sort (population_real* new_pop, population_real* mixed_pop)
 {
