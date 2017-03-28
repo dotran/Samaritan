@@ -3,8 +3,8 @@
  *  This is the header file for benchmark problems.
  *
  * Authors:
- *  Renzhi Chen <rxc332@cs.bham.ac.uk>
  *  Ke Li <k.li@exeter.ac.uk>
+ *  Renzhi Chen <rxc332@cs.bham.ac.uk>
  *
  * Institution:
  *  Computational Optimization and Data Analytics (CODA) Group @ University of Exeter
@@ -45,5 +45,14 @@ void dtlz5 (double *xreal, double *obj);
 void dtlz6 (double *xreal, double *obj);
 void dtlz7 (double *xreal, double *obj);
 void uf1 (double *xreal, double *obj);
+void uf2 (double *xreal, double *obj);
+void uf3 (double *xreal, double *obj);
+void uf4 (double *xreal, double *obj);
+void uf5 (double *xreal, double *obj);
+void uf6 (double *xreal, double *obj);
+void uf7 (double *xreal, double *obj);
+void uf8 (double *xreal, double *obj);
+void uf9 (double *xreal, double *obj);
+void uf10 (double *xreal, double *obj);
 
 # endif // Samaritan_PROBLEMS_H

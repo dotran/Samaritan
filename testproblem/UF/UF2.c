@@ -1,5 +1,5 @@
 /*
- * UF1.c
+ * UF2.c
  *
  * Authors:
  *  Ke Li <k.li@exeter.ac.uk>
@@ -23,7 +23,7 @@
 
 #include "../../header/problems.h"
 
-void uf1 (double *xreal, double *obj)
+void uf2 (double *xreal, double *obj)
 {
     int i, count1, count2;
     double sum1, sum2, yj;
@@ -32,16 +32,16 @@ void uf1 (double *xreal, double *obj)
     count1 = count2 = 0;
     for (i = 2; i <= number_variable; i++)
     {
-        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / number_variable);
-        yj = yj * yj;
         if (i % 2 == 0)
         {
-            sum2 += yj;
+            yj = xreal[i - 1] - 0.3 * xreal[0] * (xreal[0] * cos (24.0 * PI * xreal[0] + 4.0 * i * PI / number_variable) + 2.0) * sin (6.0 * PI * xreal[0] + i * PI / number_variable);
+            sum2 += yj * yj;
             count2++;
         }
         else
         {
-            sum1 += yj;
+            yj = xreal[i - 1] - 0.3 * xreal[0] * (xreal[0] * cos (24.0 * PI * xreal[0] + 4.0 * i * PI / number_variable) + 2.0) * cos(6.0 * PI * xreal[0] + i * PI / number_variable);
+            sum1 += yj * yj;
             count1++;
         }
     }

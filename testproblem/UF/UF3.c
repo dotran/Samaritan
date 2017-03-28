@@ -1,5 +1,5 @@
 /*
- * UF1.c
+ * UF3.c
  *
  * Authors:
  *  Ke Li <k.li@exeter.ac.uk>
@@ -23,30 +23,33 @@
 
 #include "../../header/problems.h"
 
-void uf1 (double *xreal, double *obj)
+void uf3 (double *xreal, double *obj)
 {
     int i, count1, count2;
-    double sum1, sum2, yj;
+    double sum1, sum2, prod1, prod2, yj, pj;
 
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
-    for (i = 2; i <= number_variable; i++)
+    prod1  = prod2  = 1.0;
+    for (i = 2; i <= nreal; i++)
     {
-        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / number_variable);
-        yj = yj * yj;
+        yj = xreal[i -1 ] - pow (xreal[0], 0.5 * (1.0 + 3.0 * (i - 2.0) / (nreal - 2.0)));
+        pj = cos (20.0 * yj * PI / sqrt (i + 0.0));
         if (i % 2 == 0)
         {
-            sum2 += yj;
+            sum2  += yj * yj;
+            prod2 *= pj;
             count2++;
         }
         else
         {
-            sum1 += yj;
+            sum1  += yj * yj;
+            prod1 *= pj;
             count1++;
         }
     }
-    obj[0] = xreal[0] + 2.0 * sum1 / (double)count1;
-    obj[1] = 1.0 - sqrt (xreal[0]) + 2.0 * sum2 / (double)count2;
+    obj[0] = xreal[0] + 2.0 * (4.0 * sum1 - 2.0 * prod1 + 2.0) / (double)count1;
+    obj[1] = 1.0 - sqrt (xreal[0]) + 2.0 * (4.0 * sum2 - 2.0 * prod2 + 2.0) / (double)count2;
 
     return;
 }

@@ -1,5 +1,5 @@
 /*
- * UF1.c
+ * UF10.c
  *
  * Authors:
  *  Ke Li <k.li@exeter.ac.uk>
@@ -23,30 +23,36 @@
 
 #include "../../header/problems.h"
 
-void uf1 (double *xreal, double *obj)
+void uf10 (double *xreal, double *obj)
 {
-    int i, count1, count2;
-    double sum1, sum2, yj;
+    int i, count1, count2, count3;
+    double sum1, sum2, sum3, yj, hj;
 
-    sum1   = sum2   = 0.0;
-    count1 = count2 = 0;
-    for (i = 2; i <= number_variable; i++)
+    sum1   = sum2   = sum3   = 0.0;
+    count1 = count2 = count3 = 0;
+    for (i = 3; i <= nreal; i++)
     {
-        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / number_variable);
-        yj = yj * yj;
-        if (i % 2 == 0)
+        yj = xreal[i - 1] - 2.0 * xreal[1] * sin (2.0 * PI * xreal[0] + i * PI / nreal);
+        hj = 4.0 * yj * yj - cos (8.0 * PI * yj) + 1.0;
+        if (i % 3 == 1)
         {
-            sum2 += yj;
+            sum1 += hj;
+            count1++;
+        }
+        else if (i % 3 == 2)
+        {
+            sum2 += hj;
             count2++;
         }
         else
         {
-            sum1 += yj;
-            count1++;
+            sum3 += hj;
+            count3++;
         }
     }
-    obj[0] = xreal[0] + 2.0 * sum1 / (double)count1;
-    obj[1] = 1.0 - sqrt (xreal[0]) + 2.0 * sum2 / (double)count2;
+    obj[0] = cos (0.5 * PI * xreal[0]) * cos (0.5 * PI * xreal[1]) + 2.0 * sum1 / (double)count1;
+    obj[1] = cos (0.5 * PI * xreal[0]) * sin (0.5 * PI * xreal[1]) + 2.0 * sum2 / (double)count2;
+    obj[2] = sin (0.5 * PI * xreal[0]) + 2.0 * sum3 / (double)count3;
 
     return;
 }

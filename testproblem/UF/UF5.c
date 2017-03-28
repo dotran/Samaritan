@@ -1,5 +1,5 @@
 /*
- * UF1.c
+ * UF5.c
  *
  * Authors:
  *  Ke Li <k.li@exeter.ac.uk>
@@ -23,30 +23,32 @@
 
 #include "../../header/problems.h"
 
-void uf1 (double *xreal, double *obj)
+void uf5 (double *xreal, double *obj)
 {
     int i, count1, count2;
-    double sum1, sum2, yj;
+    double sum1, sum2, yj, hj, Nm, Em;
 
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
-    for (i = 2; i <= number_variable; i++)
+    Nm = 10.0; Em = 0.1;
+    for (i = 2; i <= nreal; i++)
     {
-        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / number_variable);
-        yj = yj * yj;
+        yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / nreal);
+        hj = 2.0 * yj * yj - cos (4.0 * PI * yj) + 1.0;
         if (i % 2 == 0)
         {
-            sum2 += yj;
+            sum2 += hj;
             count2++;
         }
         else
         {
-            sum1 += yj;
+            sum1 += hj;
             count1++;
         }
     }
-    obj[0] = xreal[0] + 2.0 * sum1 / (double)count1;
-    obj[1] = 1.0 - sqrt (xreal[0]) + 2.0 * sum2 / (double)count2;
+    hj     = (0.5 / Nm + Em) * fabs (sin (2.0 * Nm * PI * xreal[0]));
+    obj[0] = xreal[0] + hj + 2.0 * sum1 / (double)count1;
+    obj[1] = 1.0 - xreal[0] + hj + 2.0 * sum2 / (double)count2;
 
     return;
 }
