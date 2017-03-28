@@ -23,160 +23,159 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <math.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include "iwfg.h"
+# include <stdio.h>
+# include <stdbool.h>
+# include <math.h>
+# include <sys/time.h>
+# include <sys/resource.h>
+# include "iwfg.h"
 
 int i_fr = 0;   // current depth
 
-int i_sorter(const void *a, const void *b)
-//sort point indexes into groups of last objective
+/* sort point indexes into groups of last objective */
+int i_sorter (const void *a, const void *b)
 {
 	int i = *(int*)a;
 	int j = *(int*)b;
-	if (torder[i][i_n-1]==torder[j][i_n-1]) {
-		return tcompare[j][torder[j][i_n-1]] - tcompare[i][torder[i][i_n-1]];
-	}
-	else {
+	if (torder[i][i_n - 1]==torder[j][i_n - 1])
+		return tcompare[j][torder[j][i_n - 1]] - tcompare[i][torder[i][i_n - 1]];
+	else
 		return torder[i][i_n-1] - torder[j][i_n-1];
-	}
 }
 
-int i_greater(const void *v1, const void *v2)
-// this sorts points worsening in the last objective
+/* this sorts points worsening in the last objective */
+int i_greater (const void *v1, const void *v2)
 {
 	int i;
 	POINT p = *(POINT*)v1;
 	POINT q = *(POINT*)v2;
-	for (i = i_n - 1; i >= 0; i--) {
-		if BEATS(p.objectives[i],q.objectives[i]) {
+	for (i = i_n - 1; i >= 0; i--)
+	{
+		if BEATS(p.objectives[i], q.objectives[i])
 			return -1;
-		}
-		else if BEATS(q.objectives[i],p.objectives[i]) {
+		else if BEATS(q.objectives[i], p.objectives[i])
 			return  1;
-		}
 	}
+
 	return 0;
 }
 
-int i_same(const void *v1, const void *v2)
-// this sorts points worsening in the last objective for a certain objective ordering
+/* this sorts points worsening in the last objective for a certain objective ordering */
+int i_same (const void *v1, const void *v2)
 {
 	int i;
 	POINT p = *(POINT*)v1;
 	POINT q = *(POINT*)v2;
-	for ( i = i_n - 1; i >= 0; i--) {
-		if (p.objectives[i]!=q.objectives[i]) {
+	for ( i = i_n - 1; i >= 0; i--)
+    {
+		if (p.objectives[i] != q.objectives[i])
 			return 0;
-		}
 	}
+
 	return 1;
 }
-int i_greaterorder(const void *v1, const void *v2)
-// this sorts points worsening in the last objective for a certain objective ordering
+
+/* this sorts points worsening in the last objective for a certain objective ordering */
+int i_greaterorder (const void *v1, const void *v2)
 {
 	int i;
 	POINT p = *(POINT*)v1;
 	POINT q = *(POINT*)v2;
-	for ( i = i_n - 1; i >= 0; i--) {
-		if BEATS(p.objectives[gorder[i]],q.objectives[gorder[i]]) {
+	for (i = i_n - 1; i >= 0; i--)
+    {
+		if BEATS(p.objectives[gorder[i]], q.objectives[gorder[i]])
 			return -1;
-		}
-		else if BEATS(q.objectives[gorder[i]],p.objectives[gorder[i]]) {
+		else if BEATS(q.objectives[gorder[i]], p.objectives[gorder[i]])
 			return  1;
-		}
 	}
+
 	return 0;
 }
 
-int i_greaterabbrev(const void *v1, const void *v2)
-// this sorts points worsening in the penultimate objective
+/* this sorts points worsening in the penultimate objective */
+int i_greaterabbrev (const void *v1, const void *v2)
 {
 	int i;
 	POINT p = *(POINT*)v1;
 	POINT q = *(POINT*)v2;
-	for ( i = i_n - 2; i >= 0; i--) {
-		if BEATS(p.objectives[i],q.objectives[i]) {
+	for (i = i_n - 2; i >= 0; i--)
+    {
+		if BEATS(p.objectives[i], q.objectives[i])
 			return -1;
-		}
-		else if BEATS(q.objectives[i],p.objectives[i]) {
+		else if BEATS(q.objectives[i], p.objectives[i])
 			return  1;
-		}
 	}
+
 	return 0;
 }
 
-int i_greaterabbrevorder(const void *v1, const void *v2)
-// this sorts points worsening in the penultimate objective for a certain objective ordering
+/* this sorts points worsening in the penultimate objective for a certain objective ordering */
+int i_greaterabbrevorder (const void *v1, const void *v2)
 {
 	int i;
 	POINT p = *(POINT*)v1;
 	POINT q = *(POINT*)v2;
-	for ( i = i_n - 2; i >= 0; i--) {
-		if BEATS(p.objectives[gorder[i]],q.objectives[gorder[i]]) {
+	for (i = i_n - 2; i >= 0; i--)
+    {
+		if BEATS(p.objectives[gorder[i]], q.objectives[gorder[i]])
 			return -1;
-		}
-		else if BEATS(q.objectives[gorder[i]],p.objectives[gorder[i]]) {
+		else if BEATS(q.objectives[gorder[i]], p.objectives[gorder[i]])
 			return  1;
-		}
 	}
+
 	return 0;
 }
 
+/* returns -1 if p dominates q, 1 if q dominates p, 2 if p == q, 0 otherwise k is the highest index inspected */
 int i_dominates2way(POINT p, POINT q, int k)
-// returns -1 if p dominates q, 1 if q dominates p, 2 if p == q, 0 otherwise
-// k is the highest index inspected
 {
-	int i,j;
-	for (i = k; i >= 0; i--) {
-		if BEATS(p.objectives[i],q.objectives[i]) {
-			for ( j = i - 1; j >= 0; j--) {
-	 			if BEATS(q.objectives[j],p.objectives[j]) {
+	int i, j;
+	for (i = k; i >= 0; i--)
+    {
+		if BEATS(p.objectives[i],q.objectives[i])
+        {
+			for ( j = i - 1; j >= 0; j--)
+            {
+	 			if BEATS(q.objectives[j],p.objectives[j])
 	 				return 0;
-	 			}
 			}
 			return -1;
 		}
-		else if BEATS(q.objectives[i],p.objectives[i]) {
-			for ( j = i - 1; j >= 0; j--) {
-				if BEATS(p.objectives[j],q.objectives[j]) {
+		else if BEATS(q.objectives[i],p.objectives[i])
+        {
+			for ( j = i - 1; j >= 0; j--)
+            {
+				if BEATS(p.objectives[j],q.objectives[j])
 					return 0;
-				}
 			}
 			return  1;
 		}
 	}
+
 	return 2;
 }
 
-bool i_dominates1way(POINT p, POINT q, int k)
-// returns true if p dominates q or p == q, false otherwise
-// the assumption is that q doesn't dominate p
-// k is the highest index inspected
+/* returns true if p dominates q or p == q, false otherwise the assumption is that q doesn't dominate p
+    k is the highest index inspected */
+bool i_dominates1way (POINT p, POINT q, int k)
 {
 	int i;
-	for ( i = k; i >= 0; i--) {
-		if BEATS(q.objectives[i],p.objectives[i]) {
+	for (i = k; i >= 0; i--)
+		if BEATS(q.objectives[i],p.objectives[i])
 			return false;
-		}
-	}
+
 	return true;
 }
 
-bool i_dominates1wayOrder(POINT p, POINT q, int k, int* order)
-// returns true if p dominates q or p == q, false otherwise
-// the assumption is that q doesn't dominate p
-// k is the highest index inspected
+/* returns true if p dominates q or p == q, false otherwise the assumption is that q doesn't dominate p
+    k is the highest index inspected */
+bool i_dominates1wayOrder (POINT p, POINT q, int k, int* order)
 {
 	int i;
-	for ( i = k; i >= 0; i--) {
-		if BEATS(q.objectives[order[i]],p.objectives[order[i]]) {
+	for (i = k; i >= 0; i--)
+		if BEATS(q.objectives[order[i]], p.objectives[order[i]])
 			return false;
-		}
-	}
+
 	return true;
 }
 
@@ -951,235 +950,238 @@ void i_sliceOrder(int nPoints)
 	}
 }
 
-void i_slice(FRONT pl)
-// slice in the last objective
+/* slice in the last objective */
+void i_slice (FRONT pl)
 {
 	int i;
 
 	stacks[0][1].front.nPoints = 0;
-
-	for ( i=0; i<pl.nPoints-1; i++) {
-		stacks[i][1].width = fabs(pl.points[i].objectives[i_n-1]-pl.points[i+1].objectives[i_n-1]);
-		stacks[i][1].index = i+1;
-		i_insert(pl.points[i],i_n-2,stacks[i][1].front,i+1,1,torder[i]);
-	}
-	stacks[pl.nPoints-1][1].width = pl.points[pl.nPoints-1].objectives[i_n-1];
-	stacks[pl.nPoints-1][1].index = pl.nPoints;
-}
-
-int i_binarySearch(POINT p, int d)
-{
-	int min = 0;
-	int max = fsorted[d].nPoints-1;
-	gorder = torder[d];
-	while (min<=max) {
-		int mid = (max+min)/2;
-		if (i_same(&p,&(fsorted[d].points[mid]))) {
-			return mid;
-		}
-		else if (i_greaterorder(&p,&fsorted[d].points[mid])==-1) {
-			max = mid-1;
-		}
-		else {
-			min = mid+1;
-		}
-	}
-	print_error(1,1,"EE: Cannot find the point in binary search");
-	int i,j;
-	printf("p:");
-	for(i = 0; i< number_objective; i++)
-		printf("%lf ",p.objectives[i]);
-	printf("\n");
-
-	printf("ps:");
-	for(j = 0 ; j< fsorted[d].nPoints;j++) {
-		for (i = 0; i < number_objective; i++)
-			printf("%lf ", fsorted[d].points[j].objectives[i]);
-		printf("\n");
-	}
-
-	return -1;
-}
-
-void i_runHeuristic(FRONT ps)
-{
-	int i,j,k;
-	for ( i=0; i<i_n-1; i++) {
-		torder[i][i_n-1] = i;
-		torder[i][i] = i_n-1;
-	}
-	for ( i=i_n-1; i>=0; i--) {
-		for ( j=0; j<ps.nPoints; j++) {
-			fsorted[i].points[j] = ps.points[j];
-			tcompare[j][i] = 0;
-		}
-		fsorted[i].nPoints = ps.nPoints;
-		gorder = torder[i];
-		qsort(fsorted[i].points,ps.nPoints,sizeof(POINT),i_greaterorder);
-	}
-	for ( i=0; i<ps.nPoints; i++) {
-		for ( k=0; k<i_n; k++) {
-			tcompare[i][k] = ps.nPoints - 1 - i_binarySearch(ps.points[i],k);
-
-		}
-	}
-	for ( i=0; i<ps.nPoints; i++) {
-		for ( j=1; j<i_n; j++) {
-			int x = torder[i][j];
-			k = j;
-			while (k>0 && tcompare[i][x] < tcompare[i][torder[i][k-1]]) {
-				torder[i][k] = torder[i][k-1];
-				k--;
-			}
-			torder[i][k] = x;
-		}
-	}
-}
-
-int i_slicingDepth(int d)
-{
-	if (d <=  5) return 1;
-	if (d <=  7) return 2;
-	if (d <= 12) return 3;
-	return 4;
-}
-
-void i_ihv2(FRONT ps, double *min)
-{
-  // returns the minimum exclusive hypervolume of points in ps for the 2D case
-  qsort(ps.points,ps.nPoints,sizeof(POINT),i_greater);
-  double vol = ps.points[0].objectives[0] * (ps.points[0].objectives[1] - ps.points[1].objectives[1]);
-  double kvol;
-  int sm = 0;
-	int k;
-  for ( k = 1; k < ps.nPoints - 1; k++)
+	for (i = 0; i < pl.nPoints - 1; i++)
     {
-      kvol = (ps.points[k].objectives[0] - ps.points[k-1].objectives[0]) * (ps.points[k].objectives[1] - ps.points[k+1].objectives[1]);
-      if (kvol <= 0)
-	{
-	  min[0] = ps.points[k].objectives[0];
-	  min[1] = ps.points[k].objectives[1];
-	  min[2] = 0;
+		stacks[i][1].width = fabs (pl.points[i].objectives[i_n - 1] - pl.points[i + 1].objectives[i_n - 1]);
+		stacks[i][1].index = i + 1;
+		i_insert (pl.points[i], i_n - 2, stacks[i][1].front, i + 1, 1, torder[i]);
+	}
+	stacks[pl.nPoints - 1][1].width = pl.points[pl.nPoints - 1].objectives[i_n - 1];
+	stacks[pl.nPoints - 1][1].index = pl.nPoints;
+}
 
-	  return;
-	}
-      else
-      if (kvol < vol)
-	{
-	  vol = kvol;
-	  sm = k;
-	}
+int i_binarySearch (POINT p, int d)
+{
+    int i, j;
+    int min, mid, max;
+
+	min = 0;
+    max = fsorted[d].nPoints - 1;
+
+    gorder = torder[d];
+    while (min <= max) {
+        mid = (max + min) / 2;
+        if (i_same (&p, &(fsorted[d].points[mid])))
+            return mid;
+        else if (i_greaterorder (&p, &fsorted[d].points[mid]) == -1)
+            max = mid - 1;
+        else
+            min = mid + 1;
     }
-  kvol = (ps.points[ps.nPoints - 1].objectives[0] - ps.points[ps.nPoints - 2].objectives[0]) * ps.points[ps.nPoints - 1].objectives[1];
-  if (kvol < vol)
+    print_error (1, 1, "EE: Cannot find the point in binary search");
+    printf ("p:");
+    for (i = 0; i< number_objective; i++)
+        printf ("%lf ",p.objectives[i]);
+    printf ("\n");
+
+    printf ("ps:");
+    for (j = 0 ; j< fsorted[d].nPoints;j++)
     {
-      vol = kvol;
-      sm = ps.nPoints - 1;
+        for (i = 0; i < number_objective; i++)
+            printf ("%lf ", fsorted[d].points[j].objectives[i]);
+        printf ("\n");
     }
-  min[0] = ps.points[sm].objectives[0];
-  min[1] = ps.points[sm].objectives[1];
-  min[2] = vol;
+
+    return -1;
+}
+
+void i_runHeuristic (FRONT ps)
+{
+    int i, j, k;
+    for (i = 0; i < i_n - 1; i++)
+    {
+        torder[i][i_n - 1] = i;
+        torder[i][i] = i_n - 1;
+    }
+    for (i = i_n - 1; i >= 0; i--)
+    {
+        for (j = 0; j < ps.nPoints; j++)
+        {
+            fsorted[i].points[j] = ps.points[j];
+            tcompare[j][i] = 0;
+        }
+        fsorted[i].nPoints = ps.nPoints;
+        gorder = torder[i];
+        qsort (fsorted[i].points, ps.nPoints, sizeof(POINT), i_greaterorder);
+    }
+    for (i = 0; i < ps.nPoints; i++)
+        for (k = 0; k < i_n; k++)
+            tcompare[i][k] = ps.nPoints - 1 - i_binarySearch(ps.points[i], k);
+
+    for (i = 0; i < ps.nPoints; i++)
+    {
+        for (j = 1; j < i_n; j++)
+        {
+            int x = torder[i][j];
+            k = j;
+            while (k > 0 && tcompare[i][x] < tcompare[i][torder[i][k - 1]])
+            {
+                torder[i][k] = torder[i][k - 1];
+                k--;
+            }
+            torder[i][k] = x;
+        }
+    }
+}
+
+int i_slicingDepth (int d)
+{
+    if (d <=  5) return 1;
+    if (d <=  7) return 2;
+    if (d <= 12) return 3;
+    return 4;
+}
+
+/* returns the minimum exclusive hypervolume of points in ps for the 2D case */
+void i_ihv2 (FRONT ps, double *min)
+{
+    int k;
+    int sm;
+    double kvol;
+    double vol;
+
+    qsort (ps.points, ps.nPoints, sizeof(POINT), i_greater);
+    vol = ps.points[0].objectives[0] * (ps.points[0].objectives[1] - ps.points[1].objectives[1]);
+    sm  = 0;
+    for (k = 1; k < ps.nPoints - 1; k++)
+    {
+        kvol = (ps.points[k].objectives[0] - ps.points[k-1].objectives[0]) * (ps.points[k].objectives[1] - ps.points[k+1].objectives[1]);
+        if (kvol <= 0)
+        {
+            min[0] = ps.points[k].objectives[0];
+            min[1] = ps.points[k].objectives[1];
+            min[2] = 0;
+
+            return;
+        }
+        else
+        if (kvol < vol)
+        {
+            vol = kvol;
+            sm = k;
+        }
+    }
+    kvol = (ps.points[ps.nPoints - 1].objectives[0] - ps.points[ps.nPoints - 2].objectives[0]) * ps.points[ps.nPoints - 1].objectives[1];
+    if (kvol < vol)
+    {
+        vol = kvol;
+        sm = ps.nPoints - 1;
+    }
+    min[0] = ps.points[sm].objectives[0];
+    min[1] = ps.points[sm].objectives[1];
+    min[2] = vol;
 
 }
 
-
-
-void i_ihv(FRONT ps, double *min)
-// returns the minimum exclusive hypervolume of points in ps
+/* returns the minimum exclusive hypervolume of points in ps */
+void i_ihv (FRONT ps, double *min)
 {
-	int i,j,k,z;
-    int maxStackSize = MIN(i_slicingDepth(i_n),i_n-2)+1;   // ****
-    for ( i=0; i<MAX(ps.nPoints,i_n); i++)
-        for ( j=0; j<i_n; j++)
+    int i, j, k, z;
+    int maxStackSize = MIN(i_slicingDepth(i_n), i_n - 2) + 1;   // ****
+    for (i = 0; i < MAX(ps.nPoints, i_n); i++)
+        for (j = 0; j < i_n; j++)
             torder[i][j] = j;
-    i_runHeuristic(ps);  // ****
-    for ( i=0; i<ps.nPoints; i++) {
-        stacks[i][0].front = fsorted[torder[i][i_n-1]];
+    i_runHeuristic (ps);  // ****
+    for (i = 0; i < ps.nPoints; i++)
+    {
+        stacks[i][0].front = fsorted[torder[i][i_n - 1]];
         stacks[i][0].width = 1;
-        stacksize[i] = 2;
+        stacksize[i]       = 2;
     }
-    i_sliceOrder(ps.nPoints); // ****
+    i_sliceOrder (ps.nPoints); // ****
     i_n--;
-    for ( i=0; i<ps.nPoints; i++) {
-        SLICE top = stacks[i][stacksize[i]-1];
-        while (stacksize[i] < maxStackSize && top.front.nPoints > SLICELIMIT) {
+    for (i = 0; i < ps.nPoints; i++)
+    {
+        SLICE top = stacks[i][stacksize[i] - 1];
+        while (stacksize[i] < maxStackSize && top.front.nPoints > SLICELIMIT)
+        {
             stacks[i][stacksize[i]].front.nPoints = 0;
             int index = 0;
-            while (index < top.front.nPoints && ps.points[i].objectives[torder[i][i_n-1]] < top.front.points[index].objectives[torder[i][i_n-1]]) {
-                i_insert(top.front.points[index],i_n-2,stacks[i][stacksize[i]].front,i,stacksize[i],torder[i]);
+            while (index < top.front.nPoints && ps.points[i].objectives[torder[i][i_n - 1]] < top.front.points[index].objectives[torder[i][i_n - 1]])
+            {
+                i_insert (top.front.points[index], i_n - 2, stacks[i][stacksize[i]].front, i, stacksize[i], torder[i]);
                 index++;
             }
-            if (index < top.front.nPoints) {
-                stacks[i][stacksize[i]].width = ps.points[i].objectives[torder[i][i_n-1]]-top.front.points[index].objectives[torder[i][i_n-1]];
-            }
-            else {
-                stacks[i][stacksize[i]].width = ps.points[i].objectives[torder[i][i_n-1]];
-            }
+            if (index < top.front.nPoints)
+                stacks[i][stacksize[i]].width = ps.points[i].objectives[torder[i][i_n - 1]] - top.front.points[index].objectives[torder[i][i_n - 1]];
+            else
+                stacks[i][stacksize[i]].width = ps.points[i].objectives[torder[i][i_n - 1]];
             stacks[i][stacksize[i]].index = index;
             top = stacks[i][stacksize[i]];
             stacksize[i]++;
             i_n--;
         }
         double width = 1;
-        for ( j=0; j<stacksize[i]; j++) {
+        for (j = 0; j < stacksize[i]; j++)
             width *= stacks[i][j].width;
-        }
-        if (top.front.nPoints == 0) {
-            partial[i] = width * i_inclhvOrder(ps.points[i],torder[i]); // ****
-        }
-        else {
-            partial[i] = width * i_exclhvPoint(top.front,ps.points[i],torder[i]);
-        }
-        i_n += stacksize[i]-2;
-        while (stacksize[i]>1 && (top.index==stacks[i][stacksize[i]-2].front.nPoints ||
-                                  i_dominates1wayOrder(stacks[i][stacksize[i]-2].front.points[top.index],ps.points[i],i_n-stacksize[i]+1,torder[i]))) {
+        if (top.front.nPoints == 0)
+            partial[i] = width * i_inclhvOrder(ps.points[i], torder[i]); // ****
+        else
+            partial[i] = width * i_exclhvPoint(top.front, ps.points[i], torder[i]);
+        i_n += stacksize[i] - 2;
+        while (stacksize[i]>1 && (top.index == stacks[i][stacksize[i] - 2].front.nPoints ||
+                                  i_dominates1wayOrder (stacks[i][stacksize[i] - 2].front.points[top.index], ps.points[i], i_n - stacksize[i] + 1, torder[i])))
+        {
             stacksize[i]--;
-            top = stacks[i][stacksize[i]-1];
+            top = stacks[i][stacksize[i] - 1];
         }
     }
-    i_initialiseHeap(ps.nPoints);
+    i_initialiseHeap (ps.nPoints);
     maxStackSize = 2;
-    while (true) {
+    while (true)
+    {
         // int i = removeFromHeap();
-		i = i_peekFromHeap();
-        if (stacksize[i]<=1) {
-            for ( z=0; z<ps.n; z++) {
+        i = i_peekFromHeap ();
+        if (stacksize[i] <= 1)
+        {
+            for (z = 0; z < ps.n; z++)
                 min[z] = ps.points[i].objectives[z];
-            }
             min[ps.n] = partial[i];
             break;
         }
-        i_n -= stacksize[i]-2;
-        j = stacks[i][stacksize[i]-1].index;
-        if (j<stacks[i][stacksize[i]-2].front.nPoints-1) {
-            stacks[i][stacksize[i]-1].width = stacks[i][stacksize[i]-2].front.points[j].objectives[torder[i][i_n]] -
-                                              stacks[i][stacksize[i]-2].front.points[j+1].objectives[torder[i][i_n]];
-        }
-        else {
-            stacks[i][stacksize[i]-1].width = stacks[i][stacksize[i]-2].front.points[j].objectives[torder[i][i_n]];
-        }
-        i_insert(stacks[i][stacksize[i]-2].front.points[j],i_n-1,stacks[i][stacksize[i]-1].front,i,stacksize[i]-1,torder[i]);
-        stacks[i][stacksize[i]-1].index = j+1;
+        i_n -= stacksize[i] - 2;
+        j = stacks[i][stacksize[i] - 1].index;
+        if (j < stacks[i][stacksize[i] - 2].front.nPoints - 1)
+            stacks[i][stacksize[i] - 1].width = stacks[i][stacksize[i] - 2].front.points[j].objectives[torder[i][i_n]] -
+                                                stacks[i][stacksize[i] - 2].front.points[j + 1].objectives[torder[i][i_n]];
+        else
+            stacks[i][stacksize[i] - 1].width = stacks[i][stacksize[i] - 2].front.points[j].objectives[torder[i][i_n]];
+        i_insert (stacks[i][stacksize[i] - 2].front.points[j],i_n - 1,stacks[i][stacksize[i] - 1].front, i, stacksize[i] - 1, torder[i]);
+        stacks[i][stacksize[i] - 1].index = j + 1;
         SLICE top = stacks[i][stacksize[i]-1];
 
         double width = 1;
-        for (k=0; k<stacksize[i]; k++) {
+        for (k = 0; k < stacksize[i]; k++)
             width *= stacks[i][k].width;
-        }
-        if (top.front.nPoints == 0) {
-            partial[i] += width * i_inclhvOrder(ps.points[i],torder[i]);
-        }
-        else {
-            partial[i] += width * i_exclhvPoint(top.front,ps.points[i],torder[i]);
-        }
-        i_n += stacksize[i]-2;
-        while (stacksize[i]>1 && (top.index==stacks[i][stacksize[i]-2].front.nPoints ||
-                                  i_dominates1wayOrder(stacks[i][stacksize[i]-2].front.points[top.index],ps.points[i],i_n-stacksize[i]+1,torder[i]))) {
+        if (top.front.nPoints == 0)
+            partial[i] += width * i_inclhvOrder(ps.points[i], torder[i]);
+        else
+            partial[i] += width * i_exclhvPoint(top.front, ps.points[i], torder[i]);
+        i_n += stacksize[i] - 2;
+        while (stacksize[i] > 1 && (top.index == stacks[i][stacksize[i] - 2].front.nPoints ||
+                                    i_dominates1wayOrder (stacks[i][stacksize[i] - 2].front.points[top.index], ps.points[i], i_n - stacksize[i] + 1, torder[i])))
+        {
             stacksize[i]--;
             top = stacks[i][stacksize[i]-1];
         }
 
-        i_heapify(0,i);
+        i_heapify (0, i);
     }
     i_n++;
 }

@@ -23,13 +23,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <math.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include "wfg.h"
-#include "../../header/global.h"
+# include <stdio.h>
+# include <stdbool.h>
+# include <math.h>
+# include <sys/time.h>
+# include <sys/resource.h>
+# include "wfg.h"
+# include "../../header/global.h"
 #define BEATS(x,y)   (x > y) 
 #define WORSE(x,y)   (BEATS(y,x) ? (x) : (y)) 
 
@@ -616,7 +616,8 @@ double hv_wfg (void *ptr)
 			for(k = 0; k < f->fronts[i].n; k++)
 				f->fronts[i].points[j].objectives[k] = ref.objectives[k]> f->fronts[i].points[j].objectives[k]?(ref.objectives[k]-f->fronts[i].points[j].objectives[k]):0;
 
-	for (i = 0; i < f->nFronts; i++) {
+	for (i = 0; i < f->nFronts; i++)
+	{
 		struct timeval tv1, tv2;
 		struct rusage ru_before, ru_after;
 		getrusage (RUSAGE_SELF, &ru_before);
