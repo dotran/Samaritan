@@ -156,7 +156,7 @@ int i_dominates2way(POINT p, POINT q, int k)
 }
 
 /* returns true if p dominates q or p == q, false otherwise the assumption is that q doesn't dominate p
-    k is the highest index inspected */
+ * k is the highest index inspected */
 bool i_dominates1way (POINT p, POINT q, int k)
 {
 	int i;
@@ -168,7 +168,7 @@ bool i_dominates1way (POINT p, POINT q, int k)
 }
 
 /* returns true if p dominates q or p == q, false otherwise the assumption is that q doesn't dominate p
-    k is the highest index inspected */
+ * k is the highest index inspected */
 bool i_dominates1wayOrder (POINT p, POINT q, int k, int* order)
 {
 	int i;
@@ -179,18 +179,20 @@ bool i_dominates1wayOrder (POINT p, POINT q, int k, int* order)
 	return true;
 }
 
-void i_removeDominated(int l, int limit)
+/* points below l are all equal in the last objective; points above l are all worse points below l can dominate each
+ * other, and we don't need to compare the last objective points above l cannot dominate points that start below l,
+ * and we don't need to compare the last objective */
+void i_removeDominated (int l, int limit)
 {
+	int i, j, k;
 	POINT t;
-	int i,j;
-  // points below l are all equal in the last objective; points above l are all worse
-  // points below l can dominate each other, and we don't need to compare the last objective
-  // points above l cannot dominate points that start below l, and we don't need to compare the last objective
 	i_fs[i_fr].nPoints = 1;
-	for ( i = 1; i < l; i++) {
+	for (i = 1; i < l; i++)
+	{
 		j = 0;
 		while (j < i_fs[i_fr].nPoints) {
-			switch (i_dominates2way(i_fs[i_fr].points[i], i_fs[i_fr].points[j], i_n-2)) {
+			switch (i_dominates2way (i_fs[i_fr].points[i], i_fs[i_fr].points[j], i_n - 2))
+			{
 				case  0:
 					j++;
 					break;
@@ -199,45 +201,48 @@ void i_removeDominated(int l, int limit)
 					t = i_fs[i_fr].points[j];
 					i_fs[i_fr].points[j] = i_fs[i_fr].points[i];
 					i_fs[i_fr].points[i] = t;
-					while(j < i_fs[i_fr].nPoints - 1 && i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[i_fs[i_fr].nPoints - 1], i_n-1)) {
+					while (j < i_fs[i_fr].nPoints - 1 && i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[i_fs[i_fr].nPoints - 1], i_n - 1))
 						i_fs[i_fr].nPoints--;
-					}
-					int k = j+1;
-					while (k < i_fs[i_fr].nPoints) {
-						if(i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[k], i_n-2)) {
+					k = j + 1;
+					while (k < i_fs[i_fr].nPoints)
+					{
+						if (i_dominates1way (i_fs[i_fr].points[j], i_fs[i_fr].points[k], i_n - 2))
+						{
 							t = i_fs[i_fr].points[k];
 							i_fs[i_fr].nPoints--;
 							i_fs[i_fr].points[k] = i_fs[i_fr].points[i_fs[i_fr].nPoints];
 							i_fs[i_fr].points[i_fs[i_fr].nPoints] = t;
 						}
-						else {
+						else
 							k++;
-						}
 					}
 				default:
 					j = i_fs[i_fr].nPoints + 1;
 			}
 		}
-		if (j == i_fs[i_fr].nPoints) {
+		if (j == i_fs[i_fr].nPoints)
+		{
 			t = i_fs[i_fr].points[i_fs[i_fr].nPoints];
 			i_fs[i_fr].points[i_fs[i_fr].nPoints] = i_fs[i_fr].points[i];
 			i_fs[i_fr].points[i] = t;
 			i_fs[i_fr].nPoints++;
 		}
 	}
-	i_safe = WORSE(l,i_fs[i_fr].nPoints);
-	for ( i = l; i < limit; i++) {
+	i_safe = WORSE(l, i_fs[i_fr].nPoints);
+	for (i = l; i < limit; i++)
+	{
 		j = 0;
-		while (j < i_safe) {
-			if(i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[i], i_n-2)) {
+		while (j < i_safe)
+		{
+			if (i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[i], i_n - 2))
 				j = i_fs[i_fr].nPoints + 1;
-			}
-			else {
+			else
 				j++;
-			}
 		}
-		while (j < i_fs[i_fr].nPoints) {
-			switch (i_dominates2way(i_fs[i_fr].points[i], i_fs[i_fr].points[j], i_n-1)) {
+		while (j < i_fs[i_fr].nPoints)
+		{
+			switch (i_dominates2way (i_fs[i_fr].points[i], i_fs[i_fr].points[j], i_n - 1))
+			{
 				case  0:
 					j++;
 					break;
@@ -246,26 +251,27 @@ void i_removeDominated(int l, int limit)
 					t = i_fs[i_fr].points[j];
 					i_fs[i_fr].points[j] = i_fs[i_fr].points[i];
 					i_fs[i_fr].points[i] = t;
-					while(j < i_fs[i_fr].nPoints - 1 && i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[i_fs[i_fr].nPoints - 1], i_n-1)) {
+					while(j < i_fs[i_fr].nPoints - 1 && i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[i_fs[i_fr].nPoints - 1], i_n-1))
 						i_fs[i_fr].nPoints--;
-					}
-					int k = j+1;
-					while (k < i_fs[i_fr].nPoints) {
-						if(i_dominates1way(i_fs[i_fr].points[j], i_fs[i_fr].points[k], i_n-1)) {
+					k = j + 1;
+					while (k < i_fs[i_fr].nPoints)
+					{
+						if (i_dominates1way (i_fs[i_fr].points[j], i_fs[i_fr].points[k], i_n - 1))
+						{
 							t = i_fs[i_fr].points[k];
 							i_fs[i_fr].nPoints--;
 							i_fs[i_fr].points[k] = i_fs[i_fr].points[i_fs[i_fr].nPoints];
 							i_fs[i_fr].points[i_fs[i_fr].nPoints] = t;
 						}
-						else {
+						else
 							k++;
-						}
 					}
 				default:
 					j = i_fs[i_fr].nPoints + 1;
 			}
 		}
-		if (j == i_fs[i_fr].nPoints) {
+		if (j == i_fs[i_fr].nPoints)
+		{
 			t = i_fs[i_fr].points[i_fs[i_fr].nPoints];
 			i_fs[i_fr].points[i_fs[i_fr].nPoints] = i_fs[i_fr].points[i];
 			i_fs[i_fr].points[i] = t;
@@ -275,85 +281,86 @@ void i_removeDominated(int l, int limit)
 	i_fr++;
 }
 
-void i_makeDominatedBit(FRONT ps, int p)
-// creates the front ps[0 .. p-1] in i_fs[i_fr], with each point bounded by ps[p] and dominated points removed
+/* creates the front ps[0 .. p-1] in i_fs[i_fr], with each point bounded by ps[p] and dominated points removed */
+void i_makeDominatedBit (FRONT ps, int p)
 {
-	int i,j;
+	int i, j;
 	int l = 0;
 	int u = p - 1;
-	for (i = p - 1; i >= 0; i--) {
-		if (BEATS(ps.points[p].objectives[i_n - 1],ps.points[i].objectives[i_n - 1])) {
+	for (i = p - 1; i >= 0; i--)
+	{
+		if (BEATS(ps.points[p].objectives[i_n - 1], ps.points[i].objectives[i_n - 1]))
+		{
 			i_fs[i_fr].points[u].objectives[i_n - 1] = ps.points[i].objectives[i_n - 1];
-			for ( j = 0; j < i_n - 1; j++) {
+			for (j = 0; j < i_n - 1; j++)
 				i_fs[i_fr].points[u].objectives[j] = WORSE(ps.points[p].objectives[j],ps.points[i].objectives[j]);
-			}
 			u--;
 		}
-		else {
+		else
+		{
 			i_fs[i_fr].points[l].objectives[i_n - 1] = ps.points[p].objectives[i_n - 1];
-			for ( j = 0; j < i_n - 1; j++) {
+			for (j = 0; j < i_n - 1; j++)
 				i_fs[i_fr].points[l].objectives[j] = WORSE(ps.points[p].objectives[j],ps.points[i].objectives[j]);
-			}
 			l++;
 		}
 	}
-	i_removeDominated(l,p);
+	i_removeDominated (l, p);
 }
 
 
-double i_hv2(FRONT ps, int k)
-// returns the hypervolume of ps[0 .. k-1] in 2D
-// assumes that ps is sorted improving
+/* returns the hypervolume of ps[0 .. k-1] in 2D assumes that ps is sorted improving */
+double i_hv2 (FRONT ps, int k)
 {
 	int i;
 	double volume = ps.points[0].objectives[0] * ps.points[0].objectives[1];
-	for ( i = 1; i < k; i++) {
+	for (i = 1; i < k; i++)
 		volume += ps.points[i].objectives[1] * (ps.points[i].objectives[0] - ps.points[i - 1].objectives[0]);
-	}
+
 	return volume;
 }
 
 
-double i_inclhv(POINT p)
-// returns the inclusive hypervolume of p
+/* returns the inclusive hypervolume of p */
+double i_inclhv (POINT p)
 {
 	int i;
 	double volume = 1;
-	for ( i = 0; i < i_n; i++) {
+	for (i = 0; i < i_n; i++)
 		volume *= p.objectives[i];
-	}
+
 	return volume;
 }
 
-double i_inclhvOrder(POINT p, int* order)
-// returns the inclusive hypervolume of p
+/* returns the inclusive hypervolume of p */
+double i_inclhvOrder (POINT p, int* order)
 {
 	int i;
 	double volume = 1;
-	for ( i = 0; i < i_n; i++) {
+	for (i = 0; i < i_n; i++)
 		volume *= p.objectives[order[i]];
-	}
+
 	return volume;
 }
 
-double i_inclhv2(POINT p, POINT q)
-// returns the hypervolume of {p, q}
+/* returns the hypervolume of {p, q} */
+double i_inclhv2 (POINT p, POINT q)
 {
 	int i;
 	double vp  = 1;
 	double vq  = 1;
 	double vpq = 1;
-	for ( i = 0; i < i_n; i++) {
+	for (i = 0; i < i_n; i++)
+	{
 		vp  *= p.objectives[i];
 		vq  *= q.objectives[i];
 		vpq *= WORSE(p.objectives[i],q.objectives[i]);
 	}
+
 	return vp + vq - vpq;
 }
 
-
-double i_inclhv3(POINT p, POINT q, POINT r)
-// returns the hypervolume of {p, q, r}
+/* returns the hypervolume of {p, q, r} */
+double i_inclhv3 (POINT p, POINT q, POINT r)
 {
 	int i;
 	double vp = 1;
@@ -363,34 +370,40 @@ double i_inclhv3(POINT p, POINT q, POINT r)
 	double vpr = 1;
 	double vqr = 1;
 	double vpqr = 1;
-	for ( i = 0; i < i_n; i++) {
+	for (i = 0; i < i_n; i++)
+	{
 		vp *= p.objectives[i];
 		vq *= q.objectives[i];
 		vr *= r.objectives[i];
-		if (BEATS(p.objectives[i],q.objectives[i])) {
-			if (BEATS(q.objectives[i],r.objectives[i])) {
+		if (BEATS(p.objectives[i],q.objectives[i]))
+		{
+			if (BEATS(q.objectives[i],r.objectives[i]))
+			{
 				vpq  *= q.objectives[i];
 				vpr  *= r.objectives[i];
 				vqr  *= r.objectives[i];
 				vpqr *= r.objectives[i];
 			}
-			else {
+			else
+			{
 				vpq  *= q.objectives[i];
-				vpr  *= WORSE(p.objectives[i],r.objectives[i]);
+				vpr  *= WORSE(p.objectives[i], r.objectives[i]);
 				vqr  *= q.objectives[i];
 				vpqr *= q.objectives[i];
 			}
 		}
-		else if (BEATS(p.objectives[i],r.objectives[i])) {
+		else if (BEATS(p.objectives[i], r.objectives[i]))
+		{
 			vpq  *= p.objectives[i];
 			vpr  *= r.objectives[i];
 			vqr  *= r.objectives[i];
 			vpqr *= r.objectives[i];
 		}
-		else {
+		else
+		{
 			vpq  *= p.objectives[i];
 			vpr  *= p.objectives[i];
-			vqr  *= WORSE(q.objectives[i],r.objectives[i]);
+			vqr  *= WORSE(q.objectives[i], r.objectives[i]);
 			vpqr *= p.objectives[i];
 		}
 
@@ -398,10 +411,10 @@ double i_inclhv3(POINT p, POINT q, POINT r)
 	return vp + vq + vr - vpq - vpr - vqr + vpqr;
 }
 
-
-double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
-// returns the hypervolume of {p, q, r, s}
+/* returns the hypervolume of {p, q, r, s} */
+double i_inclhv4 (POINT p, POINT q, POINT r, POINT s)
 {
+	int i;
 	double vp = 1;
 	double vq = 1;
 	double vr = 1;
@@ -417,15 +430,18 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 	double vprs = 1;
 	double vqrs = 1;
 	double vpqrs = 1;
-	int i;
-	for ( i = 0; i < i_n; i++) {
+	for (i = 0; i < i_n; i++)
+	{
 		vp *= p.objectives[i];
 		vq *= q.objectives[i];
 		vr *= r.objectives[i];
 		vs *= s.objectives[i];
-		if (BEATS(p.objectives[i],q.objectives[i])) {
-			if (BEATS(q.objectives[i],r.objectives[i])) {
-				if (BEATS(r.objectives[i],s.objectives[i])) {
+		if (BEATS(p.objectives[i], q.objectives[i]))
+		{
+			if (BEATS(q.objectives[i], r.objectives[i]))
+			{
+				if (BEATS(r.objectives[i], s.objectives[i]))
+				{
 					vpq *= q.objectives[i];
 					vpr *= r.objectives[i];
 					vps *= s.objectives[i];
@@ -438,11 +454,12 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 					vqrs *= s.objectives[i];
 					vpqrs *= s.objectives[i];
 				}
-				else {
-					OBJECTIVE z1 = WORSE(q.objectives[i],s.objectives[i]);
+				else
+				{
+					OBJECTIVE z1 = WORSE(q.objectives[i], s.objectives[i]);
 					vpq *= q.objectives[i];
 					vpr *= r.objectives[i];
-					vps *= WORSE(p.objectives[i],s.objectives[i]);
+					vps *= WORSE(p.objectives[i], s.objectives[i]);
 					vqr *= r.objectives[i];
 					vqs *= z1;
 					vrs *= r.objectives[i];
@@ -453,9 +470,10 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 					vpqrs *= r.objectives[i];
 				}
 			}
-			else if (BEATS(q.objectives[i],s.objectives[i])) {
+			else if (BEATS(q.objectives[i], s.objectives[i]))
+			{
 				vpq *= q.objectives[i];
-				vpr *= WORSE(p.objectives[i],r.objectives[i]);
+				vpr *= WORSE(p.objectives[i], r.objectives[i]);
 				vps *= s.objectives[i];
 				vqr *= q.objectives[i];
 				vqs *= s.objectives[i];
@@ -466,25 +484,28 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 				vqrs *= s.objectives[i];
 				vpqrs *= s.objectives[i];
 			}
-			else {
-				OBJECTIVE z1 = WORSE(p.objectives[i],r.objectives[i]);
+			else
+			{
+				OBJECTIVE z1 = WORSE(p.objectives[i], r.objectives[i]);
 				vpq *= q.objectives[i];
 				vpr *= z1;
-				vps *= WORSE(p.objectives[i],s.objectives[i]);
+				vps *= WORSE(p.objectives[i], s.objectives[i]);
 				vqr *= q.objectives[i];
 				vqs *= q.objectives[i];
-				vrs *= WORSE(r.objectives[i],s.objectives[i]);
+				vrs *= WORSE(r.objectives[i], s.objectives[i]);
 				vpqr *= q.objectives[i];
 				vpqs *= q.objectives[i];
-				vprs *= WORSE(z1,s.objectives[i]);
+				vprs *= WORSE(z1, s.objectives[i]);
 				vqrs *= q.objectives[i];
 				vpqrs *= q.objectives[i];
 			}
 		}
-		else if (BEATS(q.objectives[i],r.objectives[i])) {
-			if (BEATS(p.objectives[i],s.objectives[i])) {
-				OBJECTIVE z1 = WORSE(p.objectives[i],r.objectives[i]);
-				OBJECTIVE z2 = WORSE(r.objectives[i],s.objectives[i]);
+		else if (BEATS(q.objectives[i], r.objectives[i]))
+		{
+			if (BEATS(p.objectives[i], s.objectives[i]))
+			{
+				OBJECTIVE z1 = WORSE(p.objectives[i], r.objectives[i]);
+				OBJECTIVE z2 = WORSE(r.objectives[i], s.objectives[i]);
 				vpq *= p.objectives[i];
 				vpr *= z1;
 				vps *= s.objectives[i];
@@ -497,14 +518,15 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 				vqrs *= z2;
 				vpqrs *= z2;
 			}
-			else {
-				OBJECTIVE z1 = WORSE(p.objectives[i],r.objectives[i]);
-				OBJECTIVE z2 = WORSE(r.objectives[i],s.objectives[i]);
+			else
+			{
+				OBJECTIVE z1 = WORSE(p.objectives[i], r.objectives[i]);
+				OBJECTIVE z2 = WORSE(r.objectives[i], s.objectives[i]);
 				vpq *= p.objectives[i];
 				vpr *= z1;
 				vps *= p.objectives[i];
 				vqr *= r.objectives[i];
-				vqs *= WORSE(q.objectives[i],s.objectives[i]);
+				vqs *= WORSE(q.objectives[i], s.objectives[i]);
 				vrs *= z2;
 				vpqr *= z1;
 				vpqs *= p.objectives[i];
@@ -513,7 +535,8 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 				vpqrs *= z1;
 			}
 		}
-		else if (BEATS(p.objectives[i],s.objectives[i])) {
+		else if (BEATS(p.objectives[i], s.objectives[i]))
+		{
 				vpq *= p.objectives[i];
 				vpr *= p.objectives[i];
 				vps *= s.objectives[i];
@@ -526,14 +549,15 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 				vqrs *= s.objectives[i];
 				vpqrs *= s.objectives[i];
 			}
-		else {
-			OBJECTIVE z1 = WORSE(q.objectives[i],s.objectives[i]);
+		else
+		{
+			OBJECTIVE z1 = WORSE(q.objectives[i], s.objectives[i]);
 			vpq *= p.objectives[i];
 			vpr *= p.objectives[i];
 			vps *= p.objectives[i];
 			vqr *= q.objectives[i];
 			vqs *= z1;
-			vrs *= WORSE(r.objectives[i],s.objectives[i]);
+			vrs *= WORSE(r.objectives[i], s.objectives[i]);
 			vpqr *= p.objectives[i];
 			vpqs *= p.objectives[i];
 			vprs *= p.objectives[i];
@@ -544,9 +568,10 @@ double i_inclhv4(POINT p, POINT q, POINT r, POINT s)
 	return vp + vq + vr + vs - vpq - vpr - vps - vqr - vqs - vrs + vpqr + vpqs + vprs + vqrs - vpqrs;
 }
 
-double i_inclhv5(POINT p, POINT q, POINT r, POINT s, POINT t)
-// returns the hypervolume of {p, q, r, s, t}
+/* returns the hypervolume of {p, q, r, s, t} */
+double i_inclhv5 (POINT p, POINT q, POINT r, POINT s, POINT t)
 {
+    int i;
 	double vp = 1;
 	double vq = 1;
 	double vr = 1;
@@ -582,57 +607,56 @@ double i_inclhv5(POINT p, POINT q, POINT r, POINT s, POINT t)
 	double vqrst = 1;
 
 	double vpqrst = 1;
-	int i;
 
-	for ( i = 0; i < i_n; i++) {
+	for (i = 0; i < i_n; i++) {
 		vp *= p.objectives[i];
 		vq *= q.objectives[i];
 		vr *= r.objectives[i];
 		vs *= s.objectives[i];
 		vt *= t.objectives[i];
-		vpq *= WORSE(p.objectives[i],q.objectives[i]);
-		vpr *= WORSE(p.objectives[i],r.objectives[i]);
-		vps *= WORSE(p.objectives[i],s.objectives[i]);
-		vpt *= WORSE(p.objectives[i],t.objectives[i]);
-		vqr *= WORSE(q.objectives[i],r.objectives[i]);
-		vqs *= WORSE(q.objectives[i],s.objectives[i]);
-		vqt *= WORSE(q.objectives[i],t.objectives[i]);
-		vrs *= WORSE(r.objectives[i],s.objectives[i]);
-		vrt *= WORSE(r.objectives[i],t.objectives[i]);
-		vst *= WORSE(s.objectives[i],t.objectives[i]);
+		vpq *= WORSE(p.objectives[i], q.objectives[i]);
+		vpr *= WORSE(p.objectives[i], r.objectives[i]);
+		vps *= WORSE(p.objectives[i], s.objectives[i]);
+		vpt *= WORSE(p.objectives[i], t.objectives[i]);
+		vqr *= WORSE(q.objectives[i], r.objectives[i]);
+		vqs *= WORSE(q.objectives[i], s.objectives[i]);
+		vqt *= WORSE(q.objectives[i], t.objectives[i]);
+		vrs *= WORSE(r.objectives[i], s.objectives[i]);
+		vrt *= WORSE(r.objectives[i], t.objectives[i]);
+		vst *= WORSE(s.objectives[i], t.objectives[i]);
 		vpqr *= WORSE(p.objectives[i],
-                      WORSE(q.objectives[i],r.objectives[i]));
+                      WORSE(q.objectives[i], r.objectives[i]));
 		vpqs *= WORSE(p.objectives[i],
-                      WORSE(q.objectives[i],s.objectives[i]));
+                      WORSE(q.objectives[i], s.objectives[i]));
 		vpqt *= WORSE(p.objectives[i],
-                      WORSE(q.objectives[i],t.objectives[i]));
+                      WORSE(q.objectives[i], t.objectives[i]));
 		vprs *= WORSE(p.objectives[i],
-                      WORSE(r.objectives[i],s.objectives[i]));
+                      WORSE(r.objectives[i], s.objectives[i]));
 		vprt *= WORSE(p.objectives[i],
-                      WORSE(r.objectives[i],t.objectives[i]));
+                      WORSE(r.objectives[i], t.objectives[i]));
 		vpst *= WORSE(p.objectives[i],
-                      WORSE(s.objectives[i],t.objectives[i]));
+                      WORSE(s.objectives[i], t.objectives[i]));
 		vqrs *= WORSE(q.objectives[i],
-                      WORSE(r.objectives[i],s.objectives[i]));
+                      WORSE(r.objectives[i], s.objectives[i]));
 		vqrt *= WORSE(q.objectives[i],
-                      WORSE(r.objectives[i],t.objectives[i]));
+                      WORSE(r.objectives[i], t.objectives[i]));
 		vqst *= WORSE(q.objectives[i],
-                      WORSE(s.objectives[i],t.objectives[i]));
+                      WORSE(s.objectives[i], t.objectives[i]));
 		vrst *= WORSE(r.objectives[i],
-                      WORSE(s.objectives[i],t.objectives[i]));
-		vpqrs *= WORSE(WORSE(p.objectives[i],q.objectives[i]),
-                         WORSE(r.objectives[i],s.objectives[i]));
-		vpqrt *= WORSE(WORSE(p.objectives[i],q.objectives[i]),
-                         WORSE(r.objectives[i],t.objectives[i]));
-		vpqst *= WORSE(WORSE(p.objectives[i],q.objectives[i]),
-                         WORSE(s.objectives[i],t.objectives[i]));
-		vprst *= WORSE(WORSE(p.objectives[i],r.objectives[i]),
-                         WORSE(s.objectives[i],t.objectives[i]));
-		vqrst *= WORSE(WORSE(q.objectives[i],r.objectives[i]),
-                         WORSE(s.objectives[i],t.objectives[i]));
+                      WORSE(s.objectives[i], t.objectives[i]));
+		vpqrs *= WORSE(WORSE(p.objectives[i], q.objectives[i]),
+                         WORSE(r.objectives[i], s.objectives[i]));
+		vpqrt *= WORSE(WORSE(p.objectives[i], q.objectives[i]),
+                         WORSE(r.objectives[i], t.objectives[i]));
+		vpqst *= WORSE(WORSE(p.objectives[i], q.objectives[i]),
+                         WORSE(s.objectives[i], t.objectives[i]));
+		vprst *= WORSE(WORSE(p.objectives[i], r.objectives[i]),
+                         WORSE(s.objectives[i], t.objectives[i]));
+		vqrst *= WORSE(WORSE(q.objectives[i], r.objectives[i]),
+                         WORSE(s.objectives[i], t.objectives[i]));
 		vpqrst *= WORSE(WORSE(p.objectives[i],
-                         WORSE(q.objectives[i],r.objectives[i])),
-                         WORSE(s.objectives[i],t.objectives[i]));
+                         WORSE(q.objectives[i], r.objectives[i])),
+                         WORSE(s.objectives[i], t.objectives[i]));
 	}
 	return vp + vq + vr + vs + vt
 - vpq  - vpr  - vps  - vpt  - vqr  - vqs  - vqt  - vrs  - vrt  - vst
@@ -641,286 +665,257 @@ double i_inclhv5(POINT p, POINT q, POINT r, POINT s, POINT t)
 + vpqrst;
 }
 
-
-double i_exclhv(FRONT ps, int p)
-// returns the exclusive hypervolume of ps[p] relative to ps[0 .. p-1]
+/* returns the exclusive hypervolume of ps[p] relative to ps[0 .. p-1] */
+double i_exclhv (FRONT ps, int p)
 {
-	i_makeDominatedBit(ps, p);
-	double volume = i_inclhv(ps.points[p]) - i_hv(i_fs[i_fr - 1]);
+    double volume;
+	i_makeDominatedBit (ps, p);
+	volume = i_inclhv (ps.points[p]) - i_hv (i_fs[i_fr - 1]);
 	i_fr--;
+
 	return volume;
 }
 
-double i_hv_contribution(FRONT ps, int id,double whole_hv)
+double i_hv_contribution (FRONT ps, int id, double whole_hv)
 {
-    int i,j;
-/*
-	printf("\n------%d-------\n",id);
-	for(i=0;i<ps.nPoints;i++)
-	{
-		for(j=0;j<ps.n;j++)
-			printf("%lf ",ps.points[i].objectives[j]);
-		printf("\n");
-	}
-*/
-	for(i=0;i<ps.n;i++)
-		ps.points[id].objectives[i]=0;
+    int i;
+	for (i = 0; i < ps.n; i++)
+		ps.points[id].objectives[i] = 0;
 
-/*
-	printf("\n-------%d--------\n",id);
-	for(i=0;i<ps.nPoints;i++)
-	{
-		for(j=0;j<ps.n;j++)
-			printf("%lf ",ps.points[i].objectives[j]);
-		printf("\n");
-	}
-	printf("\n--------------\n");
-*/
+    whole_hv = whole_hv - i_hv (ps);
 
-
-    whole_hv = whole_hv - i_hv(ps);
-
-
-	/*
-	for(i=0;i<ps.nPoints;i++)
-	{
-		for(j=0;j<ps.n;j++)
-			printf("%lf ",ps.points[i].objectives[j]);
-		printf("\n");
-	}
-	printf("\n-----++++------\n");
-    */
     return  whole_hv;
 }
-double i_hv(FRONT ps)
-// returns the hypervolume of ps[0 ..]
+
+/* returns the hypervolume of ps[0 ..] */
+double i_hv (FRONT ps)
 {
 	int i;
+    double volume;
 	// process small fronts with the IEA
-	switch (ps.nPoints) {
+	switch (ps.nPoints)
+    {
 		case 1:
 			return i_inclhv (ps.points[0]);
 		case 2:
-			return i_inclhv2(ps.points[0], ps.points[1]);
+			return i_inclhv2 (ps.points[0], ps.points[1]);
 		case 3:
-			return i_inclhv3(ps.points[0], ps.points[1], ps.points[2]);
+			return i_inclhv3 (ps.points[0], ps.points[1], ps.points[2]);
 		case 4:
-			return i_inclhv4(ps.points[0], ps.points[1], ps.points[2], ps.points[3]);
+			return i_inclhv4 (ps.points[0], ps.points[1], ps.points[2], ps.points[3]);
 	}
 
 	// these points need sorting
-	qsort(&ps.points[i_safe], ps.nPoints - i_safe, sizeof(POINT), i_greater);
+	qsort (&ps.points[i_safe], ps.nPoints - i_safe, sizeof(POINT), i_greater);
 	// n = 2 implies that safe = 0
-	if (i_n == 2) {
-		return i_hv2(ps, ps.nPoints);
-	}
-	// these points don't NEED sorting, but it helps
-	qsort(ps.points, i_safe, sizeof(POINT), i_greaterabbrev);
+	if (i_n == 2)
+		return i_hv2 (ps, ps.nPoints);
 
-	if (i_n == 3 && i_safe > 0) {
-		double volume = ps.points[0].objectives[2] * i_hv2(ps, i_safe);
+	// these points don't NEED sorting, but it helps
+	qsort (ps.points, i_safe, sizeof(POINT), i_greaterabbrev);
+
+	if (i_n == 3 && i_safe > 0)
+    {
+		volume = ps.points[0].objectives[2] * i_hv2 (ps, i_safe);
 		i_n--;
-		for ( i = i_safe; i < ps.nPoints; i++) {
+		for ( i = i_safe; i < ps.nPoints; i++)
+        {
 			// we can ditch dominated points here, but they will be ditched anyway in makeDominatedBit
-			volume += ps.points[i].objectives[i_n] * i_exclhv(ps, i);
+			volume += ps.points[i].objectives[i_n] * i_exclhv (ps, i);
 		}
 		i_n++;
 		return volume;
 	}
 	else {
-		double volume = i_inclhv4(ps.points[0], ps.points[1], ps.points[2], ps.points[3]);
+		double volume = i_inclhv4 (ps.points[0], ps.points[1], ps.points[2], ps.points[3]);
 		i_n--;
-		for ( i = 4; i < ps.nPoints; i++) {
+		for (i = 4; i < ps.nPoints; i++)
+        {
 			// we can ditch dominated points here, but they will be ditched anyway in makeDominatedBit
-			volume += ps.points[i].objectives[i_n] * i_exclhv(ps, i);
+			volume += ps.points[i].objectives[i_n] * i_exclhv (ps, i);
 		}
 		i_n++;
 		return volume;
 	}
 }
 
-void i_makeDominatedBitPoint(FRONT ps, POINT p, int* order)
-// creates the front ps in i_fs[i_fr], with each point bounded by p and dominated points removed
+/* creates the front ps in i_fs[i_fr], with each point bounded by p and dominated points removed */
+void i_makeDominatedBitPoint (FRONT ps, POINT p, int* order)
 {
-	int i,j;
+	int i, j;
 	int l = 0;
 	int u = ps.nPoints - 1;
-	for ( i = ps.nPoints - 1; i >= 0; i--) {
-		if (BEATS(p.objectives[order[i_n - 1]],ps.points[i].objectives[order[i_n - 1]])) {
+	for (i = ps.nPoints - 1; i >= 0; i--)
+    {
+		if (BEATS(p.objectives[order[i_n - 1]], ps.points[i].objectives[order[i_n - 1]]))
+        {
 			i_fs[i_fr].points[u].objectives[i_n - 1] = ps.points[i].objectives[order[i_n - 1]];
-			for ( j = 0; j < i_n - 1; j++) {
-				i_fs[i_fr].points[u].objectives[j] = WORSE(p.objectives[order[j]],ps.points[i].objectives[order[j]]);
-			}
+			for (j = 0; j < i_n - 1; j++)
+				i_fs[i_fr].points[u].objectives[j] = WORSE(p.objectives[order[j]], ps.points[i].objectives[order[j]]);
 			u--;
 		}
 		else {
 			i_fs[i_fr].points[l].objectives[i_n - 1] = p.objectives[order[i_n - 1]];
-			for ( j = 0; j < i_n - 1; j++) {
+			for (j = 0; j < i_n - 1; j++)
 				i_fs[i_fr].points[l].objectives[j] = WORSE(p.objectives[order[j]],ps.points[i].objectives[order[j]]); 
-			}
 			l++;
 		}
 	}
-	i_removeDominated(l,ps.nPoints);
+	i_removeDominated (l, ps.nPoints);
 }
 
-double i_exclhvPoint(FRONT ps, POINT p, int* order)
-// returns the exclusive hypervolume of p relative to ps
+/* returns the exclusive hypervolume of p relative to ps */
+double i_exclhvPoint (FRONT ps, POINT p, int* order)
 {
-	i_makeDominatedBitPoint(ps, p, order);
-	double volume = i_inclhvOrder(p,order) - i_hv(i_fs[i_fr - 1]);
+    double volume;
+	i_makeDominatedBitPoint (ps, p, order);
+	volume = i_inclhvOrder (p, order) - i_hv(i_fs[i_fr - 1]);
 	i_fr--;
 	return volume;
 }
 
-void i_heapify(int location, int index)
-// restores heap property starting at location and working downwards to place index in heap
+/* restores heap property starting at location and working downwards to place index in heap */
+void i_heapify (int location, int index)
 {
-	while (2*location+2<heapsize) {
-		bool left = false;
-		bool right = false;
-		if (partial[heap[2*location+1]] < partial[index]) {
+    bool left, right;
+	while (2 * location + 2 < heapsize)
+    {
+		left  = false;
+		right = false;
+		if (partial[heap[2*location+1]] < partial[index])
 			left = true;
-		}
-		if (partial[heap[2*location+2]] < partial[index]) {
+		if (partial[heap[2*location+2]] < partial[index])
 			right = true;
-		}
-		if (left) {
-			if (right && partial[heap[2*location+2]] < partial[heap[2*location+1]]) {
-				heap[location] = heap[2*location+2];
-				location = 2*location+2;
+		if (left)
+        {
+			if (right && partial[heap[2 * location + 2]] < partial[heap[2 * location + 1]])
+            {
+				heap[location] = heap[2 * location + 2];
+				location = 2 * location + 2;
 			}
-			else {
-				heap[location] = heap[2*location+1];
-				location = 2*location+1;
+			else
+            {
+				heap[location] = heap[2 * location + 1];
+				location = 2 * location + 1;
 			}
 		}
-		else if (right) {
-			heap[location] = heap[2*location+2];
-			location = 2*location+2;
+		else if (right)
+        {
+			heap[location] = heap[2 * location + 2];
+			location = 2 * location + 2;
 		}
-		else {
+		else
 			break;
-		}
 	}
-	if (2*location+1<heapsize && partial[heap[2*location+1]] < partial[index]) {
-		heap[location] = heap[2*location+1];
-		location = 2*location+1;
+	if (2 * location + 1 < heapsize && partial[heap[2 * location + 1]] < partial[index])
+    {
+		heap[location] = heap[2 * location + 1];
+		location = 2 * location + 1;
 	}
 	heap[location] = index;
 }
 
-int i_peekFromHeap(void)
+int i_peekFromHeap (void)
 {
 	return heap[0];
 }
 
-void i_initialiseHeap(int capacity)
-// creates the heap with the indexes 0..(capacity-1) 
+/* creates the heap with the indexes 0..(capacity-1)  */
+void i_initialiseHeap (int capacity)
 {
 	int i;
 	heapsize = capacity;
-	for ( i=heapsize-1; i>=0; i--) {
-		i_heapify(i,i);
-	}
+	for (i = heapsize - 1; i >= 0; i--)
+		i_heapify(i, i);
 }
 
-void i_insert(POINT p, int k, FRONT pl, int i, int j, int* order)
-// inserts p into pl with the result in stacks[i][j]
+/* inserts p into pl with the result in stacks[i][j] */
+void i_insert (POINT p, int k, FRONT pl, int i, int j, int *order)
 {
 	int place = 0;
-	while (place < pl.nPoints && pl.points[place].objectives[order[k]] > p.objectives[order[k]]) {
+    int placeNext;
+	while (place < pl.nPoints && pl.points[place].objectives[order[k]] > p.objectives[order[k]])
+    {
 		stacks[i][j].front.points[place] = pl.points[place];
 		place++;
 	}
 	POINT pp = pl.points[place];
 	stacks[i][j].front.points[place] = p;
-	int placeNext = place + 1;
-	POINT ppn = pl.points[place+1];
-	while (place < pl.nPoints) {
-		if (!i_dominates1wayOrder(p,pp,k,order)) {
+	placeNext = place + 1;
+	POINT ppn = pl.points[place + 1];
+	while (place < pl.nPoints)
+    {
+		if (!i_dominates1wayOrder (p, pp, k, order))
+        {
 			stacks[i][j].front.points[placeNext] = pp;
 			placeNext++;
 		}
 		place++;
-		pp = ppn;
-		ppn = pl.points[place+1];
+		pp  = ppn;
+		ppn = pl.points[place + 1];
 	}
 	stacks[i][j].front.nPoints = placeNext;
 }
 
-void i_sliceOrder(int nPoints)
-// slice using a separate objective ordering per point
+/* slice using a separate objective ordering per point */
+void i_sliceOrder (int nPoints)
 {
-	int i,j;
+	int i, j, p, k, l;
+    int seen;
+    int pos, start, end;
 	int sorder[nPoints];
-	for ( i=0; i<nPoints; i++) {
+	for (i = 0; i < nPoints; i++)
 		sorder[i] = i;
-	}
-	qsort(sorder,nPoints,sizeof(int),i_sorter);
-	int seen = 0;
-	int p;
-	for ( p=0; p<nPoints; p++) {
+	qsort (sorder, nPoints, sizeof(int), i_sorter);
+	seen = 0;
+	for (p = 0; p < nPoints; p++)
+    {
 		i = sorder[p];
-		if (p==0 || torder[i][i_n-1]!=torder[sorder[p-1]][i_n-1]) {
+		if (p == 0 || torder[i][i_n - 1] != torder[sorder[p - 1]][i_n - 1])
+        {
 			seen = 0;
 			stacks[i][1].front.nPoints = 0;
 		}
-		else {
-			for (j=0; j<stacks[sorder[p-1]][1].front.nPoints; j++) {
-				stacks[i][1].front.points[j] = stacks[sorder[p-1]][1].front.points[j];
-			}
-			stacks[i][1].front.nPoints = stacks[sorder[p-1]][1].front.nPoints;
+		else
+        {
+			for (j = 0; j < stacks[sorder[p - 1]][1].front.nPoints; j++)
+				stacks[i][1].front.points[j] = stacks[sorder[p - 1]][1].front.points[j];
+			stacks[i][1].front.nPoints = stacks[sorder[p - 1]][1].front.nPoints;
 		}
-		/////////
-		/*
-		int ii,kk;
-		printf("\ntcompare:\n");
-		for (ii=0; ii<nPoints; ii++) {
-			for (kk=0; kk<i_n; kk++) {
-				printf("%d ",tcompare[ii][kk]);
-			}
-			printf("\n");
-		}
-		printf("\ntorder:\n");
-		for (ii=0; ii<nPoints; ii++) {
-			for (kk=0; kk<i_n; kk++) {
-				printf("%d ",torder[ii][kk]);
-			}
-			printf("\n");
-		}
-		 */
-		/////////
-		int pos = nPoints-1-tcompare[i][torder[i][i_n-1]];
-		for (j=seen; j<pos; j++) {
-			stacks[i][1].front.points[stacks[i][1].front.nPoints+j-seen] = stacks[i][0].front.points[j];
-		}
-		int start = stacks[i][1].front.nPoints;
-		int end = stacks[i][1].front.nPoints+pos-seen;
-		seen = pos;
+		pos = nPoints - 1 - tcompare[i][torder[i][i_n - 1]];
+		for (j = seen; j<pos; j++)
+			stacks[i][1].front.points[stacks[i][1].front.nPoints + j - seen] = stacks[i][0].front.points[j];
+		start = stacks[i][1].front.nPoints;
+		end   = stacks[i][1].front.nPoints + pos - seen;
+		seen  = pos;
 		POINT temp;
-		for (j=start; j<end; j++) {
-			int k = 0;
-			while (k<stacks[i][1].front.nPoints) {
-				if (i_dominates1wayOrder(stacks[i][1].front.points[j],stacks[i][1].front.points[k],i_n-2,torder[i])) {
+		for (j = start; j < end; j++)
+        {
+			k = 0;
+			while (k < stacks[i][1].front.nPoints)
+            {
+				if (i_dominates1wayOrder(stacks[i][1].front.points[j], stacks[i][1].front.points[k], i_n - 2, torder[i]))
+                {
 					temp = stacks[i][1].front.points[k];
 					stacks[i][1].front.points[k] = stacks[i][1].front.points[j];
 					stacks[i][1].front.points[j] = temp;
-					while(k<stacks[i][1].front.nPoints-1 &&
-						  i_dominates1wayOrder(stacks[i][1].front.points[k],stacks[i][1].front.points[stacks[i][1].front.nPoints-1],i_n-2,torder[i])) {
+					while (k < stacks[i][1].front.nPoints-1 &&
+						  i_dominates1wayOrder(stacks[i][1].front.points[k], stacks[i][1].front.points[stacks[i][1].front.nPoints-1], i_n - 2, torder[i]))
+                    {
 						stacks[i][1].front.nPoints--;
 					}
-					int l = k+1;
-					while (l < stacks[i][1].front.nPoints) {
-						if(i_dominates1wayOrder(stacks[i][1].front.points[k],stacks[i][1].front.points[l],i_n-2,torder[i])) {
+					l = k + 1;
+					while (l < stacks[i][1].front.nPoints)
+                    {
+						if(i_dominates1wayOrder(stacks[i][1].front.points[k], stacks[i][1].front.points[l], i_n - 2, torder[i]))
+                        {
 							temp = stacks[i][1].front.points[l];
 							stacks[i][1].front.nPoints--;
 							stacks[i][1].front.points[l] = stacks[i][1].front.points[stacks[i][1].front.nPoints];
 							stacks[i][1].front.points[stacks[i][1].front.nPoints] = temp;
 						}
-						else {
+						else
 							l++;
-						}
 					}
 					k = stacks[i][1].front.nPoints + 1;
 				}
@@ -928,25 +923,25 @@ void i_sliceOrder(int nPoints)
 					k++;
 				}
 			}
-			if (k==stacks[i][1].front.nPoints) {
+			if (k == stacks[i][1].front.nPoints)
+            {
 				temp = stacks[i][1].front.points[stacks[i][1].front.nPoints];
 				stacks[i][1].front.points[stacks[i][1].front.nPoints] = stacks[i][1].front.points[j];
 				stacks[i][1].front.points[j] = temp;
 				stacks[i][1].front.nPoints++;
 			}
 		}
-		stacks[i][1].index = pos+1;
-		if (pos<nPoints-1) {
-			stacks[i][1].width = fabs(stacks[i][0].front.points[pos].objectives[torder[i][i_n-1]]-
-									  stacks[i][0].front.points[pos+1].objectives[torder[i][i_n-1]]);
-		}
-		else {
-			stacks[i][1].width = stacks[i][0].front.points[pos].objectives[torder[i][i_n-1]];
-		}
+		stacks[i][1].index = pos + 1;
+		if (pos < nPoints - 1)
+			stacks[i][1].width = fabs(stacks[i][0].front.points[pos].objectives[torder[i][i_n - 1]] -
+									  stacks[i][0].front.points[pos + 1].objectives[torder[i][i_n - 1]]);
+		else
+			stacks[i][1].width = stacks[i][0].front.points[pos].objectives[torder[i][i_n - 1]];
 	}
-	for (i=0; i<nPoints; i++) {
+	for (i = 0; i < nPoints; i++)
+    {
 		gorder = torder[i];
-		qsort(stacks[i][1].front.points,stacks[i][1].front.nPoints,sizeof(POINT),i_greaterabbrevorder);
+		qsort (stacks[i][1].front.points, stacks[i][1].front.nPoints, sizeof(POINT), i_greaterabbrevorder);
 	}
 }
 
