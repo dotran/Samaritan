@@ -115,6 +115,9 @@ int main(int argc, char *argv[])
             MOEAD_STM_DRA (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp (algorithm_name, "SMSEMOA"))
             SMSEMOA (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp (algorithm_name, "IBEA"))
+            IBEA (parent_pop, offspring_pop, mixed_pop);
+
         else
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
         printf ("\n");

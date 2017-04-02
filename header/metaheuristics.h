@@ -43,6 +43,7 @@ void MOEAD_DRA (population_real* parent_pop, population_real* offspring_pop, pop
 void MOEAD_STM (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
 void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
 void SMSEMOA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
+void IBEA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop);
 
 /* external variables used by MOEA/D-STM variants */
 extern int *idx ;

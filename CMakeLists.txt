@@ -37,6 +37,7 @@ set(SOURCE_FILES
         metaheuristics/moead_stm.c
         metaheuristics/moead_stm_dra.c
         metaheuristics/smsemoa.c
+        metaheuristics/ibea.c
 
         selection/nsga2/crowddist.c
         selection/moead/fitness.c

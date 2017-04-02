@@ -1,4 +1,4 @@
-algorithm_name: SMSEMOA
+algorithm_name: IBEA
 test_problem: DTLZ2
 number_variable 12
 number_objective 3

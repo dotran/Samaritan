@@ -105,7 +105,7 @@ int initialization_real (char* argv)
     if (!strcmp(problem_name, "ZDT4"))
     {
         variable_lowerbound[0] = 0.0;
-        variable_lowerbound[0] = 1.0;
+        variable_upperbound[0] = 1.0;
         for (i = 1; i < number_variable; i++)
         {
             variable_lowerbound[i] = -5.0;

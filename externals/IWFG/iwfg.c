@@ -157,26 +157,26 @@ int i_dominates2way(POINT p, POINT q, int k)
 
 /* returns true if p dominates q or p == q, false otherwise the assumption is that q doesn't dominate p
  * k is the highest index inspected */
-bool i_dominates1way (POINT p, POINT q, int k)
+int i_dominates1way (POINT p, POINT q, int k)
 {
 	int i;
 	for (i = k; i >= 0; i--)
 		if BEATS(q.objectives[i],p.objectives[i])
-			return false;
+			return 0;
 
-	return true;
+	return 1;
 }
 
 /* returns true if p dominates q or p == q, false otherwise the assumption is that q doesn't dominate p
  * k is the highest index inspected */
-bool i_dominates1wayOrder (POINT p, POINT q, int k, int* order)
+int i_dominates1wayOrder (POINT p, POINT q, int k, int* order)
 {
 	int i;
 	for (i = k; i >= 0; i--)
 		if BEATS(q.objectives[order[i]], p.objectives[order[i]])
-			return false;
+			return 0;
 
-	return true;
+	return 1;
 }
 
 /* points below l are all equal in the last objective; points above l are all worse points below l can dominate each

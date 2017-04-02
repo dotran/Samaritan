@@ -14,8 +14,8 @@ while (n!=-1):
     ax.set_title("generation:"+str(gen))
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
-    ax.set_xlim(0,1)
-    ax.set_ylim(0,1)
+    ax.set_xlim(0,3)
+    ax.set_ylim(0,3)
     while (n>0):
         xs = float(raw_input())
         ys = float(raw_input())
