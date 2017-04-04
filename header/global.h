@@ -123,6 +123,7 @@ typedef struct
     double *xreal;
     double *obj;
     double crowd_dist;
+    double fitness;
 } individual_real;
 
 typedef struct
