@@ -39,8 +39,10 @@ set(SOURCE_FILES
         metaheuristics/smsemoa.c
         metaheuristics/ibea.c
 
-        selection/nsga2/crowddist.c
+        selection/ibea/fitness.c
+        selection/ibea/ibea_selection.c
         selection/moead/fitness.c
+        selection/nsga2/crowddist.c
         selection/nsga2/fillnds.c
         selection/nsga2/qsort.c
         selection/moead/update.c
