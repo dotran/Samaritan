@@ -33,6 +33,7 @@
 
 void initialize_individual_real (individual_real *ind);
 void initialize_population_real (population_real *pop);
+void read_population_real (population_real * pop, char * fileName);
 void copy_ind (individual_real *ind1, individual_real *ind2);
 void merge (population_real *pop1, population_real *pop2, population_real *pop3);
 

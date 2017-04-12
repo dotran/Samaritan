@@ -26,6 +26,7 @@
  */
 
 # include "../../header/selection.h"
+#include "../../header/global.h"
 
 void fill_hv_sort (FILECONTENTS *f, population_real* new_pop, population_real* mixed_pop, int size)
 {
@@ -206,3 +207,4 @@ void hv_fill (FILECONTENTS *f,population_real *mixed_pop, population_real *new_p
 
     return;
 }
+

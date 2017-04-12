@@ -72,7 +72,7 @@ int initialization_real (char* argv)
 
     // intrisic parameters used in MOEA/D variants
     neighbor_size = 20;
-    function_type = PBI;
+    function_type = ITCH;
     neighborhood_selection_probability = 0.9;
     maximumNumberOfReplacedSolutions = 2;
 

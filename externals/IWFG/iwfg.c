@@ -690,6 +690,7 @@ double i_hv_contribution (FRONT ps, int id, double whole_hv)
 /* returns the hypervolume of ps[0 ..] */
 double i_hv (FRONT ps)
 {
+	i_n = ps.n;
 	int i;
     double volume;
 	// process small fronts with the IEA

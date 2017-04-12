@@ -131,7 +131,9 @@ void random_permutation (int* perm, int size)
 
     free (index);
     free (flag);
-
+    //for(i=0;i<size;i++)
+    //    printf("%d ",perm[i]);
+    //printf("\n");
     return;
 }
 

@@ -26,6 +26,7 @@
  */
 
 # include "../header/population.h"
+#include "../header/global.h"
 
 // Function to initialize an individual randomly
 void initialize_individual_real (individual_real *ind)
@@ -50,6 +51,20 @@ void initialize_population_real (population_real *pop)
     return;
 }
 
+void read_population_real (population_real * pop, char * fileName)
+{
+    FILE *popdata = NULL;
+    popdata = fopen (fileName, "r");
+    int i,j;
+    for(i=0;i<popsize;i++)
+    {
+        for(j=0;j<number_variable;j++)
+        {
+            fscanf(popdata, "%lf", &(pop->ind[i].xreal[j]));
+        }
+    }
+    fclose(popdata);
+}
 // Routine to copy an individual 'ind1' into another individual 'ind2'
 void copy_ind (individual_real *ind1, individual_real *ind2)
 {

@@ -1,9 +1,9 @@
-algorithm_name: HYPE
-test_problem: DTLZ1
-number_variable 10
+algorithm_name: MOEAD
+test_problem: DTLZ2
+number_variable 12
 number_objective 3
-popSize: 300
-max_evaluation: 90000
+popSize: 91
+max_evaluation: 27300
 runtime_output: 1
 output_interval: 10
 run_index_begin: 2

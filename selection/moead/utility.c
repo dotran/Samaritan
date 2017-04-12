@@ -102,6 +102,17 @@ void initialize_uniform_weight ()
     }
     free (layer_size);
 
+/*
+    printf("\n");
+    for (i = 0;i<number_weight;i++)
+    {
+        for (j =0;j<number_objective;j++)
+        {
+            printf("%lf ",lambda[i][j]);
+        }
+        printf("\n");
+    }
+*/
     return;
 }
 
@@ -153,7 +164,10 @@ void initialize_neighborhood ()
             dist[j].x   = euclidian_distance (lambda[id], lambda[j], number_objective);
             dist[j].idx = j;
         }
-        qsort (dist, number_weight, sizeof(struct double_with_index), double_with_index_smaller_cmp);  // ascending order
+        qsort (dist, number_weight, sizeof(struct double_with_index), double_with_index_greater_cmp);  // ascending order
+        //for( j = 0;j<neighbor_size;j++)
+        //    printf("%lf\t",dist[j].x);
+        //printf("dist||||\n");
         for( j = 0 ; j < neighbor_size ; j ++)
             neighborhood[i][j] = dist[j].idx;
     }

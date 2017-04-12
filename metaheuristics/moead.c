@@ -26,23 +26,27 @@
  */
 
 # include "../header/metaheuristics.h"
+#include "../header/global.h"
 
-void MOEAD (population_real* pop, population_real* offspring_pop, population_real* mixed_pop)
-{
+void MOEAD (population_real* pop, population_real* offspring_pop, population_real* mixed_pop) {
     int i, j;
     int generation;
     int subproblem_id, neighbor_type;
 
-    generation       = 1;
+    generation = 1;
     evaluation_count = 0;
-    printf ("|\tThe %d run\t|\t1%%\t|", run_index);
+    printf("|\tThe %d run\t|\t1%%\t|", run_index);
 
     // initialization process
-    initialize_uniform_weight ();
-    initialize_neighborhood ();
-    initialize_population_real (pop);
+    initialize_uniform_weight();
+    initialize_neighborhood();
+    initialize_population_real(pop);
+
+//    read_population_real(pop,"pop.out");
+
     evaluate_population (pop);
     initialize_idealpoint (pop);
+
 
     track_evolution (pop, generation, 0);
 

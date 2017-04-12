@@ -34,7 +34,6 @@ void parent_selection (population_real *parent_pop, individual_real*** parents, 
     int selected_id, selected_count;
 
     int *selected_flag;
-    struct int_vector *mating_pool;
 
     number_to_select = number_parents - 1;
 
