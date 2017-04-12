@@ -38,6 +38,7 @@ set(SOURCE_FILES
         metaheuristics/moead_stm_dra.c
         metaheuristics/smsemoa.c
         metaheuristics/ibea.c
+        metaheuristics/hype.c
 
         selection/ibea/fitness.c
         selection/ibea/ibea_selection.c
@@ -50,6 +51,7 @@ set(SOURCE_FILES
         selection/moead_stm/stm_selection.c
         selection/moead_stm/utility.c
         selection/smsemoa/fillnds_hv.c
+        selection/hype/fill.c
 
         reproduction/crossover/crossover_moead.c
         reproduction/crossover/crossover_nsga2.c

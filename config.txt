@@ -1,9 +1,9 @@
-algorithm_name: IBEA
-test_problem: DTLZ2
-number_variable 12
+algorithm_name: HYPE
+test_problem: DTLZ1
+number_variable 10
 number_objective 3
-popSize: 100
-max_evaluation: 30000
+popSize: 300
+max_evaluation: 90000
 runtime_output: 1
 output_interval: 10
 run_index_begin: 2

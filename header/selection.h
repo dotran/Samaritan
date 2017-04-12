@@ -81,4 +81,9 @@ void stm_dra_selection (population_real *parent_pop, population_real *mixed_pop,
 void fill_hv_sort (FILECONTENTS *f,population_real* new_pop, population_real* mixed_pop,int size);
 void hv_fill (FILECONTENTS *f,population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
+/* hype */
+void fill_hype_sort (population_real* new_pop, population_real* mixed_pop, int size);
+void hype_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
+
+
 # endif // Samaritan_SELECTION_H
