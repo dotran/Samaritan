@@ -26,7 +26,7 @@
  */
 # include "../../header/reproduction.h"
 
-void parent_selection (population_real *parent_pop, individual_real*** parents, int sub_problem_id, int neighbor_type, int number_parents)
+void parent_selection (population_real *parent_pop, individual_real ***parents, int sub_problem_id, int neighbor_type, int number_parents)
 {
     int i, j;
     int random;
@@ -61,7 +61,7 @@ void parent_selection (population_real *parent_pop, individual_real*** parents, 
             selected_count++;
         }
     }
-    (*parents)[number_parents - 1] =&(parent_pop->ind[sub_problem_id]);
+    (*parents)[number_parents - 1] = &(parent_pop->ind[sub_problem_id]);
 
     free (selected_flag);
 

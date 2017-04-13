@@ -26,28 +26,23 @@
  */
 
 # include "../header/metaheuristics.h"
-#include "../header/global.h"
 
-void MOEAD (population_real* pop, population_real* offspring_pop, population_real* mixed_pop) {
+void MOEAD (population_real *pop, population_real *offspring_pop, population_real *mixed_pop)
+{
     int i, j;
     int generation;
     int subproblem_id, neighbor_type;
 
-    generation = 1;
+    generation       = 1;
     evaluation_count = 0;
-    printf("|\tThe %d run\t|\t1%%\t|", run_index);
+    printf ("|\tThe %d run\t|\t1%%\t|", run_index);
 
-    initialize_uniform_weight();
-    //read_uniform_weight("W3D_91.dat");
-
-    initialize_neighborhood();
-
-    initialize_population_real(pop);
-    //read_population_real(pop,"pop.out");
-
+    // initialization process
+    initialize_uniform_weight ();
+    initialize_neighborhood ();
+    initialize_population_real (pop);
     evaluate_population (pop);
     initialize_idealpoint (pop);
-
 
     track_evolution (pop, generation, 0);
 
@@ -59,16 +54,13 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
         print_progress ();
 
         random_permutation (permutation, number_weight);
-
         for (i = 0; i < number_weight; i++)
         {
             subproblem_id = permutation[i];
 
             // crossover and mutation
             crossover_moead_real (pop, offspring, subproblem_id, &neighbor_type);
-
             mutation_ind (offspring);
-
             evaluate_individual (offspring);
 
             // update ideal point
