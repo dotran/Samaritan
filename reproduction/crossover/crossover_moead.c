@@ -26,6 +26,7 @@
  */
 
 # include "../../header/reproduction.h"
+#include "../../header/global.h"
 
 void crossover_moead_real (population_real *parent_pop, individual_real *offspring, int sub_problem_id, int *neighbor_type)
 {

@@ -55,7 +55,6 @@ void update_subproblem (population_real* pop, individual_real* individual, int s
         f2 = fitnessFunction (individual, lambda[k]);
 
         if (f2 < f1 )
-        //if (f2 < f1 && time < maximumNumberOfReplacedSolutions)
         {
             copy_ind (individual,&(pop->ind[k]));
             time++;

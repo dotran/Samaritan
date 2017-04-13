@@ -37,12 +37,13 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
     evaluation_count = 0;
     printf("|\tThe %d run\t|\t1%%\t|", run_index);
 
-    // initialization process
     initialize_uniform_weight();
-    initialize_neighborhood();
-    initialize_population_real(pop);
+    //read_uniform_weight("W3D_91.dat");
 
-//    read_population_real(pop,"pop.out");
+    initialize_neighborhood();
+
+    initialize_population_real(pop);
+    //read_population_real(pop,"pop.out");
 
     evaluate_population (pop);
     initialize_idealpoint (pop);
@@ -58,13 +59,16 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
         print_progress ();
 
         random_permutation (permutation, number_weight);
+
         for (i = 0; i < number_weight; i++)
         {
             subproblem_id = permutation[i];
 
             // crossover and mutation
             crossover_moead_real (pop, offspring, subproblem_id, &neighbor_type);
+
             mutation_ind (offspring);
+
             evaluate_individual (offspring);
 
             // update ideal point
@@ -74,6 +78,7 @@ void MOEAD (population_real* pop, population_real* offspring_pop, population_rea
             update_subproblem (pop, offspring, subproblem_id, neighbor_type);
         }
         generation++;
+
         track_evolution (pop, generation, evaluation_count >= max_evaluation);
     }
 

@@ -116,6 +116,22 @@ void initialize_uniform_weight ()
     return;
 }
 
+void read_uniform_weight (char * file)
+{
+    int i,j;
+    FILE * weight = NULL;
+    number_weight = popsize;
+    weight = fopen(file,"r");
+
+    lambda = (double **) malloc (number_weight * sizeof(double *));
+    for (i = 0; i < number_weight; i++)
+        lambda[i] = (double *) malloc(number_objective * sizeof(double));
+
+    for(i=0;i<number_weight;i++)
+        for(j=0;j<number_objective;j++)
+            fscanf(weight,"%lf",&(lambda[i][j]));
+    return;
+}
 /* Sample uniformly distributed weight vectors according to Das and Denis' method */
 void set_weight (double *v, double unit, double sum, int dim)
 {
@@ -164,12 +180,28 @@ void initialize_neighborhood ()
             dist[j].x   = euclidian_distance (lambda[id], lambda[j], number_objective);
             dist[j].idx = j;
         }
-        qsort (dist, number_weight, sizeof(struct double_with_index), double_with_index_greater_cmp);  // ascending order
-        //for( j = 0;j<neighbor_size;j++)
-        //    printf("%lf\t",dist[j].x);
-        //printf("dist||||\n");
-        for( j = 0 ; j < neighbor_size ; j ++)
+///// dubug temp
+            int k;
+            for ( k = 0; k < neighbor_size; k++) {
+                for ( j = k + 1; j < number_weight; j++) {
+                    if (dist[k].x - dist[j].x >EPS) {
+                        double temp = dist[k].x;
+                        dist[k].x   = dist[j].x;
+                        dist[j].x   = temp;
+                        int id = dist[k].idx;
+                        dist[k].idx = dist[j].idx;
+                        dist[j].idx  = id;
+                    } // if
+                }
+            } // for
+
+
+
+ //       qsort (dist, number_weight, sizeof(struct double_with_index), double_with_index_greater_cmp);  // ascending order
+        for( j = 0 ; j < neighbor_size ; j ++) {
             neighborhood[i][j] = dist[j].idx;
+        }
+
     }
 
     free(dist);

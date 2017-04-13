@@ -48,7 +48,7 @@ double fitnessFunction (individual_real* individual, double* lambda)
         for (i = 0; i < number_objective; i++)
         {
             diff = fabs(individual->obj[i] - ideal_point[i]);
-            if (lambda[i] == 0)
+            if (lambda[i] < EPS)
                 feval = 0.00001 * diff;
             else
                 feval = diff * lambda[i];
@@ -66,8 +66,8 @@ double fitnessFunction (individual_real* individual, double* lambda)
         for (i = 0; i < number_objective; i++)
         {
             diff = fabs(individual->obj[i] - ideal_point[i]);
-            if (lambda[i] == 0)
-                feval = diff / 0.00001;
+            if (lambda[i] < EPS)
+                feval = diff / 0.000001;
             else
                 feval = diff / lambda[i];
 

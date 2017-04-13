@@ -30,6 +30,7 @@
 double seed;
 double oldrand[55];
 int jrand;
+static FILE * rnd_input = NULL;
 
 /* Get seed number for random and start it up */
 void randomize ()
@@ -110,6 +111,20 @@ double randomperc ()
     return((double)oldrand[jrand]);
 }
 
+double read_randomperc ()
+{
+    if(rnd_input==NULL)
+        rnd_input = fopen("rnd.out","r");
+    double temp;
+    if(fscanf(rnd_input,"%lf",&temp)==EOF){
+        fseek(rnd_input,0,SEEK_SET);
+        fscanf(rnd_input,"%lf",&temp);
+    };
+
+   // printf("r: %lf\n",temp);
+    return temp;
+}
+
 /* Fetch a single random integer between low and high including the bounds */
 int rnd (int low, int high)
 {
@@ -120,7 +135,8 @@ int rnd (int low, int high)
     }
     else
     {
-        res = low + (int)(randomperc() * (high - low + 1));
+        //res = low + (int)(randomperc() * (high - low));
+        res = low + (unsigned int)(randomperc() * (high - low + 1));
         if (res > high)
         {
             res = high;
