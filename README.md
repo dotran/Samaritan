@@ -1,18 +1,6 @@
 # Samaritan
 ## Change Log
 
-### 2017/04/13
-- bug fixed for MOEA/D variants
-
-### 2017/04/10
-- adding HypE
-
-### 2017/04/01
-- adding SMS-EMOA (fastest in town)
-
-### 2017/03/22
-- adding IBEA
-
 ### 2017/03/15
 
 - adding MOEA/D-DRA, MOEA/D-STM and MOEA/D-STM-DRA

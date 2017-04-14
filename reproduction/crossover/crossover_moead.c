@@ -26,6 +26,7 @@
  */
 
 # include "../../header/reproduction.h"
+#include "../../header/global.h"
 
 void crossover_moead_real (population_real *parent_pop, individual_real *offspring, int sub_problem_id, int *neighbor_type)
 {
@@ -35,7 +36,7 @@ void crossover_moead_real (population_real *parent_pop, individual_real *offspri
     parent_selection (parent_pop, &parents, sub_problem_id, *neighbor_type, 3);
     de (parents, offspring);
 
-    free (parents);
+    free(parents);
 
     return;
 }
@@ -44,13 +45,13 @@ void crossover_moead_real (population_real *parent_pop, individual_real *offspri
 int choose_neighbor_type ()
 {
     int neighbor_type ;
-    double rnd;
+    double r;
 
-    rnd = rndreal (0, 1);
-    if (rnd < neighborhood_selection_probability)
-        neighbor_type = NEIGHBOR; // select from neighborhood
+    r = rndreal (0, 1);
+    if (r < neighborhood_selection_probability)
+        neighbor_type = NEIGHBOR; //NEIGHBOR;
     else
-        neighbor_type = POPULATION; // select from whole population
+        neighbor_type = POPULATION; //POPULATION;
 
     return neighbor_type ;
 }

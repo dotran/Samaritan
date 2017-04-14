@@ -171,5 +171,28 @@ void track_evolution (void *ptr, int id, int end)
             sprintf (output_file, "%sFUN%d.out", output_dir_level1, run_index);
             gnu_plot(output_file, "FUN");
         }
+
     }
 }
+
+/*
+void analyse_all ()
+{
+    char output_dir_level1[200];
+    char output_file[200];
+
+    sprintf (output_dir_level1,"./%s_%d_%d/%s/",
+             problem_name,
+             number_variable,
+             number_objective,
+             algorithm_name
+    );
+    if (analyse_list[IGD])
+    {
+        sprintf (output_file, "%sIGD.txt", output_dir_level1);
+        print_global_igd (output_file);
+    }
+
+    return;
+}
+*/

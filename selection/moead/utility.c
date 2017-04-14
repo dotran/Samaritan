@@ -58,11 +58,11 @@ void initialize_uniform_weight ()
     int ptr;
     int layer;
 
-    int *layer_size;
-    int *gaps_table;
+    int* layer_size;
+    int* gaps_table;
 
     double shrink;
-    double *Vec;
+    double* Vec;
 
     gaps_table = weight_gaps_table[number_objective];
     for (layer = 0; layer < number_objective; layer++)
@@ -102,51 +102,59 @@ void initialize_uniform_weight ()
     }
     free (layer_size);
 
+/*
+    printf("\n");
+    for (i = 0;i<number_weight;i++)
+    {
+        for (j =0;j<number_objective;j++)
+        {
+            printf("%lf ",lambda[i][j]);
+        }
+        printf("\n");
+    }
+*/
     return;
 }
 
-/* Read weight vectors from an external file */
-void read_uniform_weight (char *file)
+void read_uniform_weight (char * file)
 {
-    int i, j;
-
-    FILE *weight  = NULL;
+    int i,j;
+    FILE * weight = NULL;
     number_weight = popsize;
-    weight = fopen (file, "r");
+    weight = fopen(file,"r");
 
     lambda = (double **) malloc (number_weight * sizeof(double *));
     for (i = 0; i < number_weight; i++)
-        lambda[i] = (double *) malloc (number_objective * sizeof(double));
+        lambda[i] = (double *) malloc(number_objective * sizeof(double));
 
-    for (i = 0; i < number_weight; i++)
-        for (j = 0; j < number_objective; j++)
-            fscanf (weight, "%lf", &(lambda[i][j]));
+    for(i=0;i<number_weight;i++)
+        for(j=0;j<number_objective;j++)
+            fscanf(weight,"%lf",&(lambda[i][j]));
     return;
 }
-
 /* Sample uniformly distributed weight vectors according to Das and Denis' method */
-void set_weight (double *weight, double unit, double sum, int dim)
+void set_weight (double *v, double unit, double sum, int dim)
 {
     int i;
 
     if (dim == number_objective)
     {
         for ( i = 0; i < number_objective; i++)
-            weight[i] = 0;
+            v[i] = 0;
     }
 
     if (dim == 1)
     {
-        weight[0] = unit - sum;
+        v[0] = unit - sum;
         for ( i = 0; i < number_objective; i++)
-            lambda[C][i] = weight[i];
+            lambda[C][i] = v[i];
         C = C + 1;
         return;
     }
     for (i = 0; i <= unit - sum; i++)
     {
-        weight[dim - 1] = i;
-        set_weight (weight, unit, sum + i, dim - 1);
+        v[dim - 1] = i;
+        set_weight (v, unit, sum + i, dim - 1);
     }
 
     return;
@@ -155,7 +163,7 @@ void set_weight (double *weight, double unit, double sum, int dim)
 /* Initialize the neighborhood structure of weight vectors */
 void initialize_neighborhood ()
 {
-    int i, j, k;
+    int i, j;
     struct double_with_index *dist;
 
     dist         = (struct double_with_index*) malloc (sizeof(struct double_with_index) * number_weight);
@@ -172,26 +180,31 @@ void initialize_neighborhood ()
             dist[j].x   = euclidian_distance (lambda[id], lambda[j], number_objective);
             dist[j].idx = j;
         }
-        for (k = 0; k < neighbor_size; k++)
-        {
-            for (j = k + 1; j < number_weight; j++)
-            {
-                if (dist[k].x - dist[j].x >EPS)
-                {
-                    double temp = dist[k].x;
-                    dist[k].x   = dist[j].x;
-                    dist[j].x   = temp;
-                    int id = dist[k].idx;
-                    dist[k].idx = dist[j].idx;
-                    dist[j].idx  = id;
+///// dubug temp
+            int k;
+            for ( k = 0; k < neighbor_size; k++) {
+                for ( j = k + 1; j < number_weight; j++) {
+                    if (dist[k].x - dist[j].x >EPS) {
+                        double temp = dist[k].x;
+                        dist[k].x   = dist[j].x;
+                        dist[j].x   = temp;
+                        int id = dist[k].idx;
+                        dist[k].idx = dist[j].idx;
+                        dist[j].idx  = id;
+                    } // if
                 }
-            }
-        }
-        for(j = 0; j < neighbor_size; j ++)
+            } // for
+
+
+
+ //       qsort (dist, number_weight, sizeof(struct double_with_index), double_with_index_greater_cmp);  // ascending order
+        for( j = 0 ; j < neighbor_size ; j ++) {
             neighborhood[i][j] = dist[j].idx;
+        }
+
     }
 
-    free (dist);
+    free(dist);
 
     return;
 }
@@ -235,7 +248,7 @@ void tour_selection_subproblem (int depth)
 }
 
 /* Update the utility of each subproblem */
-void comp_utility (population_real *pop, population_real *saved_values)
+void comp_utility (population_real* pop, population_real* saved_values)
 {
     int i;
     double f1, f2, cur_utility, delta;

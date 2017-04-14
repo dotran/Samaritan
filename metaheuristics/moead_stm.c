@@ -36,7 +36,7 @@ double **fitnessMatrix;
 struct double_with_index **solMatrix;
 struct double_with_index **subpMatrix;
 
-void MOEAD_STM (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop)
+void MOEAD_STM (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
 {
 
     int i;
@@ -106,23 +106,24 @@ void MOEAD_STM (population_real *parent_pop, population_real *offspring_pop, pop
     }
 
     // free all malloc memory
-    for (i = 0; i < 2 * number_weight; i++)
+    for (i = 0; i < 2*number_weight; i++)
     {
-        free (solMatrix[i]);
-        free (distMatrix[i]);
-        free (fitnessMatrix[i]);
+        free(solMatrix[i]);
+        free(distMatrix[i]);
+        free(fitnessMatrix[i]);
     }
 
     for (i = 0; i < number_weight; i++)
-        free (subpMatrix[i]);
+        free(subpMatrix[i]);
+    free(permutation);
+    free(idx) ;
+    free(nicheCount);
+    free(solMatrix);
+    free(distMatrix);
+    free(fitnessMatrix);
+    free(statusWoman);
+    free(next);
     free (permutation);
-    free (idx) ;
-    free (nicheCount);
-    free (solMatrix);
-    free (distMatrix);
-    free (fitnessMatrix);
-    free (statusWoman);
-    free (next);
     moead_free ();
     return;
 }

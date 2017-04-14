@@ -47,7 +47,7 @@ void environmental_selection (void *mixed_ptr, void *new_ptr, int *flag, double 
 void ibea_selection (void *mixed_pop, void *new_pop, int *flag, double **fitcomp);
 
 /* NSGA-II */
-void fill_nondominated_sort (population_real *new_pop, population_real *mixed_pop);
+void fill_nondominated_sort (population_real* new_pop, population_real* mixed_pop);
 void crowding_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
 void assign_crowding_distance (population_real *pop, int *dist, int **obj_array, int front_size);
@@ -60,15 +60,15 @@ void quicksort_dist(population_real *pop, int *dist, int front_size);
 void q_sort_dist(population_real *pop, int *dist, int left, int right);
 
 /* MOEA/D */
-double fitnessFunction (individual_real *individual, double *lambda);
-void comp_utility (population_real *pop, population_real *saved_values);
+double fitnessFunction (individual_real* individual, double* lambda);
+void comp_utility (population_real* pop,population_real* saved_values);
 void moead_free ();
 void initialize_uniform_weight ();
-void read_uniform_weight(char *file);
+void read_uniform_weight(char * file);
 void initialize_neighborhood ();
-void set_weight (double *weight, double unit, double sum, int dim);
+void set_weight (double *v, double unit, double sum, int dim);
 void tour_selection_subproblem (int depth);
-void update_subproblem (population_real *pop, individual_real *individual, int subProblem_id, int neighborType);
+void update_subproblem (population_real* pop, individual_real* individual, int subProblemId, int neighborType);
 
 /* MOEA/D-STM */
 double calculateDistance2 (individual_real* individual, double* lambda);
