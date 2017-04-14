@@ -26,14 +26,13 @@
  */
 
 # include "../../header/selection.h"
-# include "../../header/global.h"
 
-void update_subproblem (population_real* pop, individual_real* individual, int subProblemId, int neighborType)
+void update_subproblem (population_real *pop, individual_real *individual, int subProblem_id, int neighborType)
 {
     int i, k;
     int time, size;
     double f1, f2;
-    int* perm;
+    int *perm;
 
     if (neighborType == NEIGHBOR)
         size = neighbor_size;
@@ -47,7 +46,7 @@ void update_subproblem (population_real* pop, individual_real* individual, int s
     for (i = 0; i < size; i++)
     {
         if (neighborType == NEIGHBOR)
-            k = neighborhood[subProblemId][perm[i]];
+            k = neighborhood[subProblem_id][perm[i]];
         else
             k = perm[i];
 

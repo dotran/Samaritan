@@ -27,7 +27,7 @@
 
 # include "../../header/selection.h"
 
-void fill_nondominated_sort (population_real* new_pop, population_real* mixed_pop)
+void fill_nondominated_sort (population_real *new_pop, population_real *mixed_pop)
 {
     int i, j;
     int flag;

@@ -28,7 +28,7 @@
 # include "../../header/selection.h"
 
 /* Calculate the aggregation function of a solution with respect to a particular subproblem */
-double fitnessFunction (individual_real* individual, double* lambda)
+double fitnessFunction (individual_real *individual, double *lambda)
 {
     int i;
     double fitness, diff, feval, sum, maxFun;
@@ -47,7 +47,7 @@ double fitnessFunction (individual_real* individual, double* lambda)
 
         for (i = 0; i < number_objective; i++)
         {
-            diff = fabs(individual->obj[i] - ideal_point[i]);
+            diff = fabs (individual->obj[i] - ideal_point[i]);
             if (lambda[i] < EPS)
                 feval = 0.00001 * diff;
             else
@@ -65,7 +65,7 @@ double fitnessFunction (individual_real* individual, double* lambda)
 
         for (i = 0; i < number_objective; i++)
         {
-            diff = fabs(individual->obj[i] - ideal_point[i]);
+            diff = fabs (individual->obj[i] - ideal_point[i]);
             if (lambda[i] < EPS)
                 feval = diff / 0.000001;
             else
