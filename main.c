@@ -57,8 +57,8 @@ double K;
 
 /* performance metrics */
 int PF_size;                 // size of the true Pareto-optimal Front
-double** PF_data;            // true Pareto-optimal front data
-double* ref_point;           // reference point for Hypervolume calculation
+double **PF_data;            // true Pareto-optimal front data
+double *ref_point;           // reference point for Hypervolume calculation
 
 /* MOEA/D variants */
 int neighbor_size;                           // neighborhood length
@@ -66,19 +66,19 @@ int number_weight;                           // number of weight vectors
 int function_type;                           // type of the aggregation function
 int maximumNumberOfReplacedSolutions;        // the maximum replacement number of a superior offspring
 double neighborhood_selection_probability;   // probability to replace in the neighborhood
-double** lambda;                             // weight vectors
-int** neighborhood;                          // neighborhood structure
-int* permutation;                            // subproblem index permutation
-int* frequency;                              // subproblem usages counter arrary
-double* utility;                             // subproblem utility array
-struct int_vector* selected;
-struct int_vector* candidate;
+double **lambda;                             // weight vectors
+int **neighborhood;                          // neighborhood structure
+int *permutation;                            // subproblem index permutation
+int *frequency;                              // subproblem usages counter arrary
+double *utility;                             // subproblem utility array
+struct int_vector *selected;
+struct int_vector *candidate;
 
 /* analysis platform */
 int runtime_output;
 int output_interval;
 int analyse_list[BUFSIZE_S];
-FILE * pythonplot;
+FILE *pythonplot;
 pthread_t *plot_thread;
 
 int main(int argc, char *argv[])
@@ -87,9 +87,9 @@ int main(int argc, char *argv[])
     // initialize parameter settings
     initialization_real ("config.txt");
 
-    population_real* parent_pop;
-    population_real* offspring_pop;
-    population_real* mixed_pop;
+    population_real *parent_pop;
+    population_real *offspring_pop;
+    population_real *mixed_pop;
     parent_pop    = (population_real *) malloc (sizeof(population_real));
     offspring_pop = (population_real *) malloc (sizeof(population_real));
     mixed_pop     = (population_real *) malloc (sizeof(population_real));
