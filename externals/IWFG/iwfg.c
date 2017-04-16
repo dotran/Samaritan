@@ -690,7 +690,7 @@ double i_hv_contribution (FRONT ps, int id, double whole_hv)
 /* returns the hypervolume of ps[0 ..] */
 double i_hv (FRONT ps)
 {
-	i_n = ps.n;
+	//i_n = ps.n;
 	int i;
     double volume;
 	// process small fronts with the IEA
@@ -743,6 +743,7 @@ double i_hv (FRONT ps)
 /* creates the front ps in i_fs[i_fr], with each point bounded by p and dominated points removed */
 void i_makeDominatedBitPoint (FRONT ps, POINT p, int* order)
 {
+	//printf("i_n(c)%d\n",i_n);
 	int i, j;
 	int l = 0;
 	int u = ps.nPoints - 1;
@@ -768,9 +769,12 @@ void i_makeDominatedBitPoint (FRONT ps, POINT p, int* order)
 /* returns the exclusive hypervolume of p relative to ps */
 double i_exclhvPoint (FRONT ps, POINT p, int* order)
 {
+
     double volume;
 	i_makeDominatedBitPoint (ps, p, order);
+	//printf("i_n(c)%d\n",i_n);
 	volume = i_inclhvOrder (p, order) - i_hv(i_fs[i_fr - 1]);
+	//printf("i_n(c)%d\n",i_n);
 	i_fr--;
 	return volume;
 }
@@ -1089,6 +1093,7 @@ void i_ihv2 (FRONT ps, double *min)
 void i_ihv (FRONT ps, double *min)
 {
     int i, j, k, z;
+
     int maxStackSize = MIN(i_slicingDepth(i_n), i_n - 2) + 1;   // ****
     for (i = 0; i < MAX(ps.nPoints, i_n); i++)
         for (j = 0; j < i_n; j++)
@@ -1100,10 +1105,13 @@ void i_ihv (FRONT ps, double *min)
         stacks[i][0].width = 1;
         stacksize[i]       = 2;
     }
+	//printf("i_n(a)%d\n",i_n);
     i_sliceOrder (ps.nPoints); // ****
     i_n--;
+	//printf("i_n(b)%d\n",i_n);
     for (i = 0; i < ps.nPoints; i++)
     {
+
         SLICE top = stacks[i][stacksize[i] - 1];
         while (stacksize[i] < maxStackSize && top.front.nPoints > SLICELIMIT)
         {
@@ -1122,15 +1130,19 @@ void i_ihv (FRONT ps, double *min)
             top = stacks[i][stacksize[i]];
             stacksize[i]++;
             i_n--;
+
         }
+
         double width = 1;
         for (j = 0; j < stacksize[i]; j++)
             width *= stacks[i][j].width;
+
         if (top.front.nPoints == 0)
             partial[i] = width * i_inclhvOrder(ps.points[i], torder[i]); // ****
         else
             partial[i] = width * i_exclhvPoint(top.front, ps.points[i], torder[i]);
-        i_n += stacksize[i] - 2;
+		//printf("i_n(d)%d\n",i_n);
+		i_n += stacksize[i] - 2;
         while (stacksize[i]>1 && (top.index == stacks[i][stacksize[i] - 2].front.nPoints ||
                                   i_dominates1wayOrder (stacks[i][stacksize[i] - 2].front.points[top.index], ps.points[i], i_n - stacksize[i] + 1, torder[i])))
         {
@@ -1138,7 +1150,9 @@ void i_ihv (FRONT ps, double *min)
             top = stacks[i][stacksize[i] - 1];
         }
     }
+
     i_initialiseHeap (ps.nPoints);
+
     maxStackSize = 2;
     while (true)
     {
@@ -1180,4 +1194,5 @@ void i_ihv (FRONT ps, double *min)
         i_heapify (0, i);
     }
     i_n++;
+
 }

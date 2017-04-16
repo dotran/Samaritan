@@ -1,4 +1,4 @@
-algorithm_name: MOEAD
+algorithm_name: SMSEMOA
 test_problem: DTLZ2
 number_variable 12
 number_objective 3
@@ -6,6 +6,6 @@ popSize: 91
 max_evaluation: 27300
 runtime_output: 1
 output_interval: 10
-run_index_begin: 2
-run_index_end: 2
-analyse: VAR FUN IGD HV PLOT
+run_index_begin: 1
+run_index_end: 1
+analyse: FUN IGD HV PLOT

@@ -122,6 +122,7 @@ void fill_hv_sort (FILECONTENTS *f, population_real* new_pop, population_real* m
         }
         else
         {
+            //printf("flag%d\n",i);
             hv_fill (f,mixed_pop, new_pop, i, front_size, elite);
             archieve_size = popsize;
             for (j = i; j < popsize; j++)
@@ -169,6 +170,9 @@ void hv_fill (FILECONTENTS *f,population_real *mixed_pop, population_real *new_p
     i_read_data (f, mixed_pop, elite->child, front_size);
 
     i_n = f->fronts[0].n;
+
+    //printf("i_n:%d\n",i_n);
+
     double eh[i_n + 2];
     if (i_n == 2)
         i_ihv2 (f->fronts[0], eh);
