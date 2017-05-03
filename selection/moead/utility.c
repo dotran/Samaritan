@@ -76,6 +76,7 @@ void initialize_uniform_weight ()
         layer_size[i]  = combination (number_objective + gaps_table[i] - 1, gaps_table[i]);
         number_weight = number_weight + layer_size[i];
     }
+    printf("number_weight:%d\n",number_weight);
     print_error (number_weight != popsize, 1, "Number of weight vectors must be equal to the population size!");
 
     lambda = (double **) malloc (number_weight * sizeof(double *));
