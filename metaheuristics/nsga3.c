@@ -688,7 +688,7 @@ void getIntercepts(population_real * pop, int size) {
 
 
 // Caculating the intercepts
- // Create the hyperplane
+// Create the hyperplane
 // Prepare your arrays for gaussian elimination
     for (i = 0; i < number_objective; i++) {
         for ( j = 0; j < number_objective; j++) {

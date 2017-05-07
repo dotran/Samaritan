@@ -39,6 +39,8 @@ set(SOURCE_FILES
         metaheuristics/smsemoa.c
         metaheuristics/ibea.c
         metaheuristics/hype.c
+        metaheuristics/nsga3.c
+        metaheuristics/cnsga2.c
 
         selection/ibea/fitness.c
         selection/ibea/ibea_selection.c
@@ -46,6 +48,8 @@ set(SOURCE_FILES
         selection/nsga2/crowddist.c
         selection/nsga2/fillnds.c
         selection/nsga2/qsort.c
+        selection/cnsga2/fillcnds.c
+
         selection/moead/update.c
         selection/moead/utility.c
         selection/moead_stm/stm_selection.c
@@ -100,6 +104,8 @@ set(SOURCE_FILES
         testproblem/UF/UF8.c
         testproblem/UF/UF9.c
         testproblem/UF/UF10.c
+        testproblem/CDTLZ/C1DTLZ1.c
+        testproblem/CDTLZ/C2DTLZ2.c
 
         config.txt
         main.c

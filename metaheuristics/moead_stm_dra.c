@@ -46,6 +46,7 @@ void MOEAD_STM_DRA (population_real* parent_pop, population_real* offspring_pop,
 
     // initialize uniform weight vectors
     initialize_uniform_weight ();
+    print_error (number_weight != popsize, 1, "Number of weight vectors must be equal to the population size!");
 
     utility   = malloc (number_weight * sizeof(double));
     frequency = malloc (number_weight * sizeof(int));
