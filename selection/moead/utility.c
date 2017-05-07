@@ -50,9 +50,52 @@ void moead_free ()
 
     return;
 }
-
-/* Initialize the weight vectors according to the Das and Dennis' method */
 void initialize_uniform_weight ()
+{
+    int i, j, l;
+    int ptr;
+    int layer;
+
+    int layer_size;
+
+    double shrink;
+    double *Vec;
+
+
+    number_weight = 0;
+
+    int gaps = 1;
+    while(1)
+    {
+        layer_size  = combination (number_objective + gaps - 1, gaps);
+        //printf("[%d]%d\n",gaps,layer_size);
+        if(layer_size>popsize) break;
+        gaps = gaps + 1;
+        number_weight = layer_size;
+    }
+    gaps = gaps - 1;
+    print_error(gaps == 0,1, "popsize is too small, cannot generate weight");
+    lambda = (double **) malloc (number_weight * sizeof(double *));
+    for (i = 0; i < number_weight; i++)
+        lambda[i] = (double *) malloc(number_objective * sizeof(double));
+
+    C   = 0;
+
+    Vec = (double *) malloc (number_objective * sizeof(double));
+    for (i = 0; i < number_objective; i++)
+    Vec[i] = 0;
+    set_weight (Vec, gaps, 0, number_objective);
+    for (i = 0; i < number_weight; i++)
+        for (j = 0; j < number_objective; j++) {
+            lambda[i][j] = lambda[i][j] / gaps;
+        }
+    free (Vec);
+
+
+    return;
+}
+/* Initialize the weight vectors according to the Das and Dennis' method */
+void initialize_layers_weight ()
 {
     int i, j, l;
     int ptr;
