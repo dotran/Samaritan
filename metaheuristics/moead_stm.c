@@ -45,6 +45,7 @@ void MOEAD_STM (population_real *parent_pop, population_real *offspring_pop, pop
 
     // initialize uniform weight vectors
     initialize_uniform_weight ();
+    print_error (number_weight != popsize, 1, "Number of weight vectors must be equal to the population size!");
 
     idx           = malloc (sizeof(int) * number_weight);
     nicheCount    = malloc (sizeof(double)* number_weight);

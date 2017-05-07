@@ -39,6 +39,7 @@ void MOEAD (population_real *pop, population_real *offspring_pop, population_rea
 
     // initialization process
     initialize_uniform_weight ();
+    print_error (number_weight != popsize, 1, "Number of weight vectors must be equal to the population size!");
     initialize_neighborhood ();
     initialize_population_real (pop);
     evaluate_population (pop);
