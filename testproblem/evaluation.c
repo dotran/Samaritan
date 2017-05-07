@@ -24,6 +24,7 @@
 
 # include "../header/problems.h"
 # include "../header/print.h"
+#include "../header/global.h"
 
 void evaluate_population (population_real *pop)
 {
@@ -62,6 +63,8 @@ void evaluate_individual (individual_real *ind)
     (strcmp (problem_name, "UF8") != 0)? :(uf8 (ind->xreal, ind->obj), flag =1);
     (strcmp (problem_name, "UF9") != 0)? :(uf9 (ind->xreal, ind->obj), flag =1);
     (strcmp (problem_name, "UF10") != 0)? :(uf10 (ind->xreal, ind->obj), flag =1);
+    (strcmp (problem_name, "C1DTLZ1")  != 0)? :(c1dtlz1 (ind->xreal, ind->obj,&(ind->cv)), flag =1);
+    (strcmp (problem_name, "C2DTLZ2")  != 0)? :(c2dtlz2 (ind->xreal, ind->obj,&(ind->cv)), flag =1);
 
     print_error (flag == 0, 2, "UNKNOWN test problem: ", problem_name);
 

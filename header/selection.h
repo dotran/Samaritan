@@ -50,6 +50,8 @@ void ibea_selection (void *mixed_pop, void *new_pop, int *flag, double **fitcomp
 void fill_nondominated_sort (population_real *new_pop, population_real *mixed_pop);
 void crowding_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
+void fill_constraint_nondominated_sort (population_real *new_pop, population_real *mixed_pop);
+
 void assign_crowding_distance (population_real *pop, int *dist, int **obj_array, int front_size);
 void assign_crowding_distance_list (population_real *pop, list *lst, int front_size);
 void assign_crowding_distance_indices (population_real *pop, int c1, int c2);
