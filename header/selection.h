@@ -64,6 +64,7 @@ double fitnessFunction (individual_real *individual, double *lambda);
 void comp_utility (population_real *pop, population_real *saved_values);
 void moead_free ();
 void initialize_uniform_weight ();
+void initialize_layers_weight ();
 void read_uniform_weight(char *file);
 void initialize_neighborhood ();
 void set_weight (double *weight, double unit, double sum, int dim);
