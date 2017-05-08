@@ -84,7 +84,7 @@ int initialization_real (char* argv)
     // calculate the number of points in the PF data
     sprintf (PF_name, "PF/%s.%dD.pf", problem_name, number_objective);
     PF = fopen (PF_name, "r");
-    //print_error (PF == NULL, 2, "Fail to open PF: ", PF_name);
+    print_error (PF == NULL, 2, "Fail to open PF: ", PF_name);
     if(PF != NULL){
         PF_size = 0;
         while (fgets (line, BUFSIZE_L, PF) != NULL)
