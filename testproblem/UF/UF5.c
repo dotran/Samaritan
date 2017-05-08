@@ -23,11 +23,13 @@
 
 # include "../../header/problems.h"
 
-void uf5 (double *xreal, double *obj)
+void uf5 (individual_real* ind)
 {
     int i, count1, count2;
     double sum1, sum2, yj, hj, Nm, Em;
-
+    double *xreal,*obj;
+    obj = ind->obj;
+    xreal = ind->xreal;
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
     Nm = 10.0; Em = 0.1;

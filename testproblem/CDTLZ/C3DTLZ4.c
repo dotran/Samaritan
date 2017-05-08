@@ -23,12 +23,14 @@
 
 #include "../../header/problems.h"
 
-void c3dtlz4 (double *xreal, double *obj, double *cv)
+void c3dtlz4 (individual_real* ind)
 {
     int i, j, k;
     int aux;
     double gx, alpha;
-
+    double *xreal,*obj;
+    obj = ind->obj;
+    xreal = ind->xreal;
     gx    = 0.0;
     alpha = 100.0;
     k     = number_variable - number_objective + 1;
@@ -52,11 +54,11 @@ void c3dtlz4 (double *xreal, double *obj, double *cv)
     double fsum = 0;
     for(i = 0; i < number_objective ; i++)
         fsum = obj[i] * obj[i] + fsum;
-    *cv = 0;
+    ind->cv = 0;
     double re = 0;
     for (i = 0; i < number_objective; i++) {
         re = fsum - 3 * obj[i]/4 -1;
         if(re>0) re = 0;
-        *cv = re + (*cv);
+        ind->cv = re + ind->cv;
     }
 }

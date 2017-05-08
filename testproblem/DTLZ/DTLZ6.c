@@ -23,14 +23,16 @@
 
 #include "../../header/problems.h"
 
-void dtlz6 (double *xreal, double *obj)
+void dtlz6 (individual_real* ind)
 {
     int i, j, k;
     int aux;
     double temp, gx;
 
     double *theta;
-
+    double *xreal,*obj;
+    obj = ind->obj;
+    xreal = ind->xreal;
     theta = (double *) malloc (number_variable * sizeof(double));
 
     gx = 0.0;

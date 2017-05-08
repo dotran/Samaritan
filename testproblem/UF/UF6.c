@@ -23,11 +23,13 @@
 
 # include "../../header/problems.h"
 
-void uf6 (double *xreal, double *obj)
+void uf6 (individual_real* ind)
 {
     int i, count1, count2;
     double sum1, sum2, prod1, prod2, yj, hj, pj, Nm, Em;
-
+    double *xreal,*obj;
+    obj = ind->obj;
+    xreal = ind->xreal;
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
     prod1  = prod2  = 1.0;

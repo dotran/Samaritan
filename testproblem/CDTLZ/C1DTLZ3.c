@@ -23,15 +23,17 @@
 
 #include "../../header/problems.h"
 
-void c1dtlz3 (double *xreal, double *obj, double * cv)
+void c1dtlz3 (individual_real* ind)
 {
     int i, j, k;
     int aux;
     double gx;
     double fsum;
-
+    double re;
     double r = 9;
-
+    double *xreal,*obj;
+    obj = ind->obj;
+    xreal = ind->xreal;
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
@@ -55,7 +57,8 @@ void c1dtlz3 (double *xreal, double *obj, double * cv)
     for(i = 0; i < number_objective ; i++)
         fsum = obj[i] * obj[i] + fsum;
 
-    *cv = (fsum - 16) * (fsum - r * r);
-    if(*cv>0)*cv = 0;
+    re = (fsum - 16) * (fsum - r * r);
+    if(re>0)re = 0;
+    ind->cv = re;
 
 }

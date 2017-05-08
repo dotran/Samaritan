@@ -84,21 +84,21 @@ int initialization_real (char* argv)
     // calculate the number of points in the PF data
     sprintf (PF_name, "PF/%s.%dD.pf", problem_name, number_objective);
     PF = fopen (PF_name, "r");
-    print_error (PF == NULL, 2, "Fail to open PF: ", PF_name);
+    //print_error (PF == NULL, 2, "Fail to open PF: ", PF_name);
+    if(PF != NULL){
+        PF_size = 0;
+        while (fgets (line, BUFSIZE_L, PF) != NULL)
+            PF_size++;
 
-    PF_size = 0;
-    while (fgets (line, BUFSIZE_L, PF) != NULL)
-        PF_size++;
-
-    // read the PF data
-    rewind (PF);
-    PF_data = (double **) malloc (PF_size * sizeof(double *));
-    for (i = 0; i < PF_size; i++)
-        PF_data[i] = (double *) malloc (number_objective * sizeof(double));
-    for (i = 0; i < PF_size; i++)
-        for (j = 0; j < number_objective; j++)
-            fscanf (PF, "%lf", &PF_data[i][j]);
-
+        // read the PF data
+        rewind (PF);
+        PF_data = (double **) malloc (PF_size * sizeof(double *));
+        for (i = 0; i < PF_size; i++)
+            PF_data[i] = (double *) malloc (number_objective * sizeof(double));
+        for (i = 0; i < PF_size; i++)
+            for (j = 0; j < number_objective; j++)
+                fscanf (PF, "%lf", &PF_data[i][j]);
+    }
     // boundary settings
     variable_lowerbound = (double *) malloc (number_variable * sizeof(double));
     variable_upperbound = (double *) malloc (number_variable * sizeof(double));

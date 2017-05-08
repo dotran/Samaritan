@@ -23,11 +23,13 @@
 
 # include "../../header/problems.h"
 
-void zdt3 (double *xreal, double *obj)
+void zdt3 (individual_real* ind)
 {
     int i;
     double f1, f2, g, h;
-
+    double *xreal,*obj;
+    obj = ind->obj;
+    xreal = ind->xreal;
     f1 = xreal[0];
 
     g  = 0.0;
