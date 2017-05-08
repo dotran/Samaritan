@@ -1,9 +1,9 @@
-algorithm_name: SMSEMOA
-test_problem: DTLZ2
+algorithm_name: CMOEAD
+test_problem: C3DTLZ1
 number_variable 12
 number_objective 3
-popSize: 91
-max_evaluation: 27300
+popSize: 300
+max_evaluation: 300000
 runtime_output: 1
 output_interval: 10
 run_index_begin: 1

@@ -36,7 +36,7 @@ void initialize_individual_real (individual_real *ind)
     if (number_variable != 0)
         for (i = 0; i < number_variable; i++)
             ind->xreal[i] = rndreal (variable_lowerbound[i], variable_upperbound[i]);
-
+    ind->cv = 0;    // for non-constraint testproblem
     return;
 }
 
@@ -72,7 +72,7 @@ void copy_ind (individual_real *ind1, individual_real *ind2)
 
     ind2->rank       = ind1->rank;
     ind2->crowd_dist = ind1->crowd_dist;
-
+    ind2->cv = ind1->cv ;
     if (number_variable != 0)
         for (i = 0; i < number_variable; i++)
             ind2->xreal[i] = ind1->xreal[i];

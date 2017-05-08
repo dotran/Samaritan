@@ -121,6 +121,10 @@ int main(int argc, char *argv[])
             HypE (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp (algorithm_name, "NSGA3"))
             NSGA3 (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp (algorithm_name, "CNSGA2"))
+            CNSGA2 (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp (algorithm_name, "CMOEAD"))
+            CMOEAD (parent_pop, offspring_pop, mixed_pop);
         else
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
         printf ("\n");

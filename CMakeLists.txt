@@ -41,6 +41,7 @@ set(SOURCE_FILES
         metaheuristics/hype.c
         metaheuristics/nsga3.c
         metaheuristics/cnsga2.c
+        metaheuristics/cmoead.c
 
         selection/ibea/fitness.c
         selection/ibea/ibea_selection.c
@@ -106,7 +107,9 @@ set(SOURCE_FILES
         testproblem/UF/UF10.c
         testproblem/CDTLZ/C1DTLZ1.c
         testproblem/CDTLZ/C2DTLZ2.c
-
+        testproblem/CDTLZ/C1DTLZ3.c
+        testproblem/CDTLZ/C3DTLZ1.c
+        testproblem/CDTLZ/C3DTLZ4.c
         config.txt
         main.c
         )
