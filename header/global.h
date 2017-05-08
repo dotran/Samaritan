@@ -110,8 +110,8 @@ enum MoeadFunction{WS, TCH, ITCH, PBI};
 // gaps setting, read from file?
 static int weight_gaps_table[8][3] = {{0,   0, 0},
                                       {0,   0, 0},
-                                      {100, 0, 0},  // 2 obj 100->100
-                                      {12,  0, 0},  // 3 obj 12->91
+                                      {299, 0, 0},  // 2 obj 100->100
+                                      {23,  0, 0},  // 3 obj 12->91
                                       {10,  0, 0},  // 4 obj
                                       {6,   4, 0},  // 5 obj
                                       {5,   2, 0},  // 6 obj
@@ -124,6 +124,7 @@ typedef struct
     double *obj;
     double crowd_dist;
     double fitness;
+    double cv;
 } individual_real;
 
 typedef struct
