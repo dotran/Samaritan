@@ -33,7 +33,7 @@ void zdt4 (double *xreal, double *obj)
     g  = 0.0;
     for (i = 1; i < number_variable; i++)
         g += pow (xreal[i], 2.0) - 10.0 * cos (4.0 * PI * xreal[i]);
-    g = 10.0 * (number_variable - 1) + 1.0;
+    g += 10.0 * (number_variable - 1) + 1.0;
     h = 1.0 - sqrt (f1 / g);
 
     f2 = g * h;
