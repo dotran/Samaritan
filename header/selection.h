@@ -72,6 +72,7 @@ void initialize_neighborhood ();
 void set_weight (double *weight, double unit, double sum, int dim);
 void tour_selection_subproblem (int depth);
 void update_subproblem (population_real *pop, individual_real *individual, int subProblem_id, int neighborType);
+void update_subproblem_constraint (population_real *pop, individual_real *individual, int subProblem_id, int neighborType);
 
 /* MOEA/D-STM */
 double calculateDistance2 (individual_real* individual, double* lambda);
