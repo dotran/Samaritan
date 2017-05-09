@@ -28,6 +28,46 @@
 # include "../../header/selection.h"
 #include "../../header/global.h"
 
+void update_subproblem (population_real *pop, individual_real *individual, int subProblem_id, int neighborType)
+{
+    int i, k;
+    int time, size;
+    double f1, f2;
+    int *perm;
+
+    if (neighborType == NEIGHBOR)
+        size = neighbor_size;
+    else
+        size = number_weight;
+
+    perm = malloc (sizeof(int) * size);
+    random_permutation (perm, size);
+
+    time = 0;
+    for (i = 0; i < size; i++)
+    {
+        if (neighborType == NEIGHBOR)
+            k = neighborhood[subProblem_id][perm[i]];
+        else
+            k = perm[i];
+
+        f1 = fitnessFunction (&(pop->ind[k]), lambda[k]);
+        f2 = fitnessFunction (individual, lambda[k]);
+
+        if (f2 < f1 )
+        {
+            copy_ind (individual,&(pop->ind[k]));
+            time++;
+        }
+        if (time >= maximumNumberOfReplacedSolutions)
+            break;
+    }
+
+    free (perm);
+
+    return;
+}
+
 void update_subproblem_constraint (population_real *pop, individual_real *individual, int subProblem_id, int neighborType)
 {
     int i, k;
@@ -56,45 +96,6 @@ void update_subproblem_constraint (population_real *pop, individual_real *indivi
         cv1 = pop->ind[k].cv;
         cv2 = individual->cv;
         if ((cv1>-EPS&&cv2>-EPS&&f2 < f1 )||(cv2>cv1))
-        {
-            copy_ind (individual,&(pop->ind[k]));
-            time++;
-        }
-        if (time >= maximumNumberOfReplacedSolutions)
-            break;
-    }
-
-    free (perm);
-
-    return;
-}
-void update_subproblem (population_real *pop, individual_real *individual, int subProblem_id, int neighborType)
-{
-    int i, k;
-    int time, size;
-    double f1, f2;
-    int *perm;
-
-    if (neighborType == NEIGHBOR)
-        size = neighbor_size;
-    else
-        size = number_weight;
-
-    perm = malloc (sizeof(int) * size);
-    random_permutation (perm, size);
-
-    time = 0;
-    for (i = 0; i < size; i++)
-    {
-        if (neighborType == NEIGHBOR)
-            k = neighborhood[subProblem_id][perm[i]];
-        else
-            k = perm[i];
-
-        f1 = fitnessFunction (&(pop->ind[k]), lambda[k]);
-        f2 = fitnessFunction (individual, lambda[k]);
-
-        if (f2 < f1 )
         {
             copy_ind (individual,&(pop->ind[k]));
             time++;

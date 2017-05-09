@@ -49,7 +49,6 @@ set(SOURCE_FILES
         selection/nsga2/crowddist.c
         selection/nsga2/fillnds.c
         selection/nsga2/qsort.c
-        selection/cnsga2/fillcnds.c
 
         selection/moead/update.c
         selection/moead/utility.c
