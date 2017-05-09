@@ -27,12 +27,14 @@ void zdt6 (individual_real* ind)
 {
     int i;
     double f1, f2, g, h;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     f1 = 1.0 - exp (-4.0 * xreal[0]) * pow (sin (6.0 * PI * xreal[0]), 6.0);
 
-    g  = 0.0;
+    g = 0.0;
     for (i = 1; i < number_variable; i++)
         g += xreal[i];
     g = 9.0 * pow (g / (number_variable - 1), 0.25) + 1.0;

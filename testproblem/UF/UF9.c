@@ -23,13 +23,15 @@
 
 # include "../../header/problems.h"
 
-void uf9 (individual_real* ind)
+void uf9 (individual_real *ind)
 {
     int i, count1, count2, count3;
     double sum1, sum2, sum3, yj, Em;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     Em     = 0.1;
     sum1   = sum2   = sum3   = 0.0;
     count1 = count2 = count3 = 0;
@@ -54,9 +56,8 @@ void uf9 (individual_real* ind)
     }
     yj = (1.0 + Em) * (1.0 - 4.0 * (2.0 * xreal[0] - 1.0) * (2.0 * xreal[0] - 1.0));
     if (yj < 0.0) yj = 0.0;
+
     obj[0] = 0.5 * (yj + 2 * xreal[0]) * xreal[1] + 2.0 * sum1 / (double)count1;
     obj[1] = 0.5 * (yj - 2 * xreal[0] + 2.0) * xreal[1] + 2.0 * sum2 / (double)count2;
     obj[2] = 1.0 - xreal[1] + 2.0 * sum3 / (double)count3;
-
-    return;
 }

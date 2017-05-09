@@ -25,7 +25,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../../header/global.h"
 #include "../../header/reproduction.h"
 
 void mutation_real (population_real *pop)

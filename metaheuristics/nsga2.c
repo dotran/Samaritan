@@ -1,6 +1,9 @@
 /*
  * nsga2.c:
- *  This file contains the main procedures of the standard NSGA-II.
+ *  This file implements the main procedures of NSGA-II. It is based on the following reference:
+ *
+ *  K. Deb, S. Agrawal, A. Pratap and T. Meyarivan, "A fast and elitist multiobjective genetic algorithm: NSGA-II".
+ *  IEEE Trans. Evol. Comput. 6(2): 182-197, 2002.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -27,7 +30,7 @@
 
 # include "../header/metaheuristics.h"
 
-void NSGA2 (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
+void NSGA2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop)
 {
     int i;
     int generation;
@@ -38,23 +41,18 @@ void NSGA2 (population_real* parent_pop, population_real* offspring_pop, populat
 
     // initialize population
     initialize_population_real (parent_pop);
-
-    // population evaluations
     evaluate_population (parent_pop);
 
     // track the current evolutionary progress, including population and metrics
     track_evolution (parent_pop, generation, 0);
-    while (evaluation_count<max_evaluation)
+    while (evaluation_count < max_evaluation)
     {
         generation++;
         print_progress ();
 
         // reproduction (crossover and mutation)
         crossover_real (parent_pop, offspring_pop);
-
         mutation_real (offspring_pop);
-
-        // population evaluations
         evaluate_population (offspring_pop);
 
         // environmental selection

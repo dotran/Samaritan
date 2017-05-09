@@ -23,13 +23,15 @@
 
 # include "../../header/problems.h"
 
-void uf7 (individual_real* ind)
+void uf7 (individual_real *ind)
 {
     int i, count1, count2;
     double sum1, sum2, yj;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
     for (i = 2; i <= number_variable; i++)
@@ -47,8 +49,7 @@ void uf7 (individual_real* ind)
         }
     }
     yj = pow (xreal[0], 0.2);
+
     obj[0] = yj + 2.0 * sum1 / (double)count1;
     obj[1] = 1.0 - yj + 2.0 * sum2 / (double)count2;
-
-    return;
 }

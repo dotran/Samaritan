@@ -1,6 +1,6 @@
 /*
  * moead_selection.c:
- *  This file contains the selecting functions for moead.
+ *  This file implements the mating selecting function of MOEA/D.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>

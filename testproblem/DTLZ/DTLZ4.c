@@ -23,14 +23,16 @@
 
 #include "../../header/problems.h"
 
-void dtlz4 (individual_real* ind)
+void dtlz4 (individual_real *ind)
 {
     int i, j, k;
     int aux;
     double gx, alpha;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     gx    = 0.0;
     alpha = 100.0;
     k     = number_variable - number_objective + 1;

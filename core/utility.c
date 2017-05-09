@@ -92,14 +92,10 @@ int combination (int n, int k)
 }
 
 /* Shuffle the 'perm' array */
-void random_permutation (int* perm, int size)
+void random_permutation (int *perm, int size)
 {
-    int i;
-    int num;
-    int start;
-
-    int* index;
-    int* flag;
+    int i, num, start;
+    int *index, *flag;
 
     index = malloc (size * sizeof(int));
     flag  = malloc (size * sizeof(int));
@@ -135,7 +131,7 @@ void random_permutation (int* perm, int size)
 }
 
 /* Update the current ideal point */
-void update_ideal_point (individual_real * individual)
+void update_ideal_point (individual_real *individual)
 {
     int i;
 
@@ -148,7 +144,7 @@ void update_ideal_point (individual_real * individual)
 
 
 /* Update the current nadir point */
-void update_nadir_point (individual_real * individual)
+void update_nadir_point (individual_real *individual)
 {
     int i;
 

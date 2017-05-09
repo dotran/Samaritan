@@ -22,18 +22,16 @@
  */
 
 #include "../../header/problems.h"
-#include "../../header/global.h"
 
-void c1dtlz1 (individual_real* ind)
+void c1dtlz1 (individual_real *ind)
 {
+    int i, j, k, aux;
+    double gx, re;
+    double *xreal, *obj;
 
-    double cv;
-    int i, j, k;
-    int aux;
-    double gx;
-    double *xreal,*obj;
-    obj = ind->obj;
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
@@ -53,17 +51,14 @@ void c1dtlz1 (individual_real* ind)
             obj[i] *= 1 - xreal[aux];
         }
     }
-    double re = 1;
-    for (i = 0; i < number_objective; i++) {
-                if(i!=number_objective-1)
-        {
-            re = re - obj[i]/0.5;
-        }
+    re = 1;
+    for (i = 0; i < number_objective; i++)
+    {
+        if (i != number_objective - 1)
+            re = re - obj[i] / 0.5;
         else
-        {
-            re = re - obj[i]/0.6;
-        }
+            re = re - obj[i] / 0.6;
     }
-    if(re>0) re = 0;
+    if (re > 0) re = 0;
     ind->cv = re;
 }

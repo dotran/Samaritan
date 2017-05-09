@@ -1,6 +1,9 @@
 /*
- * nsga2.c:
- *  This file contains the main procedures of the SMS-EMOA
+ * smsemoa.c:
+ *  This file implements the main procedures of SMS-EMOA. It is based on the following reference:
+ *
+ * N. Beume, B. Naujoks, M. Emmerich, "SMS-EMOA: Multiobjective selection based on dominated hypervolume",
+ * European Journal of Operational Research. 181(3): 1653-1669, 2007.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -27,18 +30,18 @@
 
 # include "../header/metaheuristics.h"
 
-void SMSEMOA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop)
+void SMSEMOA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop)
 {
     int i, j;
     int generation;
     int maxdepth, maxStackSize;
-    FILECONTENTS *f = malloc(sizeof(FILECONTENTS));
+    FILECONTENTS *f = malloc (sizeof(FILECONTENTS));
 
     generation       = 1;
     evaluation_count = 0;
     printf ("Progress: 1%%");
 
-    // initialize population
+    // initialize process
     initialize_population_real (parent_pop);
     evaluate_population (parent_pop);
     initialize_nadirpoint (parent_pop);
@@ -49,10 +52,10 @@ void SMSEMOA (population_real* parent_pop, population_real* offspring_pop, popul
     maxdepth = i_maxn - 2;
 
     i_fs         = malloc (sizeof(FRONT) * maxdepth);
-    partial      = malloc(sizeof(double) * i_maxm);
-    heap         = malloc(sizeof(int) * i_maxm);
-    stacksize    = malloc(sizeof(int) * i_maxm);
-    stacks       = malloc(sizeof(SLICE*) * i_maxm);
+    partial      = malloc (sizeof(double) * i_maxm);
+    heap         = malloc (sizeof(int) * i_maxm);
+    stacksize    = malloc (sizeof(int) * i_maxm);
+    stacks       = malloc (sizeof(SLICE*) * i_maxm);
     fsorted      = malloc (sizeof(FRONT) * i_maxn);
     torder       = malloc (sizeof(int *) * MAX(i_maxm, i_maxn));
     tcompare     = malloc (sizeof(int *) * i_maxm);
@@ -87,17 +90,14 @@ void SMSEMOA (population_real* parent_pop, population_real* offspring_pop, popul
             fflush (stdout);
             // reproduction (crossover and mutation)
             crossover_real_steadystate (parent_pop, &(offspring_pop->ind[0]), &(offspring_pop->ind[1]));
-
             mutation_ind (&(offspring_pop->ind[0]));
-
-            // population evaluations
             evaluate_individual (&(offspring_pop->ind[0]));
 
+            // update nadir point
             update_nadir_point (&(offspring_pop->ind[0]));
 
             // environmental selection
             merge (parent_pop, offspring_pop, mixed_pop);
-
             fill_hv_sort (f, parent_pop, mixed_pop, popsize + 1);
         }
             // track the current evolutionary progress, including population and metrics

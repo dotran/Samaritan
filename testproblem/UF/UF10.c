@@ -23,13 +23,15 @@
 
 # include "../../header/problems.h"
 
-void uf10 (individual_real* ind)
+void uf10 (individual_real *ind)
 {
     int i, count1, count2, count3;
     double sum1, sum2, sum3, yj, hj;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     sum1   = sum2   = sum3   = 0.0;
     count1 = count2 = count3 = 0;
     for (i = 3; i <= number_variable; i++)
@@ -52,9 +54,8 @@ void uf10 (individual_real* ind)
             count3++;
         }
     }
+
     obj[0] = cos (0.5 * PI * xreal[0]) * cos (0.5 * PI * xreal[1]) + 2.0 * sum1 / (double)count1;
     obj[1] = cos (0.5 * PI * xreal[0]) * sin (0.5 * PI * xreal[1]) + 2.0 * sum2 / (double)count2;
     obj[2] = sin (0.5 * PI * xreal[0]) + 2.0 * sum3 / (double)count3;
-
-    return;
 }

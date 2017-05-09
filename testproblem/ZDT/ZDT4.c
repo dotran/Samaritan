@@ -27,19 +27,17 @@ void zdt4 (individual_real* ind)
 {
     int i;
     double f1, f2, g, h;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     f1 = xreal[0];
 
     g  = 0.0;
     for (i = 1; i < number_variable; i++)
         g += pow (xreal[i], 2.0) - 10.0 * cos (4.0 * PI * xreal[i]);
-<<<<<<< HEAD
-    g = 10.0 * (number_variable - 1) + 1.0 + g;
-=======
     g += 10.0 * (number_variable - 1) + 1.0;
->>>>>>> 5dd820bf48ffbd89dd6371031e3f2acfe3a5a980
     h = 1.0 - sqrt (f1 / g);
 
     f2 = g * h;

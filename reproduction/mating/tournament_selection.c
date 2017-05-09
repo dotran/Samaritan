@@ -34,27 +34,21 @@ individual_real* tournament (individual_real *ind1, individual_real *ind2)
 
     flag = check_dominance (ind1, ind2);
     if (flag == 1)
-    {
         return (ind1);
-    }
-    if (flag == -1)
-    {
+    else if (flag == -1)
         return (ind2);
-    }
-    if (ind1->crowd_dist > ind2->crowd_dist)
-    {
-        return(ind1);
-    }
-    if (ind2->crowd_dist > ind1->crowd_dist)
-    {
-        return(ind2);
-    }
-    if ((randomperc()) <= 0.5)
-    {
-        return(ind1);
-    }
     else
     {
-        return(ind2);
+        if (ind1->fitness > ind2->fitness)
+            return(ind1);
+        else if (ind2->fitness > ind1->fitness)
+            return(ind2);
+        else
+        {
+            if ((randomperc()) <= 0.5)
+                return (ind1);
+            else
+                return (ind2);
+        }
     }
 }

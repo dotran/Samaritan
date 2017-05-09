@@ -1,6 +1,6 @@
 /*
  * differential_evolution.c:
- *  This file contains the function to perform the differential evolution mutation.
+ *  This file implements the differential evolution (DE) mutation.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -28,10 +28,8 @@
 
 void de (individual_real **parents, individual_real *child)
 {
-    int i;
-    int r;
-    double value;
-    double yl, yu;
+    int i, r;
+    double value, yl, yu;
 
     r = rnd (0, number_variable - 1);
     for (i = 0 ; i < number_variable ;i ++)

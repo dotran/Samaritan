@@ -23,15 +23,14 @@
 
 #include "../../header/problems.h"
 
-void dtlz5 (individual_real* ind)
+void dtlz5 (individual_real *ind)
 {
     int i, j, k;
     int aux;
     double temp, gx;
+    double *xreal, *obj, *theta;
 
-    double *theta;
-    double *xreal,*obj;
-    obj = ind->obj;
+    obj   = ind->obj;
     xreal = ind->xreal;
     theta = (double *) malloc (number_variable * sizeof(double));
 

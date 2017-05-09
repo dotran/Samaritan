@@ -1,6 +1,11 @@
 /*
- * moead.c:
- *  This file contains the main procedures of the standard MOEAD.
+ * cmoead.c:
+ *  This file contains the main procedures of the MOEA/D with constraint handling. Note that this implementation is based
+ *  on the description from the following reference:
+ *
+ *  H. Jain, K. Deb, "An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point Based Nondominated
+ *  Sorting Approach, Part II: Handling Constraints and Extending to an Adaptive Approach",
+ *  IEEE Trans. Evol. Comput. 18(4): 602-622, 2014.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -32,6 +37,7 @@ void CMOEAD (population_real *pop, population_real *offspring_pop, population_re
     int i, j;
     int generation;
     int subproblem_id, neighbor_type;
+    individual_real *offspring;
 
     generation       = 1;
     evaluation_count = 0;
@@ -48,7 +54,7 @@ void CMOEAD (population_real *pop, population_real *offspring_pop, population_re
     track_evolution (pop, generation, 0);
 
     permutation = malloc (number_weight * sizeof(int));
-    individual_real* offspring = &(offspring_pop->ind[0]);
+    offspring = &(offspring_pop->ind[0]);
 
     while (evaluation_count < max_evaluation)
     {

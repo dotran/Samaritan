@@ -27,7 +27,7 @@
 
 #include "../../header/reproduction.h"
 
-void crossover_real_steadystate (population_real *parent_pop, individual_real* offspring1,individual_real* offspring2)
+void crossover_real_steadystate (population_real *parent_pop, individual_real *offspring1, individual_real *offspring2)
 {
     int i;
     int temp;

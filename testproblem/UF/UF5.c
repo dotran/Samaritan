@@ -23,13 +23,15 @@
 
 # include "../../header/problems.h"
 
-void uf5 (individual_real* ind)
+void uf5 (individual_real *ind)
 {
     int i, count1, count2;
     double sum1, sum2, yj, hj, Nm, Em;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
     Nm = 10.0; Em = 0.1;
@@ -49,8 +51,7 @@ void uf5 (individual_real* ind)
         }
     }
     hj     = (0.5 / Nm + Em) * fabs (sin (2.0 * Nm * PI * xreal[0]));
+
     obj[0] = xreal[0] + hj + 2.0 * sum1 / (double)count1;
     obj[1] = 1.0 - xreal[0] + hj + 2.0 * sum2 / (double)count2;
-
-    return;
 }

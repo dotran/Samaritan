@@ -24,7 +24,6 @@
 
 # include "../header/problems.h"
 # include "../header/print.h"
-#include "../header/global.h"
 
 void evaluate_population (population_real *pop)
 {
@@ -40,34 +39,35 @@ void evaluate_individual (individual_real *ind)
 {
     int flag;
 
-    flag = 0;
-    (strcmp (problem_name, "ZDT1")  != 0)? :(zdt1 (ind), flag =1);
-    (strcmp (problem_name, "ZDT2")  != 0)? :(zdt2 (ind), flag =1);
-    (strcmp (problem_name, "ZDT3")  != 0)? :(zdt3 (ind), flag =1);
-    (strcmp (problem_name, "ZDT4")  != 0)? :(zdt4 (ind), flag =1);
-    (strcmp (problem_name, "ZDT6")  != 0)? :(zdt6 (ind), flag =1);
-    (strcmp (problem_name, "DTLZ1") != 0)? :(dtlz1 (ind), flag =1);
-    (strcmp (problem_name, "DTLZ2") != 0)? :(dtlz2 (ind), flag =1);
-    (strcmp (problem_name, "DTLZ3") != 0)? :(dtlz3 (ind), flag =1);
-    (strcmp (problem_name, "DTLZ4") != 0)? :(dtlz4 (ind), flag =1);
-    (strcmp (problem_name, "DTLZ5") != 0)? :(dtlz5 (ind), flag =1);
-    (strcmp (problem_name, "DTLZ6") != 0)? :(dtlz6 (ind), flag =1);
-    (strcmp (problem_name, "DTLZ7") != 0)? :(dtlz7 (ind), flag =1);
-    (strcmp (problem_name, "UF1") != 0)? :(uf1 (ind), flag =1);
-    (strcmp (problem_name, "UF2") != 0)? :(uf2 (ind), flag =1);
-    (strcmp (problem_name, "UF3") != 0)? :(uf3 (ind), flag =1);
-    (strcmp (problem_name, "UF4") != 0)? :(uf4 (ind), flag =1);
-    (strcmp (problem_name, "UF5") != 0)? :(uf5 (ind), flag =1);
-    (strcmp (problem_name, "UF6") != 0)? :(uf6 (ind), flag =1);
-    (strcmp (problem_name, "UF7") != 0)? :(uf7 (ind), flag =1);
-    (strcmp (problem_name, "UF8") != 0)? :(uf8 (ind), flag =1);
-    (strcmp (problem_name, "UF9") != 0)? :(uf9 (ind), flag =1);
-    (strcmp (problem_name, "UF10") != 0)? :(uf10 (ind), flag =1);
-    (strcmp (problem_name, "C1DTLZ1")  != 0)? :(c1dtlz1 (ind), flag =1);
-    (strcmp (problem_name, "C1DTLZ3")  != 0)? :(c1dtlz3 (ind), flag =1);
-    (strcmp (problem_name, "C2DTLZ2")  != 0)? :(c2dtlz2 (ind), flag =1);
-    (strcmp (problem_name, "C3DTLZ1")  != 0)? :(c3dtlz1 (ind), flag =1);
-    (strcmp (problem_name, "C3DTLZ4")  != 0)? :(c3dtlz4 (ind), flag =1);
+    ind->cv = 0;    // initialize the CV to be 0
+    flag    = 0;
+    (strcmp (problem_name, "ZDT1")  != 0)? :(zdt1 (ind), flag = 1);
+    (strcmp (problem_name, "ZDT2")  != 0)? :(zdt2 (ind), flag = 1);
+    (strcmp (problem_name, "ZDT3")  != 0)? :(zdt3 (ind), flag = 1);
+    (strcmp (problem_name, "ZDT4")  != 0)? :(zdt4 (ind), flag = 1);
+    (strcmp (problem_name, "ZDT6")  != 0)? :(zdt6 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZ1") != 0)? :(dtlz1 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZ2") != 0)? :(dtlz2 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZ3") != 0)? :(dtlz3 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZ4") != 0)? :(dtlz4 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZ5") != 0)? :(dtlz5 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZ6") != 0)? :(dtlz6 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZ7") != 0)? :(dtlz7 (ind), flag = 1);
+    (strcmp (problem_name, "UF1") != 0)? :(uf1 (ind), flag = 1);
+    (strcmp (problem_name, "UF2") != 0)? :(uf2 (ind), flag = 1);
+    (strcmp (problem_name, "UF3") != 0)? :(uf3 (ind), flag = 1);
+    (strcmp (problem_name, "UF4") != 0)? :(uf4 (ind), flag = 1);
+    (strcmp (problem_name, "UF5") != 0)? :(uf5 (ind), flag = 1);
+    (strcmp (problem_name, "UF6") != 0)? :(uf6 (ind), flag = 1);
+    (strcmp (problem_name, "UF7") != 0)? :(uf7 (ind), flag = 1);
+    (strcmp (problem_name, "UF8") != 0)? :(uf8 (ind), flag = 1);
+    (strcmp (problem_name, "UF9") != 0)? :(uf9 (ind), flag = 1);
+    (strcmp (problem_name, "UF10") != 0)? :(uf10 (ind), flag = 1);
+    (strcmp (problem_name, "C1DTLZ1")  != 0)? :(c1dtlz1 (ind), flag = 1);
+    (strcmp (problem_name, "C1DTLZ3")  != 0)? :(c1dtlz3 (ind), flag = 1);
+    (strcmp (problem_name, "C2DTLZ2")  != 0)? :(c2dtlz2 (ind), flag = 1);
+    (strcmp (problem_name, "C3DTLZ1")  != 0)? :(c3dtlz1 (ind), flag = 1);
+    (strcmp (problem_name, "C3DTLZ4")  != 0)? :(c3dtlz4 (ind), flag = 1);
 
     print_error (flag == 0, 2, "UNKNOWN test problem: ", problem_name);
 

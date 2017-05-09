@@ -42,7 +42,7 @@ void parent_selection (population_real *parent_pop, individual_real ***parents, 
 void crossover_real (population_real *parent_pop, population_real* offspring_pop);
 void crossover_real_steadystate (population_real *parent_pop, individual_real* offspring1,individual_real* offspring2);
 void sbx_crossover (individual_real *parent1, individual_real *parent2, individual_real *child1, individual_real *child2);
-void crossover_moead_real(population_real *parent_pop, individual_real *offspring, int sub_problem_id, int *neighbor_type);
+void crossover_moead_real (population_real *parent_pop, individual_real *offspring, int sub_problem_id, int *neighbor_type);
 void de (individual_real **parents,individual_real *child);
 
 // mutation

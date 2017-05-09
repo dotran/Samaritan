@@ -40,8 +40,6 @@ void IBEA (population_real* parent_pop, population_real* offspring_pop, populati
 
     // initialize population
     initialize_population_real (parent_pop);
-
-    // population evaluations
     evaluate_population (parent_pop);
 
     flag    = (int *) malloc (2 * popsize * sizeof(int));
@@ -58,10 +56,7 @@ void IBEA (population_real* parent_pop, population_real* offspring_pop, populati
 
         // reproduction (crossover and mutation)
         crossover_real (parent_pop, offspring_pop);
-
         mutation_real (offspring_pop);
-
-        // population evaluations
         evaluate_population (offspring_pop);
 
         // environmental selection

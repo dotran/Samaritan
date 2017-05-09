@@ -1,6 +1,6 @@
 /*
  * crossover_moead.c:
- *  This file contains the functions to perform crossover operations in MOEAD.
+ *  This file contains the functions to perform crossover operations in MOEA/D.
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>

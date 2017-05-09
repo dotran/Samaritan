@@ -22,18 +22,17 @@
  */
 
 #include "../../header/problems.h"
-#include "../../header/global.h"
 
-void c2dtlz2 (individual_real* ind)
+void c2dtlz2 (individual_real *ind)
 {
-    double r = 0.4;  // parameter for c2dtlz2
+    int i, j, k, aux;
+    double re, gx, fsum, sum1, sum2, sqr;
+    double r = 0.4;  // parameter for C2-DTLZ2
+    double *xreal, *obj;
 
-    int i, j, k;
-    int aux;
-    double gx;
-    double *xreal,*obj;
-    obj = ind->obj;
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
@@ -52,16 +51,15 @@ void c2dtlz2 (individual_real* ind)
             obj[i] *= sin(PI * 0.5 * xreal[aux]);
         }
     }
-    double fsum=0;
+    fsum = 0;
     for(i = 0; i < number_objective; i++)
-        fsum = fsum + obj[i]*obj[i];
+        fsum = fsum + obj[i] * obj[i];
 
-    double re  = (obj[0] - 1) * (obj[0] - 1) + fsum - obj[0] * obj[0] - r * r;
-    double sum1,sum2 = 0;
-
-    double sqr = sqrt(number_objective);
-
-    for (i = 0; i < number_objective; i++) {
+    re   = (obj[0] - 1) * (obj[0] - 1) + fsum - obj[0] * obj[0] - r * r;
+    sum2 = 0;
+    sqr  = sqrt(number_objective);
+    for (i = 0; i < number_objective; i++)
+    {
         sum1 = (obj[i] - 1) * (obj[i] - 1) + fsum - obj[i] * obj[i] - r * r;
         if (sum1 < re)
             re = sum1;
@@ -69,10 +67,8 @@ void c2dtlz2 (individual_real* ind)
     }
     sum2 = sum2 - r * r;
 
-    if (sum2 < re)
-        re = sum2;
-    if(re > 0) re = - re;
+    if (sum2 < re) re = sum2;
+    if (re > 0) re = -re;
     else re = 0;
     ind->cv = re;
-
 }

@@ -23,17 +23,20 @@
 
 # include "../../header/problems.h"
 
-void uf6 (individual_real* ind)
+void uf6 (individual_real *ind)
 {
     int i, count1, count2;
     double sum1, sum2, prod1, prod2, yj, hj, pj, Nm, Em;
-    double *xreal,*obj;
-    obj = ind->obj;
+    double *xreal, *obj;
+
+    obj   = ind->obj;
     xreal = ind->xreal;
+
     sum1   = sum2   = 0.0;
     count1 = count2 = 0;
     prod1  = prod2  = 1.0;
-    Nm = 2.0; Em = 0.1;
+    Nm     = 2.0;
+    Em     = 0.1;
     for (i = 2; i <= number_variable; i++)
     {
         yj = xreal[i - 1] - sin (6.0 * PI * xreal[0] + i * PI / number_variable);
@@ -53,8 +56,7 @@ void uf6 (individual_real* ind)
     }
     hj = 2.0 * (0.5 / Nm + Em) * sin (2.0 * Nm * PI * xreal[0]);
     if (hj < 0.0) hj = 0.0;
+
     obj[0] = xreal[0] + hj + 2.0 * (4.0 * sum1 - 2.0 * prod1 + 2.0) / (double)count1;
     obj[1] = 1.0 - xreal[0] + hj + 2.0 * (4.0 * sum2 - 2.0 * prod2 + 2.0) / (double)count2;
-
-    return;
 }

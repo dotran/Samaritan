@@ -1,6 +1,6 @@
 /*
  * crossover_nsga2.c:
- *  This file contains the functions to perform crossover operations in NSGA-II.
+ *  This file implements the crossover operations of NSGA-II (SBX).
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -27,17 +27,14 @@
 
 # include "../../header/reproduction.h"
 
-void crossover_real (population_real *parent_pop, population_real* offspring_pop)
+void crossover_real (population_real *parent_pop, population_real *offspring_pop)
 {
-    int i;
-    int temp;
-    int rand;
+    int i, temp, rand;
     int *a1, *a2;
-
     individual_real *parent1, *parent2;
 
-    a1 = (int *)malloc(popsize * sizeof(int));
-    a2 = (int *)malloc(popsize * sizeof(int));
+    a1 = (int *) malloc (popsize * sizeof(int));
+    a2 = (int *) malloc (popsize * sizeof(int));
     for (i = 0; i < popsize; i++)
         a1[i] = a2[i] = i;
 
