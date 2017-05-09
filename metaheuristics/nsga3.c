@@ -32,11 +32,10 @@
 # include "../header/metaheuristics.h"
 
 int RemainingCount;
-int lastRank;
-int maxRank;
+int max_rank;
 int num_candidates;
 int selected_count;
-int candidate_count;
+int cur_size;
 
 int *fronts_size;
 int *candidate_flag;
@@ -44,14 +43,14 @@ int *association_flag;
 int *associationCount;
 int *lastAssociationCount;
 int *ReferenceDirection;
-double *maxObjValues ;
-double *nadirPoint ;
-double *u ;
+double *maxObjValues;
+double *nadirPoint;
+double *u;
 double *previousMaxValues;
 double *maxArr;
 double *PerpendicularDistance;
 double *intercepts;
-double **Z ;
+double **Z;
 double **unitDirections;
 double **distanceMatrix;
 
@@ -62,16 +61,15 @@ population_real *previousExtreme_pop;
 population_real *extreme_pop;
 
 /* Association procedure */
-void association (population_real *pop, int popsize)
+void association (population_real *pop, int size)
 {
     int i, j, k, min_idx;
     double d1, d2, lam, min_distance;
-    double *reference_dirction;
 
     // calculate perpendicular distances towards each reference point
     for (i = 0; i < number_weight; i++)
     {
-        for (j = 0; j < popsize; j++)
+        for (j = 0; j < size; j++)
         {
             d1  = 0.0;
             lam = 0.0;
@@ -92,18 +90,16 @@ void association (population_real *pop, int popsize)
     }
 
     // find the closest reference direction to each individual
-    for (i = 0; i < popsize; i++)
+    for (i = 0; i < size; i++)
     {
-        min_idx            = 0;
-        min_distance       = distanceMatrix[i][0];
-        reference_dirction = lambda[0]; // useless
+        min_idx      = 0;
+        min_distance = distanceMatrix[i][0];
         for (j = 1; j < number_weight; j++)
         {
             if (distanceMatrix[i][j] < min_distance)
             {
                 min_idx            = j;
                 min_distance       = distanceMatrix[i][j];
-                reference_dirction = lambda[j]; // useless
             }
         }
         ReferenceDirection[i]    = min_idx;
@@ -112,18 +108,18 @@ void association (population_real *pop, int popsize)
 }
 
 /* Non-dominated sorting procedure */
-void assign_rank (population_real *pop, int popsize)
+void assign_rank (population_real *pop, int size)
 {
     int i, j;
     int flag, end;
     int front_size = 0;
     int rank = 0;
 
-    candidate_count = 0;
+    cur_size = 0;
 
     list *pool;
     list *elite;
-    list *temp1, *temp2,*temp3;
+    list *temp1, *temp2, *temp3;
 
     pool  = (list *) malloc (sizeof(list));
     elite = (list *) malloc (sizeof(list));
@@ -135,7 +131,7 @@ void assign_rank (population_real *pop, int popsize)
     elite->child  = NULL;
 
     temp1 = pool;
-    for (i = 0; i < popsize; i++)
+    for (i = 0; i < size; i++)
     {
         insert (temp1,i);
         temp1 = temp1->child;
@@ -187,7 +183,7 @@ void assign_rank (population_real *pop, int popsize)
         while (temp1 != NULL);
 
         // copy each level into candidate
-        if (candidate_count < popsize)
+        if (cur_size < size)
         {
             fronts_size[rank] = front_size;
 
@@ -206,18 +202,18 @@ void assign_rank (population_real *pop, int popsize)
                 fronts[rank] = malloc (sizeof(list));
             }
 
-            fronts[rank]->index = -1;
+            fronts[rank]->index  = -1;
             fronts[rank]->parent = NULL;
-            fronts[rank]->child = NULL;
+            fronts[rank]->child  = NULL;
 
-            temp3   = fronts[rank];
-            maxRank = rank;
-            temp2   = elite->child;
+            temp3    = fronts[rank];
+            max_rank = rank;
+            temp2    = elite->child;
 
             do
             {
                 pop->ind[temp2->index].rank = rank;
-                candidate_count++;
+                cur_size++;
                 insert (temp3, temp2->index);
                 temp2 = temp2->child;
             }
@@ -233,7 +229,7 @@ void assign_rank (population_real *pop, int popsize)
         }
         while (elite->child !=NULL);
     }
-    while (candidate_count < popsize);
+    while (cur_size < size);
 
     // garbage collection
     while (pool != NULL)
@@ -250,23 +246,24 @@ void assign_rank (population_real *pop, int popsize)
     }
 }
 
-void get_candidate (population_real *mix_pop, population_real *new_pop)
+/* Fill the next parent population one front by the other. Note that if |F_1| + ... + |F_l| is larger than the popsize,
+ * we only store F_1 ... F_{l-1} into 'new_pop'; while F_1 ... F_l are stored in 'candidate_pop'. */
+void fill_nd_pop (population_real *mixed_pop, population_real *new_pop)
 {
     int rank;
     list *temp;
 
     rank           = 0;
     num_candidates = 0;
-    while (num_candidates < popsize && rank < maxRank)
+    while (num_candidates < popsize && rank < max_rank)
     {
-        temp     = fronts[rank]->child;
-        lastRank = rank;
+        temp           = fronts[rank]->child;
         selected_count = num_candidates;
         do
         {
-            copy_ind (&mix_pop->ind[temp->index], &candidate_pop->ind[num_candidates]);
+            copy_ind (&mixed_pop->ind[temp->index], &candidate_pop->ind[num_candidates]);
             if (num_candidates < popsize)
-                copy_ind (&mix_pop->ind[temp->index], &new_pop->ind[num_candidates]);
+                copy_ind (&mixed_pop->ind[temp->index], &new_pop->ind[num_candidates]);
             num_candidates++;
             temp = temp->child;
 
@@ -277,7 +274,7 @@ void get_candidate (population_real *mix_pop, population_real *new_pop)
 
 void getExtremePoints (population_real *pop, int size)
 {
-    // Calculate unit directions
+    // calculate unit directions
     int i, j, k;
     int min_idx;
     double max, nextValue;
@@ -293,13 +290,13 @@ void getExtremePoints (population_real *pop, int size)
                 unitDirections[i][j] = EPS;     // 1e-6
         }
     }
-    // Re-Calculate the previous MAX values of the previous extreme points
+    // re-calculate the previous MAX values of the previous extreme points
     for (i = 0; i < number_objective; i++)
     {
-        // Set the unit direction (unit direction j)
-        wDirection = unitDirections[i];
-        previousMaxValues[i] = (previousExtreme_pop->ind[i].obj[0]-ideal_point[0]) / wDirection[0];
-        for ( k = 1; k < number_objective; k++)
+        // set the unit direction (unit direction j)
+        wDirection           = unitDirections[i];
+        previousMaxValues[i] = (previousExtreme_pop->ind[i].obj[0] - ideal_point[0]) / wDirection[0];
+        for (k = 1; k < number_objective; k++)
         {
             nextValue = (previousExtreme_pop->ind[i].obj[k] - ideal_point[k]) / wDirection[k];
             if (nextValue > previousMaxValues[i])
@@ -311,7 +308,7 @@ void getExtremePoints (population_real *pop, int size)
     {
         wDirection = unitDirections[i];
 
-        // Iterate over all the members of the populations
+        // iterate over all the members of the populations
         for ( j = 0; j < size; j++)
         {
             max = (pop->ind[j].obj[0] - ideal_point[0]) / wDirection[0];
@@ -323,7 +320,7 @@ void getExtremePoints (population_real *pop, int size)
             }
             maxArr[j] = max;
         }
-        // Select the minimum value out of maxArr
+        // select the minimum value out of maxArr
         min_idx = 0;
         for (j = 1; j < size; j++)
         {
@@ -333,74 +330,76 @@ void getExtremePoints (population_real *pop, int size)
 
         if (previousMaxValues[i] < maxArr[min_idx])
         {
-            // This means that the previous extreme point was better than
-            // the current extreme point and we should retain the previous
-            // extreme point instead of replacing it with a new weaker one.
-            //extremePoints[i] = previousExtreme_pop[i];
+            /* This means that the previous extreme point was better than the current extreme point and we should retain
+             * the previous extreme point instead of replacing it with a new weaker one. extremePoints[i] = previousExtreme_pop[i]; */
             copy_ind (&previousExtreme_pop->ind[i], &extreme_pop->ind[i]);
         }
         else
         {
-            // Now the individual whose index in minIndex in the population is
-            // the one representing the extreme factor in the current directions.
-            //extremePoints[i] = new Individual(optimizationProblem, individuals[minIndex], individualEvaluator);
+            /* Now the individual whose index in minIndex in the population is the one representing the extreme factor in the current directions.
+             * extremePoints[i] = new Individual(optimizationProblem, individuals[minIndex], individualEvaluator); */
             copy_ind (&pop->ind[min_idx], &extreme_pop->ind[i]);
         }
     }
 }
 
-double* gaussianElimination(double** A, double* b, double *x)
+/* Solve the linear system Ax = b */
+double* gaussianElimination (double **A, double *b, double *x)
 {
-    int N = number_objective;
-    int p,i,j;
-    for ( p = 0; p < N; p++) {
+    int i, j, p;
+    int N, max;
+    double alpha, sum, t;
+    double *temp;
 
+    N = number_objective;
+    for (p = 0; p < N; p++)
+    {
         // find pivot row and swap
-        int max = p;
-        for (i = p + 1; i < N; i++) {
-            if (fabs(A[i][p]) > fabs(A[max][p])) {
+        max = p;
+        for (i = p + 1; i < N; i++)
+            if (fabs(A[i][p]) > fabs(A[max][p]))
                 max = i;
-            }
-        }
-        double* temp = A[p];
-        A[p] = A[max];
+        temp   = A[p];
+        A[p]   = A[max];
         A[max] = temp;
-        double t = b[p];
-        b[p] = b[max];
+        t      = b[p];
+        b[p]   = b[max];
         b[max] = t;
 
         // singular or nearly singular
-        if (fabs(A[p][p]) <= EPS) {
+        if (fabs(A[p][p]) <= EPS)
             return NULL;
-        }
 
         // pivot within A and b
-        for (i = p + 1; i < N; i++) {
-            double alpha = A[i][p] / A[p][p];
+        for (i = p + 1; i < N; i++)
+        {
+            alpha = A[i][p] / A[p][p];
             b[i] -= alpha * b[p];
-            for ( j = p; j < N; j++) {
+            for ( j = p; j < N; j++)
                 A[i][j] -= alpha * A[p][j];
-            }
         }
     }
 
     // back substitution
-    for (i = N - 1; i >= 0; i--) {
-        double sum = 0.0;
-        for (j = i + 1; j < N; j++) {
+    for (i = N - 1; i >= 0; i--)
+    {
+        sum = 0.0;
+        for (j = i + 1; j < N; j++)
             sum += A[i][j] * x[j];
-        }
         x[i] = (b[i] - sum) / A[i][i];
     }
+
     return x;
 }
+
+/* Fill the next parent population by adding one member from the last front */
 void niching (population_real *mix_pop, population_real *new_pop)
 {
-    int i, j, r;
-    int selected_count2;
-    int newMemberIndex;
-    int remainingIndvsCount, minDirClusterSize;
+    int i, j, rand;
+    int min_idx, min_size, direction_idx;
+    int selected_count2, newMemberIndex, remainingIndvsCount, minDirClusterSize;
     list *temp1;
+    double min_dist;
     struct int_vector *minlist;
 
     for (i = 0; i < number_weight; i++)
@@ -435,8 +434,8 @@ void niching (population_real *mix_pop, population_real *new_pop)
             if (associationCount[i] <= minDirClusterSize || minDirClusterSize == -1)
                 minDirClusterSize = associationCount[i];
         }
-        int minsize =0;
-        minlist = malloc(sizeof(struct int_vector));
+        min_size = 0;
+        minlist  = malloc (sizeof(struct int_vector));
         minlist->next  = NULL;
         minlist->value = -1;
 
@@ -447,46 +446,46 @@ void niching (population_real *mix_pop, population_real *new_pop)
             if (associationCount[i] == minDirClusterSize)
             {
                 int_vector_pushback (minlist, i) ;
-                minsize ++;
+                min_size++;
             }
         }
 
-        r = rnd(1,minsize);
-        int dirIndex = int_vector_get(minlist,r);
+        rand          = rnd (1, min_size);
+        direction_idx = int_vector_get(minlist, rand);
 
         int_vector_free (minlist);
-        if (lastAssociationCount[dirIndex] == 0)
-            association_flag[dirIndex] = 0;
+        if (lastAssociationCount[direction_idx] == 0)
+            association_flag[direction_idx] = 0;
         else
         {
             newMemberIndex = -1;
-            if (associationCount[dirIndex] == 0)
+            if (associationCount[direction_idx] == 0)
             {
-                // select one with smallest
-                int minid = -1;
-                double minval = -1;
+                // select the one with the smallest perpendicular distance to the current reference vector
+                min_idx  = -1;
+                min_dist = -1;
                 for (i = selected_count; i < num_candidates; i++)
                 {
-                    if (dirIndex == ReferenceDirection[i] && candidate_flag[i] && (minid == -1 || PerpendicularDistance[i] < minval))
+                    if (direction_idx == ReferenceDirection[i] && candidate_flag[i] && (min_idx == -1 || PerpendicularDistance[i] < min_dist))
                     {
-                        minval = PerpendicularDistance[i];
-                        minid = i;
+                        min_dist = PerpendicularDistance[i];
+                        min_idx  = i;
                     }
                 }
-                newMemberIndex = minid;
+                newMemberIndex = min_idx;
             }
             else
             {
                 for (i = selected_count; i < num_candidates; i++)
-                    if (dirIndex == ReferenceDirection[i] && candidate_flag[i])
+                    if (direction_idx == ReferenceDirection[i] && candidate_flag[i])
                         break;
                 newMemberIndex = i;
             }
             copy_ind (&mix_pop->ind[newMemberIndex], &new_pop->ind[selected_count + selected_count2]);
 
-            associationCount[dirIndex] = associationCount[dirIndex] + 1;
-            lastAssociationCount[dirIndex] = lastAssociationCount[dirIndex] -1;
-            candidate_flag[newMemberIndex] = 0;
+            associationCount[direction_idx]     = associationCount[direction_idx] + 1;
+            lastAssociationCount[direction_idx] = lastAssociationCount[direction_idx] -1;
+            candidate_flag[newMemberIndex]      = 0;
             selected_count2++;
             remainingIndvsCount--;
         }
@@ -495,81 +494,63 @@ void niching (population_real *mix_pop, population_real *new_pop)
 
 void getIntercepts (population_real *pop, int size)
 {
-// Calculating the vector of maximum objective values & the Nadir point
-// Initialize the structures & set all their initial values to
-// Negative Infinity
+    /* calculate the vector of maximum objective values & the nadir point Initialize the structures & set all their
+     * initial values to negative infinity */
+    int i, j;
+    int flag;
 
-    int i,j;
+    for (i = 0; i < number_objective;i++)
+        Z[i] = malloc (number_objective * sizeof(double));
 
-
-    for( i = 0; i< number_objective;i++)
+    for (i = 0; i < number_objective; i++)
     {
-        Z[i] = malloc(number_objective * sizeof(double));
-    }
-
-    for ( i = 0; i < number_objective; i++) {
         maxObjValues[i] = -EPS ;
         nadirPoint[i] = -EPS ;
     }
-// Traverse all the individuals of the population and get their maximum
-// value of objective (The simplest way of calculating the nadir point
-// is to get these maximum values among the first front individuals)
-    for ( i = 0; i < size; i++)
+    /* traverse all the individuals of the population and get their maximum value of objective (The simplest way of
+     * calculating the nadir point is to get these maximum values among the first front individuals) */
+    for (i = 0; i < size; i++)
     {
-        for ( j = 0; j < number_objective; j++)
+        for (j = 0; j < number_objective; j++)
         {
-            if (maxObjValues[j] < pop->ind[i].obj[j]-ideal_point[j])
-            {
-                maxObjValues[j] = pop->ind[i].obj[j]-ideal_point[j];
-            }
+            if (maxObjValues[j] < pop->ind[i].obj[j] - ideal_point[j])
+                maxObjValues[j] = pop->ind[i].obj[j] - ideal_point[j];
             if (pop->ind[i].rank == 0)
             {
-                if (nadirPoint[j] < pop->ind[i].obj[j]-ideal_point[j])
-                {
-                    nadirPoint[j] = pop->ind[i].obj[j]-ideal_point[j];
-                }
+                if (nadirPoint[j] < pop->ind[i].obj[j] - ideal_point[j])
+                    nadirPoint[j] = pop->ind[i].obj[j] - ideal_point[j];
             }
         }
     }
 
+    // caculate the intercepts, create the hyperplane, prepare your arrays for gaussian elimination
+    for (i = 0; i < number_objective; i++)
+        for ( j = 0; j < number_objective; j++)
+            Z[i][j] = extreme_pop->ind[i].obj[j] - ideal_point[j];
 
-// Caculating the intercepts
-// Create the hyperplane
-// Prepare your arrays for gaussian elimination
-    for (i = 0; i < number_objective; i++) {
-        for ( j = 0; j < number_objective; j++) {
-            Z[i][j] = extreme_pop->ind[i].obj[j]-ideal_point[j];
-        }
-    }
-
-    for (i = 0; i < number_objective; i++) {
+    for (i = 0; i < number_objective; i++)
         u[i] = 1;
-    }
-    int useNadir = 0;   // false
-// Solve the system of equations using gaussian elimination
 
-    if( gaussianElimination(Z, u,intercepts) == NULL){
-    useNadir = 1;
-    }
+    flag = 0;   // false: do not use nadir point
+    // Solve the system of equations using gaussian elimination
+    if (gaussianElimination (Z, u,intercepts) == NULL)
+        flag = 1;
 
-    if (!useNadir) {
-        for (i = 0; i < number_objective; i++) {
+    if (!flag)
+    {
+        for (i = 0; i < number_objective; i++)
             intercepts[i] = 1 / intercepts[i];
-
-        }
     }
-// If the follwing condition is true this means that you have to resort to the nadir point
-    else {
-        for (i=0;i<number_objective;i++)
-        {
+    else // If the follwing condition is true this means that you have to resort to the nadir point
+    {
+        for (i = 0; i < number_objective; i++)
             intercepts[i] = nadirPoint[i];
-        }
     }
-// If any of the intercepts is still Zero (which means that one of
-// the nadir values is Zero), then use the maximum value of each
-// objective instead (remember that these values were calculated among
-// all the individuals, not just the first-front individuals)
-    for (i=0;i<number_objective;i++)
+
+    /* If any of the intercepts is still Zero (which means that one of the nadir values is Zero), then use the maximum
+     * value of each objective instead (remember that these values were calculated among all the individuals, not just
+     * the first-front individuals) */
+    for (i = 0; i < number_objective; i++)
     {
         if (intercepts[i] < EPS)
         {
@@ -577,10 +558,8 @@ void getIntercepts (population_real *pop, int size)
                 intercepts[j] = maxObjValues[j];
             break;
         }
-
     }
 }
-
 
 void NSGA3 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop)
 {
@@ -637,12 +616,12 @@ void NSGA3 (population_real *parent_pop, population_real *offspring_pop, populat
 
     assign_rank(parent_pop, popsize);
 
-    getExtremePoints(parent_pop, popsize);
-    getIntercepts(parent_pop,popsize);
+    getExtremePoints (parent_pop, popsize);
+    getIntercepts (parent_pop, popsize);
 
     // track the current evolutionary progress, including population and metrics
     track_evolution (parent_pop, generation, 0);
-    while (evaluation_count<max_evaluation)
+    while (evaluation_count < max_evaluation)
     {
         generation++;
         print_progress ();
@@ -662,7 +641,7 @@ void NSGA3 (population_real *parent_pop, population_real *offspring_pop, populat
         for (i = 0; i < 2 * popsize; i++)
             update_ideal_point (&mixed_pop->ind[i]);
 
-        get_candidate (mixed_pop, parent_pop);
+        fill_nd_pop (mixed_pop, parent_pop);
 
         getExtremePoints (candidate_pop, num_candidates);
         getIntercepts (candidate_pop, num_candidates);
@@ -675,7 +654,7 @@ void NSGA3 (population_real *parent_pop, population_real *offspring_pop, populat
     }
 
     // garbage collection
-    free(fronts_size);
+    free (fronts_size);
     deallocate_memory_pop (candidate_pop, 2 * popsize);
     free (candidate_pop);
     free (associationCount);

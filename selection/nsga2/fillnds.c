@@ -102,7 +102,7 @@ void fill_nondominated_sort (population_real *new_pop, population_real *mixed_po
         while (temp1 != NULL);
         temp2 = elite->child;
         j = i;
-        if ( (archieve_size + front_size) <= popsize)
+        if ((archieve_size + front_size) <= popsize)
         {
             do
             {
