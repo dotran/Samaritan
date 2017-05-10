@@ -105,7 +105,7 @@ extern pthread_t *plot_thread;
 
 enum analyse_name{VAR, FUN, GD, IGD, HV, PLOT, END};
 enum NeighborType{NEIGHBOR, POPULATION};
-enum MoeadFunction{WS, TCH, ITCH, PBI};
+enum MoeadFunction{WS, N_WS, TCH, N_TCH, ITCH, N_ITCH, PBI, N_PBI};
 
 // gaps setting, read from file?
 static int weight_gaps_table[8][3] = {{0,   0, 0},
