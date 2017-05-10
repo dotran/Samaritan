@@ -26,7 +26,6 @@
  */
 
 # include "../../header/selection.h"
-#include "../../header/global.h"
 
 void update_subproblem (population_real *pop, individual_real *individual, int subProblem_id, int neighborType)
 {
@@ -72,7 +71,7 @@ void update_subproblem_constraint (population_real *pop, individual_real *indivi
 {
     int i, k;
     int time, size;
-    double f1, f2,cv1,cv2;
+    double f1, f2, cv1, cv2;
     int *perm;
 
     if (neighborType == NEIGHBOR)
@@ -91,13 +90,13 @@ void update_subproblem_constraint (population_real *pop, individual_real *indivi
         else
             k = perm[i];
 
-        f1 = fitnessFunction (&(pop->ind[k]), lambda[k]);
-        f2 = fitnessFunction (individual, lambda[k]);
+        f1  = fitnessFunction (&(pop->ind[k]), lambda[k]);
+        f2  = fitnessFunction (individual, lambda[k]);
         cv1 = pop->ind[k].cv;
         cv2 = individual->cv;
-        if ((cv1>-EPS&&cv2>-EPS&&f2 < f1 )||(cv2>cv1))
+        if ((cv1 > -EPS && cv2 > -EPS && f2 < f1 ) || (cv2 > cv1))
         {
-            copy_ind (individual,&(pop->ind[k]));
+            copy_ind (individual, &(pop->ind[k]));
             time++;
         }
         if (time >= maximumNumberOfReplacedSolutions)

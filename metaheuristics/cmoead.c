@@ -50,6 +50,7 @@ void CMOEAD (population_real *pop, population_real *offspring_pop, population_re
     initialize_population_real (pop);
     evaluate_population (pop);
     initialize_idealpoint (pop);
+    initialize_nadirpoint (pop);
 
     track_evolution (pop, generation, 0);
 
@@ -70,8 +71,9 @@ void CMOEAD (population_real *pop, population_real *offspring_pop, population_re
             mutation_ind (offspring);
             evaluate_individual (offspring);
 
-            // update ideal point
+            // update ideal and nadir points
             update_ideal_point (offspring);
+            update_nadir_point (offspring);
 
             // update subproblem
             update_subproblem_constraint (pop, offspring, subproblem_id, neighbor_type);
