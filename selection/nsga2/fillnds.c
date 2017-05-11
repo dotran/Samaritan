@@ -26,6 +26,7 @@
  */
 
 # include "../../header/selection.h"
+#include "../../header/global.h"
 
 void fill_nondominated_sort (population_real *new_pop, population_real *mixed_pop)
 {
@@ -169,15 +170,18 @@ void fill_constraint_nondominated_sort (population_real *new_pop, population_rea
     elite->child  = NULL;
     int cv_count = 0;
     temp1 = pool;
+    //printf("\ncv set:");
     for (i = 0; i < 2 * popsize; i++)
     {
-        if (mixed_pop->ind[i].cv < EPS && mixed_pop->ind[i].cv > -EPS) // cv = 0
+        if ( mixed_pop->ind[i].cv > -EPS) // cv = 0
         {
             cv_count ++;
             insert (temp1,i);
             temp1 = temp1->child;
+          //  printf("%d ",i);
         }
     }
+    //printf("\n");
     i = 0;
     if (cv_count > popsize)
     {
@@ -259,10 +263,11 @@ void fill_constraint_nondominated_sort (population_real *new_pop, population_rea
     }
     else
     {
-        archieve_size = 0;
         temp1 = pool->child;
+        archieve_size = 0;
         while(temp1!=NULL)
         {
+            //printf("cp(a):%d->%d,%d",temp1->index,archieve_size,mixed_pop->ind[temp1->index].rank);
             copy_ind(&mixed_pop->ind[temp1->index], &new_pop->ind[archieve_size]);
             archieve_size ++;
             temp1 = temp1->child;
@@ -283,6 +288,7 @@ void fill_constraint_nondominated_sort (population_real *new_pop, population_rea
         qsort (temp, 2 * popsize - archieve_size, sizeof(struct double_with_index), double_with_index_smaller_cmp);
         while (archieve_size < popsize)
         {
+           // printf("cp(a):%d->%d,%lf",temp[c].idx,archieve_size,temp[c].x);
             copy_ind (&mixed_pop->ind[temp[c].idx], &new_pop->ind[archieve_size]);
             c++;
             archieve_size++;

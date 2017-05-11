@@ -99,12 +99,12 @@ void q_sort_dist(population_real *pop, int *dist, int left, int right)
         temp  = dist[right];
         dist[right] = dist[index];
         dist[index] = temp;
-        pivot = pop->ind[dist[right]].crowd_dist;
+        pivot = pop->ind[dist[right]].fitness;
 
         i = left - 1;
         for (j = left; j < right; j++)
         {
-            if (pop->ind[dist[j]].crowd_dist <= pivot)
+            if (pop->ind[dist[j]].fitness <= pivot)
             {
                 i += 1;
                 temp = dist[j];

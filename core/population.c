@@ -71,7 +71,7 @@ void copy_ind (individual_real *ind1, individual_real *ind2)
     int i;
 
     ind2->rank       = ind1->rank;
-    ind2->crowd_dist = ind1->crowd_dist;
+    ind2->fitness = ind1->fitness;
     ind2->cv = ind1->cv ;
     if (number_variable != 0)
         for (i = 0; i < number_variable; i++)

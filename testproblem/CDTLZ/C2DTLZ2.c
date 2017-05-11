@@ -27,7 +27,7 @@ void c2dtlz2 (individual_real *ind)
 {
     int i, j, k, aux;
     double re, gx, fsum, sum1, sum2, sqr;
-    double r = 0.4;  // parameter for C2-DTLZ2
+    double r = 0.3;  // parameter for C2-DTLZ2
     double *xreal, *obj;
 
     obj   = ind->obj;
