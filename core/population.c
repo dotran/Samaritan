@@ -26,9 +26,8 @@
  */
 
 # include "../header/population.h"
-#include "../header/global.h"
 
-// Function to initialize an individual randomly
+/* Function to initialize an individual randomly */
 void initialize_individual_real (individual_real *ind)
 {
     int i;
@@ -36,11 +35,12 @@ void initialize_individual_real (individual_real *ind)
     if (number_variable != 0)
         for (i = 0; i < number_variable; i++)
             ind->xreal[i] = rndreal (variable_lowerbound[i], variable_upperbound[i]);
-    ind->cv = 0;    // for non-constraint testproblem
+    ind->cv = 0;    // initialze the CV of each solution to be 0 (assume all solutions are feasible)
+
     return;
 }
 
-// Function to initialize a population of individuals
+/* Function to initialize a population of individuals */
 void initialize_population_real (population_real *pop)
 {
     int i;
@@ -51,28 +51,33 @@ void initialize_population_real (population_real *pop)
     return;
 }
 
+/* Function to read static population from external file (Debug use) */
 void read_population_real (population_real * pop, char * fileName)
 {
+    int i, j;
     FILE *popdata = NULL;
-    popdata = fopen (fileName, "r");
-    int i,j;
-    for(i=0;i<popsize;i++)
+    popdata       = fopen (fileName, "r");
+
+    for (i = 0; i < popsize; i++)
     {
-        for(j=0;j<number_variable;j++)
+        for (j = 0; j < number_variable; j++)
         {
-            fscanf(popdata, "%lf", &(pop->ind[i].xreal[j]));
+            fscanf (popdata, "%lf", &(pop->ind[i].xreal[j]));
         }
     }
-    fclose(popdata);
+    fclose (popdata);
+
+    return;
 }
-// Routine to copy an individual 'ind1' into another individual 'ind2'
+
+/* Routine to copy an individual 'ind1' into another individual 'ind2' */
 void copy_ind (individual_real *ind1, individual_real *ind2)
 {
     int i;
 
-    ind2->rank       = ind1->rank;
+    ind2->rank    = ind1->rank;
     ind2->fitness = ind1->fitness;
-    ind2->cv = ind1->cv ;
+    ind2->cv      = ind1->cv ;
     if (number_variable != 0)
         for (i = 0; i < number_variable; i++)
             ind2->xreal[i] = ind1->xreal[i];
@@ -83,8 +88,8 @@ void copy_ind (individual_real *ind1, individual_real *ind2)
     return;
 }
 
-// Merge 'pop1' and 'pop2' into a new population 'pop3'
-void merge(population_real *pop1, population_real *pop2, population_real *pop3)
+/* Merge 'pop1' and 'pop2' into a new population 'pop3' */
+void merge (population_real *pop1, population_real *pop2, population_real *pop3)
 {
     int i, j;
 

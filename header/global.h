@@ -122,7 +122,6 @@ typedef struct
     int rank;
     double *xreal;
     double *obj;
-    //double crowd_dist;
     double fitness;
     double cv;
 } individual_real;

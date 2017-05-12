@@ -39,7 +39,6 @@ void evaluate_individual (individual_real *ind)
 {
     int flag;
 
-    ind->cv = 0;    // initialize the CV to be 0
     flag    = 0;
     (strcmp (problem_name, "ZDT1")  != 0)? :(zdt1 (ind), flag = 1);
     (strcmp (problem_name, "ZDT2")  != 0)? :(zdt2 (ind), flag = 1);

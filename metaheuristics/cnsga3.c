@@ -30,7 +30,6 @@
  */
 
 # include "../header/metaheuristics.h"
-#include "../header/global.h"
 
 int RemainingCount;
 int max_rank;
@@ -521,7 +520,7 @@ void getIntercepts_constraint (population_real *pop, int size)
     for (i = 0; i < number_objective; i++)
     {
         maxObjValues[i] = -EPS ;
-        nadirPoint[i] = -EPS ;
+        nadirPoint[i]   = -EPS ;
     }
     /* traverse all the individuals of the population and get their maximum value of objective (The simplest way of
      * calculating the nadir point is to get these maximum values among the first front individuals) */
@@ -549,7 +548,7 @@ void getIntercepts_constraint (population_real *pop, int size)
 
     flag = 0;   // false: do not use nadir point
     // Solve the system of equations using gaussian elimination
-    if (gaussianElimination_constraint (Z, u,intercepts) == NULL)
+    if (gaussianElimination_constraint (Z, u, intercepts) == NULL)
         flag = 1;
 
     if (!flag)
@@ -590,7 +589,7 @@ void CNSGA3 (population_real *parent_pop, population_real *offspring_pop, popula
     for (i = 0; i < 2 * popsize; i++)
         fronts[i] = NULL;
 
-    // for gaussian
+    // for gaussian elimination
     maxObjValues = malloc (number_objective * sizeof(double));
     nadirPoint   = malloc (number_objective * sizeof(double));
     u = malloc (number_objective * sizeof(double));
@@ -663,10 +662,10 @@ void CNSGA3 (population_real *parent_pop, population_real *offspring_pop, popula
             temp = malloc(sizeof(struct double_with_index) * (2 * popsize - cv_size) );
 
             selected_count = 0;
-            for(i = 0; i < 2 * popsize ;i++)
+            for (i = 0; i < 2 * popsize; i++)
             {
-                if(mixed_pop->ind[i].cv>-EPS) {
-                    copy_ind(&mixed_pop->ind[i], &parent_pop->ind[selected_count]);
+                if (mixed_pop->ind[i].cv>-EPS) {
+                    copy_ind (&mixed_pop->ind[i], &parent_pop->ind[selected_count]);
                     selected_count ++;
                 }
                 else
@@ -676,15 +675,16 @@ void CNSGA3 (population_real *parent_pop, population_real *offspring_pop, popula
                     temp_count ++;
                 }
             }
-            qsort(temp,2 * popsize-cv_size,sizeof(struct double_with_index),double_with_index_smaller_cmp);
+            qsort (temp,2 * popsize-cv_size, sizeof(struct double_with_index), double_with_index_smaller_cmp);
 
-            for(i = 0; i< 2 * popsize - cv_size; i++)
+            for (i = 0; i< 2 * popsize - cv_size; i++)
             {
-                copy_ind(&mixed_pop->ind[temp[i].idx],&parent_pop->ind[selected_count]);
-                selected_count ++;
-                if(selected_count>=popsize)break;
+                copy_ind (&mixed_pop->ind[temp[i].idx], &parent_pop->ind[selected_count]);
+                selected_count++;
+                if (selected_count >= popsize)
+                    break;
             }
-            free(temp);
+            free (temp);
         }
         else
         {
