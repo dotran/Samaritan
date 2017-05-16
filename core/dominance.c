@@ -27,7 +27,7 @@
 
 #include "../header/global.h"
 
-int check_dominance (individual_real *a, individual_real *b)
+int check_dominance(individual_real *a, individual_real *b)
 {
     int i;
     int flag1;
@@ -37,30 +37,20 @@ int check_dominance (individual_real *a, individual_real *b)
     for (i = 0; i < number_objective; i++)
     {
         if (a->obj[i] < b->obj[i])
-        {
             flag1 = 1;
-        }
         else
         {
             if (a->obj[i] > b->obj[i])
-            {
                 flag2 = 1;
-            }
         }
     }
-    if (flag1==1 && flag2==0)
-    {
+    if (flag1 == 1 && flag2 == 0)
         return (1);
-    }
     else
     {
-        if (flag1==0 && flag2==1)
-        {
+        if (flag1 == 0 && flag2 == 1)
             return (-1);
-        }
         else
-        {
             return (0);
-        }
     }
 }

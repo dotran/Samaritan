@@ -37,14 +37,14 @@
 # include "../externals/IWFG/iwfg.h"
 
 /* IBEA */
-int dominates (individual_real *ind1, individual_real *ind2);
-double calcHypervolumeIndicator (individual_real* ind1, individual_real* ind2, int d);
-double calcAddEpsIndicator (individual_real *ind1, individual_real *ind2);
-double calcIndicatorValue (individual_real* ind1, individual_real* ind2);
-void calcFitnessComponents (void *ptr, double **fitcomp, int size);
-void cal_fitnesses (void *ptr, double **fitcomp, int size);
-void environmental_selection (void *mixed_ptr, void *new_ptr, int *flag, double **fitcomp, int size);
-void ibea_selection (void *mixed_pop, void *new_pop, int *flag, double **fitcomp);
+int dominates(individual_real *ind1, individual_real *ind2);
+double calcHypervolumeIndicator(individual_real* ind1, individual_real* ind2, int d);
+double calcAddEpsIndicator(individual_real *ind1, individual_real *ind2);
+double calcIndicatorValue(individual_real* ind1, individual_real* ind2);
+void calcFitnessComponents(void *ptr, double **fitcomp, int size);
+void cal_fitnesses(void *ptr, double **fitcomp, int size);
+void environmental_selection(void *mixed_ptr, void *new_ptr, int *flag, double **fitcomp, int size);
+void ibea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp);
 
 /* NSGA-II */
 void fill_nondominated_sort (population_real *new_pop, population_real *mixed_pop);

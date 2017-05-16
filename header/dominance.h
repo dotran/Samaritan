@@ -25,6 +25,6 @@
 # ifndef Samaritan_DOMINANCE_H
 # define Samaritan_DOMINANCE_H
 
-int check_dominance (individual_real *a, individual_real *b);
+int check_dominance(individual_real *a, individual_real *b);
 
 # endif // Samaritan_DOMINANCE_H

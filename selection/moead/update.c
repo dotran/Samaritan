@@ -27,6 +27,7 @@
 
 # include "../../header/selection.h"
 
+/* Population update procedure of MOEA/D */
 void update_subproblem (population_real *pop, individual_real *individual, int subProblem_id, int neighborType)
 {
     int i, k;
@@ -67,6 +68,7 @@ void update_subproblem (population_real *pop, individual_real *individual, int s
     return;
 }
 
+/* Population update procedure of MOEA/D with constraint handling */
 void update_subproblem_constraint (population_real *pop, individual_real *individual, int subProblem_id, int neighborType)
 {
     int i, k;
