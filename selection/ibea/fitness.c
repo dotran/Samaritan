@@ -31,7 +31,7 @@
 # define kappa 0.05
 # define indicator 0
 
-int dominates (individual_real *ind1, individual_real *ind2)
+int dominates(individual_real *ind1, individual_real *ind2)
 {
     int i;
     int a_is_worse = 0;
@@ -48,7 +48,7 @@ int dominates (individual_real *ind1, individual_real *ind2)
 
 /* calculates the hypervolume of that portion of the objective space that
    is dominated by individual a but not by individual b */
-double calcHypervolumeIndicator (individual_real* ind1, individual_real* ind2, int d)
+double calcHypervolumeIndicator(individual_real* ind1, individual_real* ind2, int d)
 {
     double a, b, r, max;
     double volume = 0;
@@ -56,7 +56,7 @@ double calcHypervolumeIndicator (individual_real* ind1, individual_real* ind2, i
     r   = rho * (variable_upperbound[d - 1] - variable_lowerbound[d - 1]);
     max = variable_lowerbound[d - 1] + r;
 
-    print_error (ind1 == NULL, 1, "error: ind1 = NULL\n");
+    print_error(ind1 == NULL, 1, "error: ind1 = NULL\n");
     a = ind1->obj[d - 1];
     if (ind2 == NULL)
         b = max;
@@ -88,7 +88,7 @@ double calcHypervolumeIndicator (individual_real* ind1, individual_real* ind2, i
 
 /* calculates the maximum epsilon value by which individual a must be
    decreased in all objectives such that individual b is weakly dominated */
-double calcAddEpsIndicator (individual_real *ind1, individual_real *ind2)
+double calcAddEpsIndicator(individual_real *ind1, individual_real *ind2)
 {
     int i;
     double r;
@@ -107,51 +107,51 @@ double calcAddEpsIndicator (individual_real *ind1, individual_real *ind2)
     return eps;
 }
 
-double calcIndicatorValue (individual_real* ind1, individual_real* ind2)
+double calcIndicatorValue(individual_real *ind1, individual_real *ind2)
 {
     double indicatorValue;
 
     if (indicator == 0)
-        indicatorValue = calcAddEpsIndicator (ind1, ind2);
+        indicatorValue = calcAddEpsIndicator(ind1, ind2);
     else
     {
         if (dominates (ind1, ind2))
-            indicatorValue = -calcHypervolumeIndicator (ind1, ind2, number_objective);
+            indicatorValue = -calcHypervolumeIndicator(ind1, ind2, number_objective);
         else
-            indicatorValue = calcHypervolumeIndicator (ind2, ind1, number_objective);
+            indicatorValue = calcHypervolumeIndicator(ind2, ind1, number_objective);
     }
 
     return indicatorValue;
 }
 
-void calcFitnessComponents (void *ptr, double **fitcomp, int size)
+void calcFitnessComponents(void *ptr, double **fitcomp, int size)
 {
     int i, j;
     double maxAbsIndicatorValue;
     population_real *pop = ptr;
 
-    /* determine indicator values and their maximum */
+    // determine indicator values and their maximum
     maxAbsIndicatorValue = 0;
     for (i = 0; i < size; i++)
     {
         for (j = 0; j < size; j++)
         {
-            fitcomp[i][j] = calcIndicatorValue (&pop->ind[i], &pop->ind[j]);
-            if (maxAbsIndicatorValue < fabs (fitcomp[i][j]))
-                maxAbsIndicatorValue = fabs (fitcomp[i][j]);
+            fitcomp[i][j] = calcIndicatorValue(&pop->ind[i], &pop->ind[j]);
+            if (maxAbsIndicatorValue < fabs(fitcomp[i][j]))
+                maxAbsIndicatorValue = fabs(fitcomp[i][j]);
         }
     }
 
-    /* calculate for each pair of individuals the corresponding fitness component */
+    // calculate for each pair of individuals the corresponding fitness component
     for (i = 0; i < size; i++)
         for (j = 0; j < size; j++)
-            fitcomp[i][j] = exp ((-fitcomp[i][j] / maxAbsIndicatorValue) / kappa);
+            fitcomp[i][j] = exp((-fitcomp[i][j] / maxAbsIndicatorValue) / kappa);
 
     return;
 }
 
 /* Assign the fitness values to the solutions within a population */
-void cal_fitnesses (void *ptr, double **fitcomp, int size)
+void cal_fitnesses(void *ptr, double **fitcomp, int size)
 {
     int i, j;
     double sum;

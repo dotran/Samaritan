@@ -144,7 +144,8 @@ typedef struct double_lists
     double value;
     struct double_lists *parent;
     struct double_lists *child;
-}double_list;
+} double_list;
+
 void insert (list *node, int x);
 list* del (list *node);
 
