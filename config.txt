@@ -1,11 +1,11 @@
-algorithm_name: NSGA2
-test_problem: ZDT4
-number_variable 10
-number_objective 2
+algorithm_name: SPEA2
+test_problem: DTLZ1
+number_variable 7
+number_objective 3
 popSize: 100
-max_evaluation: 30000
+max_evaluation: 60000
 runtime_output: 1
 output_interval: 10
 run_index_begin: 1
 run_index_end: 1
-analyse: FUN IGD HV
+analyse: FUN IGD HV GD PLOT

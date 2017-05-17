@@ -90,5 +90,8 @@ void hv_fill (FILECONTENTS *f,population_real *mixed_pop, population_real *new_p
 void fill_hype_sort (population_real* new_pop, population_real* mixed_pop, int size);
 void hype_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
+/* SPEA2 */
+void fitness_spea2 (population_real *pop, int size);
+void selection_spea2 (population_real *pop1,int size1,population_real *pop2,int size2);
 
 # endif // Samaritan_SELECTION_H

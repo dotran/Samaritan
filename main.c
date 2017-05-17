@@ -127,6 +127,8 @@ int main(int argc, char *argv[])
             CMOEAD (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp (algorithm_name, "CNSGA3"))
             CNSGA3 (parent_pop, offspring_pop, mixed_pop);
+        else if(!strcmp (algorithm_name, "SPEA2"))
+            SPEA2 (parent_pop, offspring_pop, mixed_pop);
         else
             print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
         printf ("\n");

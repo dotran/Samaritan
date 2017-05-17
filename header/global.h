@@ -134,6 +134,7 @@ typedef struct
 typedef struct lists
 {
     int index;
+    int index2;
     struct lists *parent;
     struct lists *child;
 } list;

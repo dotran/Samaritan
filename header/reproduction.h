@@ -36,11 +36,13 @@
 
 // mating selection
 individual_real* tournament (individual_real *ind1, individual_real *ind2);
+individual_real* tournament_min (individual_real *ind1, individual_real *ind2);
 void parent_selection (population_real *parent_pop, individual_real ***parents, int sub_problem_id, int neighbor_type, int number_parents);
 
 // crossover
 void crossover_real (population_real *parent_pop, population_real* offspring_pop);
 void crossover_real_steadystate (population_real *parent_pop, individual_real* offspring1,individual_real* offspring2);
+void crossover_spea2 (population_real *parent_pop, population_real *offspring_pop);
 void sbx_crossover (individual_real *parent1, individual_real *parent2, individual_real *child1, individual_real *child2);
 void crossover_moead_real (population_real *parent_pop, individual_real *offspring, int sub_problem_id, int *neighbor_type);
 void de (individual_real **parents,individual_real *child);

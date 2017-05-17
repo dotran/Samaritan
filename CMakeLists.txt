@@ -112,7 +112,7 @@ set(SOURCE_FILES
         testproblem/CDTLZ/C3DTLZ4.c
         config.txt
         main.c
-        )
+        metaheuristics/spea2.c selection/spea2/spea2_selection.c reproduction/crossover/crossover_spea2.c)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(Samaritan ${SOURCE_FILES})
 set(CMAKE_C_FLAGS  ${CMAKE_C_FLAGS} -pthread)

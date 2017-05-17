@@ -59,7 +59,7 @@ int initialization_real (char* argv)
 
     // SBX parameter settings
     pcross_real = 0.9;
-    eta_c       = 15.0;
+    eta_c       = 20.0;
 
     // polynomial mutation parameter settings
     pmut_real = 1.0 / number_variable;
