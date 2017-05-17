@@ -5,4 +5,5 @@ out/
 # ideaJ file
 .idea
 Samaritan
+*.exe
 *.DS_store
