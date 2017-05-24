@@ -43,6 +43,7 @@ set(SOURCE_FILES
         metaheuristics/cnsga2.c
         metaheuristics/cmoead.c
         metaheuristics/cnsga3.c
+        metaheuristics/csmsemoa.c
 
         selection/ibea/fitness.c
         selection/ibea/ibea_selection.c

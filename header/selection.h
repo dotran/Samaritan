@@ -83,6 +83,7 @@ void stm_selection (population_real *parent_pop, population_real *mixed_pop);
 void stm_dra_selection (population_real *parent_pop, population_real *mixed_pop, int size);
 
 /* SMS-EMOA */
+void fill_constraint_hv_sort (FILECONTENTS *f,population_real* new_pop, population_real* mixed_pop,int size);
 void fill_hv_sort (FILECONTENTS *f,population_real* new_pop, population_real* mixed_pop,int size);
 void hv_fill (FILECONTENTS *f,population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
