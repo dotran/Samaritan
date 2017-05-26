@@ -54,6 +54,11 @@ void uf7 (individual_real* ind);
 void uf8 (individual_real* ind);
 void uf9 (individual_real* ind);
 void uf10 (individual_real* ind);
+void wfg1 (individual_real* ind);
+void wfg2 (individual_real* ind);
+void wfg3 (individual_real* ind);
+void wfg4 (individual_real* ind);
+
 void c1dtlz1 (individual_real* ind);
 void c1dtlz3 (individual_real* ind);
 void c2dtlz2 (individual_real* ind);

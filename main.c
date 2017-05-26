@@ -45,7 +45,7 @@ char dummy[BUFSIZE_S];
 char problem_name[BUFSIZE_S];
 char algorithm_name[BUFSIZE_S];
 char analyse_stream[BUFSIZE_L];
-
+char problem_param_stream[BUFSIZE_L];
 /* crossover and mutation */
 double eta_c;                    // eta_c in SBX
 double eta_m;                    // eta_m in polynomial mutation

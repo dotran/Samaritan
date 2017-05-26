@@ -67,7 +67,7 @@ extern char dummy[BUFSIZE_S];
 extern char problem_name[BUFSIZE_S];
 extern char algorithm_name[BUFSIZE_S];
 extern char analyse_stream[BUFSIZE_L];
-
+extern char problem_param_stream[BUFSIZE_L];
 /* crossover and mutation */
 extern double eta_c;                    // eta_c in SBX
 extern double eta_m;                    // eta_m in polynomial mutation

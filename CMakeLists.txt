@@ -111,6 +111,14 @@ set(SOURCE_FILES
         testproblem/CDTLZ/C1DTLZ3.c
         testproblem/CDTLZ/C3DTLZ1.c
         testproblem/CDTLZ/C3DTLZ4.c
+
+        testproblem/WFG/toolkit.h
+        testproblem/WFG/toolkit.c
+        testproblem/WFG/WFG1.c
+        testproblem/WFG/WFG2.c
+        testproblem/WFG/WFG3.c
+        testproblem/WFG/WFG4.c
+
         config.txt
         main.c
         metaheuristics/spea2.c selection/spea2/spea2_selection.c reproduction/crossover/crossover_spea2.c)

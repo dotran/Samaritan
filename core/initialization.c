@@ -46,6 +46,8 @@ int initialization_real (char* argv)
     print_error (config == NULL, 2, "Fail to read configure file: ", configFileName);
     fscanf (config, "%s %s", dummy, algorithm_name);
     fscanf (config, "%s %s", dummy, problem_name);
+    fgets (problem_param_stream, 200, config);
+    fgets (problem_param_stream, 200, config);
     fscanf (config, "%s %d", dummy, &number_variable);
     fscanf (config, "%s %d", dummy, &number_objective);
     fscanf (config, "%s %d", dummy, &popsize);
@@ -72,7 +74,7 @@ int initialization_real (char* argv)
 
     // intrisic parameters used in MOEA/D variants
     neighbor_size = 20;
-    function_type = ITCH;
+    function_type = PBI;
     neighborhood_selection_probability = 0.9;
     maximumNumberOfReplacedSolutions = 2;
 
@@ -84,7 +86,7 @@ int initialization_real (char* argv)
     // calculate the number of points in the PF data
     sprintf (PF_name, "PF/%s.%dD.pf", problem_name, number_objective);
     PF = fopen (PF_name, "r");
-    print_error (PF == NULL, 2, "Fail to open PF: ", PF_name);
+    //print_error (PF == NULL, 2, "Fail to open PF: ", PF_name);
     if(PF != NULL){
         PF_size = 0;
         while (fgets (line, BUFSIZE_L, PF) != NULL)

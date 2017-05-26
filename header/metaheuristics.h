@@ -46,11 +46,12 @@ void SMSEMOA (population_real *parent_pop, population_real *offspring_pop, popul
 void IBEA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void HypE (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void NSGA3 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
+void SPEA2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 
 void CNSGA2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void CMOEAD (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void CNSGA3 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
-void SPEA2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
+void CSMSEMOA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 
 /* external variables used by MOEA/D-STM variants */
 extern int *idx ;
