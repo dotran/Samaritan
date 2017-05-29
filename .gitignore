@@ -6,4 +6,5 @@ out/
 .idea
 Samaritan
 *.exe
+*.stackdump
 *.DS_store
