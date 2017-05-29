@@ -53,7 +53,7 @@ individual_real* tournament (individual_real *ind1, individual_real *ind2)
     }
 }
 
-individual_real* tournament_min (individual_real *ind1, individual_real *ind2)
+individual_real* tournament_min (individual_real *ind1, individual_real *ind2) // For SPEA2.
 {
     if (ind1->fitness < ind2->fitness)
         return(ind1);

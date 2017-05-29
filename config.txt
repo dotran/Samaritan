@@ -1,9 +1,9 @@
 algorithm_name: SPEA2
-test_problem: DTLZ1
-number_variable 7
-number_objective 3
+test_problem: ZDT1
+number_variable 30
+number_objective 2
 popSize: 100
-max_evaluation: 60000
+max_evaluation: 30000
 runtime_output: 1
 output_interval: 10
 run_index_begin: 1
