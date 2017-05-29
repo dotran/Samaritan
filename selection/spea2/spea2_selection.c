@@ -249,6 +249,7 @@ void truncate_pop (population_real *tmppop, int tmppop_size, population_real *po
                         {
                             distance_Matrix[j][plist->index2] = INF;
                         }
+                        del (temp_list);
                         break;
                     }
                 }
@@ -267,6 +268,7 @@ void truncate_pop (population_real *tmppop, int tmppop_size, population_real *po
                         {
                             distance_Matrix[j][plist->index] = INF;
                         }
+                        del (temp_list);
                         break;
                     }
                 }
@@ -280,7 +282,6 @@ void truncate_pop (population_real *tmppop, int tmppop_size, population_real *po
     {
         copy_ind(&(tmppop->ind[temp_list->index]), &(pop2->ind[i]));
         i++;
-        if (i==archive_size) break;
         temp_list = temp_list->child;
     }
     while (elist != NULL)
