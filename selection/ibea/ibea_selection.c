@@ -117,9 +117,15 @@ void cibea_selection (void *mixed_ptr, void *new_ptr, int *flag, double **fitcom
             while(mixed_pop->ind[right].cv<-EPS&&left<right)
                 right--;
             if(left<right)
-                copy_ind(&mixed_pop->ind[right],&mixed_pop->ind[left]);
-
+            {
+                //printf("[%d]%lf <- [%d]%lf\n",left,mixed_pop->ind[left].cv,right,mixed_pop->ind[right].cv);
+                fflush(stdout);
+                copy_ind(&mixed_pop->ind[right], &mixed_pop->ind[left]);
+                right --;
+                left ++;
+            }
         }
+
         calcFitnessComponents (mixed_ptr, fitcomp, cv_size);
         cal_fitnesses (mixed_ptr, fitcomp, cv_size);
         environmental_selection (mixed_ptr, new_pop, flag, fitcomp, cv_size);
