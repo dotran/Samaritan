@@ -506,6 +506,7 @@ void getIntercepts (population_real *pop, int size)
     {
         maxObjValues[i] = -EPS ;
         nadirPoint[i] = -EPS ;
+        //nadirPoint[i] =  1e4;
     }
     /* traverse all the individuals of the population and get their maximum value of objective (The simplest way of
      * calculating the nadir point is to get these maximum values among the first front individuals) */
@@ -566,8 +567,8 @@ void NSGA3 (population_real *parent_pop, population_real *offspring_pop, populat
     int i;
     int generation;
 
-    initialize_uniform_weight ();
-
+    //initialize_uniform_weight ();
+    read_uniform_weight("1.dat");
     // for assign_rank
     fronts      = (list **) malloc (2 * popsize * sizeof(list *));
     fronts_size = (int *) malloc (2 * popsize * sizeof(int));;
