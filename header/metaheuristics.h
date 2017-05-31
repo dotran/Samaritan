@@ -52,6 +52,7 @@ void CNSGA2 (population_real *parent_pop, population_real *offspring_pop, popula
 void CMOEAD (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void CNSGA3 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void CSMSEMOA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
+void CIBEA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 
 /* external variables used by MOEA/D-STM variants */
 extern int *idx ;

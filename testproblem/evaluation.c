@@ -66,6 +66,18 @@ void evaluate_individual (individual_real *ind)
     (strcmp (problem_name, "WFG2") != 0)? :(wfg2 (ind), flag = 1);
     (strcmp (problem_name, "WFG3") != 0)? :(wfg3 (ind), flag = 1);
     (strcmp (problem_name, "WFG4") != 0)? :(wfg4 (ind), flag = 1);
+    (strcmp (problem_name, "WFG42") != 0)? :(wfg42 (ind), flag = 1);
+    (strcmp (problem_name, "WFG43") != 0)? :(wfg43 (ind), flag = 1);
+    (strcmp (problem_name, "WFG44") != 0)? :(wfg44 (ind), flag = 1);
+    (strcmp (problem_name, "WFG45") != 0)? :(wfg45 (ind), flag = 1);
+    (strcmp (problem_name, "WFG46") != 0)? :(wfg46 (ind), flag = 1);
+    (strcmp (problem_name, "WFG47") != 0)? :(wfg47 (ind), flag = 1);
+    (strcmp (problem_name, "WFG48") != 0)? :(wfg48 (ind), flag = 1);
+    (strcmp (problem_name, "WFG5") != 0)? :(wfg5 (ind), flag = 1);
+    (strcmp (problem_name, "WFG6") != 0)? :(wfg6 (ind), flag = 1);
+    (strcmp (problem_name, "WFG7") != 0)? :(wfg7 (ind), flag = 1);
+    (strcmp (problem_name, "WFG8") != 0)? :(wfg8 (ind), flag = 1);
+    (strcmp (problem_name, "WFG9") != 0)? :(wfg9 (ind), flag = 1);
     (strcmp (problem_name, "C1DTLZ1")  != 0)? :(c1dtlz1 (ind), flag = 1);
     (strcmp (problem_name, "C1DTLZ3")  != 0)? :(c1dtlz3 (ind), flag = 1);
     (strcmp (problem_name, "C2DTLZ2")  != 0)? :(c2dtlz2 (ind), flag = 1);

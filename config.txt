@@ -1,11 +1,12 @@
-algorithm_name: SPEA2
-test_problem: DTLZ1
-number_variable 7
+algorithm_name: IBEA
+test_problem: DTLZ2
+test_problem_param: 4
+number_variable 8
 number_objective 3
 popSize: 100
-max_evaluation: 60000
+max_evaluation: 30000
 runtime_output: 1
 output_interval: 10
 run_index_begin: 1
 run_index_end: 1
-analyse: FUN IGD HV GD PLOT
+analyse: FUN PLOT

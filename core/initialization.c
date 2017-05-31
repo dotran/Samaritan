@@ -74,7 +74,7 @@ int initialization_real (char* argv)
 
     // intrisic parameters used in MOEA/D variants
     neighbor_size = 20;
-    function_type = PBI;
+    function_type = ITCH;
     neighborhood_selection_probability = 0.9;
     maximumNumberOfReplacedSolutions = 2;
 
@@ -142,6 +142,7 @@ void initialize_idealpoint (void * pop)
 
     for (i = 0; i < number_objective; i++)
         ideal_point[i] = INF;
+        //ideal_point[i] = 0;
 
     for (i = 0 ;i < popsize ; i ++)
         update_ideal_point (&(ptr->ind[i]));
@@ -158,7 +159,7 @@ void initialize_nadirpoint (void * pop)
     nadir_point = (double *) malloc (sizeof(double) * number_objective);    // free in moead_free
 
     for (i = 0; i < number_objective; i++)
-        nadir_point[i] = -INF;
+        nadir_point[i] = 1e6;
 
     for (i = 0 ;i < popsize ; i ++)
         update_nadir_point (&(ptr->ind[i]));

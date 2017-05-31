@@ -129,6 +129,8 @@ int main(int argc, char *argv[])
             CNSGA3 (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp (algorithm_name, "CSMSEMOA"))
             CSMSEMOA (parent_pop, offspring_pop, mixed_pop);
+            else if(!strcmp (algorithm_name, "CIBEA"))
+            CIBEA (parent_pop, offspring_pop, mixed_pop);
         else if(!strcmp (algorithm_name, "SPEA2"))
             SPEA2 (parent_pop, offspring_pop, mixed_pop);
         else

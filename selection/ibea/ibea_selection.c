@@ -26,6 +26,7 @@
  */
 
 # include "../../header/selection.h"
+#include "../../header/global.h"
 
 void environmental_selection (void *mixed_ptr, void *new_ptr, int *flag, double **fitcomp, int size)
 {
@@ -84,6 +85,72 @@ void ibea_selection (void *mixed_pop, void *new_pop, int *flag, double **fitcomp
     calcFitnessComponents (mixed_pop, fitcomp, size);
     cal_fitnesses (mixed_pop, fitcomp, size);
     environmental_selection (mixed_pop, new_pop, flag, fitcomp, size);
+
+    return;
+}
+
+
+void cibea_selection (void *mixed_ptr, void *new_ptr, int *flag, double **fitcomp) {
+    int i;
+    int size;
+    int cv_size = 0;
+    size = 2 * popsize;
+    population_real * mixed_pop = mixed_ptr;
+    population_real * new_pop = new_ptr;
+    for (i = 0; i < size; i++)
+    {
+        if(mixed_pop->ind[i].cv>-EPS)
+            cv_size++;
+
+    }
+
+    if(cv_size>popsize)
+    {
+        int left = 0;
+        int right = size -1;
+        individual_real temp;
+
+        while(left<right)
+        {
+            while(mixed_pop->ind[left].cv>-EPS&&left<right)
+                left++;
+            while(mixed_pop->ind[right].cv<-EPS&&left<right)
+                right--;
+            if(left<right)
+                copy_ind(&mixed_pop->ind[right],&mixed_pop->ind[left]);
+
+        }
+        calcFitnessComponents (mixed_ptr, fitcomp, cv_size);
+        cal_fitnesses (mixed_ptr, fitcomp, cv_size);
+        environmental_selection (mixed_ptr, new_pop, flag, fitcomp, cv_size);
+    }
+    else
+    {
+        int selected = 0;
+        struct double_with_index * temp;
+        temp = malloc(sizeof(struct double_with_index) * size);
+        for ( i = 0; i < size; i++)
+        {
+            if(mixed_pop->ind[i].cv>-EPS)
+            {
+                copy_ind(&mixed_pop->ind[i], &new_pop->ind[selected]);
+                selected++;
+            }
+            else
+            {
+                temp[i-selected].idx = i;
+                temp[i-selected].x = mixed_pop->ind[i].cv;
+            }
+        }
+        qsort (temp, size- cv_size, sizeof(struct double_with_index), double_with_index_smaller_cmp);
+        for(i=0;i<popsize-cv_size;i++)
+        {
+            copy_ind(&mixed_pop->ind[temp[i].idx],&new_pop->ind[selected]);
+            selected++;
+        }
+        free(temp);
+
+    }
 
     return;
 }

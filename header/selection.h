@@ -45,6 +45,7 @@ void calcFitnessComponents(void *ptr, double **fitcomp, int size);
 void cal_fitnesses(void *ptr, double **fitcomp, int size);
 void environmental_selection(void *mixed_ptr, void *new_ptr, int *flag, double **fitcomp, int size);
 void ibea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp);
+void cibea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp);
 
 /* NSGA-II */
 void fill_nondominated_sort (population_real *new_pop, population_real *mixed_pop);

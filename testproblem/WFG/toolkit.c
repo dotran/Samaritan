@@ -391,6 +391,113 @@ int WFG4_t1 (double * y, int y_size,double * result)
 
 }
 
+
+int WFG5_t1 (double * y , int y_size, double * result )
+{
+    int i;
+    for( i = 0; i < y_size; i++ )
+    {
+        result[i] = s_decept( y[i], 0.35, 0.001, 0.05 ) ;
+    }
+
+return y_size;
+}
+
+int WFG6_t2 (double* y,int y_size, int k, const int M, double * result)
+{
+    int i;
+    for( i = 1; i <= M-1; i++ )
+    {
+    const int head = ( i-1 )*k/( M-1 );
+    const int tail = i*k/( M-1 );
+
+    result[i-1] = (r_nonsep( y+head,tail-head, k/( M-1 ) ) );
+}
+
+    result[M-1]=( r_nonsep( y+k,y_size-k, y_size-k ) );
+
+    return M;
+}
+
+int WFG7_t1 (double * y, int y_size,int k, double * result)
+{
+    int i;
+
+    for (i = 0; i < y_size ;i++ )
+        wfg_w[i] = 1.0;
+
+    for( i = 0; i < k; i++ )
+    {
+        double u = r_sum( y+i+1,y_size-(i+1), wfg_w+i+1,y_size-(i+1) );
+
+        result[i]= ( b_param( y[i], u, 0.98/49.98, 0.02, 50 ) );
+    }
+
+    for(  i = k; i < y_size; i++ )
+    {
+        result[i] = ( y[i] );
+    }
+
+    return y_size;
+}
+
+int WFG8_t1 (double* y, int y_size, int k,double * result)
+{
+
+    int i;
+
+    for (i = 0; i < y_size ;i++ )
+        wfg_w[i] = 1.0;
+
+    for( i = 0; i < k; i++ )
+    {
+        result[i] = ( y[i] );
+    }
+
+    for( i = k; i < y_size; i++ )
+    {
+        double u = r_sum( y,i,wfg_w,i );
+
+        result[i] = b_param( y[i], u, 0.98/49.98, 0.02, 50 );
+    }
+
+    return y_size;
+}
+
+int WFG9_t1(double* y, int y_size,double* result )
+{
+    int i;
+
+    for (i = 0; i < y_size ;i++ )
+        wfg_w[i] = 1.0;
+
+for( i = 0; i < y_size-1; i++ )
+{
+
+    double u = r_sum( y+i+1,y_size-(i+1),wfg_w,y_size-(i+1));
+
+    result[i]=b_param( y[i], u, 0.98/49.98, 0.02, 50 );
+}
+    result[y_size-1] = y[y_size-1];
+
+    return y_size;
+}
+
+int WFG9_t2 ( double* y,int y_size, int k, double * result)
+{
+    int i;
+    for( i = 0; i < k; i++ )
+    {
+        result[i]=s_decept( y[i], 0.35, 0.001, 0.05 ) ;
+    }
+
+    for( i = k; i < y_size; i++ )
+    {
+        result[i]=s_multi( y[i], 30, 95, 0.35 );
+    }
+    return y_size;
+}
+
 void WFG1_shape (double *y, int size, double * result)
 {
     int i;
@@ -441,6 +548,95 @@ void WFG4_shape( double *y, int y_size ,double * result )
     {
         result[m-1] =  concave( temp, y_size,m );
     }
+
+    calculate_f(1.0,temp[y_size-1],result,y_size,result);
+}
+
+void WFG42_shape( double *y, int y_size ,double * result )
+{
+    int m;
+    calculate_x( y,temp, y_size);
+    for( m = 1; m <= y_size; m++ )
+    {
+        result[m-1] =  convex( temp, y_size,m );
+    }
+
+    calculate_f(1.0,temp[y_size-1],result,y_size,result);
+}
+
+
+void WFG43_shape( double *y, int y_size ,double * result )
+{
+    int m;
+    calculate_x( y,temp, y_size);
+    for( m = 1; m <= y_size; m++ )
+    {
+        result[m-1] =  pow(concave( temp, y_size,m ),0.25);
+    }
+
+    calculate_f(1.0,temp[y_size-1],result,y_size,result);
+}
+
+
+void WFG44_shape( double *y, int y_size ,double * result )
+{
+    int m;
+    calculate_x( y,temp, y_size);
+    for( m = 1; m <= y_size; m++ )
+    {
+        result[m-1] =  pow(convex( temp, y_size,m ),0.25);
+    }
+
+    calculate_f(1.0,temp[y_size-1],result,y_size,result);
+}
+
+void WFG45_shape( double *y, int y_size ,double * result )
+{
+    int m;
+    calculate_x( y,temp, y_size);
+    for( m = 1; m <= y_size-1; m++ )
+    {
+        result[m-1] =  convex( temp, y_size,m );
+    }
+    result[y_size-1] = mixed(temp,2,1.0);
+
+    calculate_f(1.0,temp[y_size-1],result,y_size,result);
+}
+
+void WFG46_shape( double *y, int y_size ,double * result )
+{
+    int m;
+    calculate_x( y,temp, y_size);
+    for( m = 1; m <= y_size; m++ )
+    {
+        result[m-1] =  linear( temp,number_objective,m );
+    }
+
+    calculate_f(1.0,temp[y_size-1],result,y_size,result);
+}
+
+void WFG47_shape( double *y, int y_size ,double * result )
+{
+    int m;
+    calculate_x( y,temp, y_size);
+    for( m = 1; m <= y_size-1; m++ )
+    {
+        result[m-1] =  concave( temp,number_objective,m );
+    }
+    result[y_size-1] = disc(temp,2,0.5,0.5);
+
+    calculate_f(1.0,temp[y_size-1],result,y_size,result);
+}
+
+void WFG48_shape( double *y, int y_size ,double * result )
+{
+    int m;
+    calculate_x( y,temp, y_size);
+    for( m = 1; m <= y_size-1; m++ )
+    {
+        result[m-1] =  convex( temp,number_objective,m );
+    }
+    result[y_size-1] = disc(temp,2,0.5,0.5);
 
     calculate_f(1.0,temp[y_size-1],result,y_size,result);
 }

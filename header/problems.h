@@ -58,6 +58,18 @@ void wfg1 (individual_real* ind);
 void wfg2 (individual_real* ind);
 void wfg3 (individual_real* ind);
 void wfg4 (individual_real* ind);
+void wfg42 (individual_real* ind);
+void wfg43 (individual_real* ind);
+void wfg44 (individual_real* ind);
+void wfg45 (individual_real* ind);
+void wfg46 (individual_real* ind);
+void wfg47 (individual_real* ind);
+void wfg48 (individual_real* ind);
+void wfg5 (individual_real* ind);
+void wfg6 (individual_real* ind);
+void wfg7 (individual_real* ind);
+void wfg8 (individual_real* ind);
+void wfg9 (individual_real* ind);
 
 void c1dtlz1 (individual_real* ind);
 void c1dtlz3 (individual_real* ind);

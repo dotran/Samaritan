@@ -44,6 +44,7 @@ set(SOURCE_FILES
         metaheuristics/cmoead.c
         metaheuristics/cnsga3.c
         metaheuristics/csmsemoa.c
+        metaheuristics/cibea.c
 
         selection/ibea/fitness.c
         selection/ibea/ibea_selection.c
@@ -118,7 +119,11 @@ set(SOURCE_FILES
         testproblem/WFG/WFG2.c
         testproblem/WFG/WFG3.c
         testproblem/WFG/WFG4.c
-
+        testproblem/WFG/WFG5.c
+        testproblem/WFG/WFG6.c
+        testproblem/WFG/WFG7.c
+        testproblem/WFG/WFG8.c
+        testproblem/WFG/WFG9.c
         config.txt
         main.c
         metaheuristics/spea2.c selection/spea2/spea2_selection.c reproduction/crossover/crossover_spea2.c)
