@@ -1,9 +1,9 @@
-algorithm_name: CMOEAD
+algorithm_name: CNSGA3
 test_problem: C2DTLZ2
 problem_param:
 number_variable 8
 number_objective 3
-popSize: 300
+popSize: 100
 max_evaluation: 90000
 runtime_output: 1
 output_interval: 10
