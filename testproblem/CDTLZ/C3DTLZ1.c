@@ -59,8 +59,10 @@ void c3dtlz1 (individual_real *ind)
     re = 0;
     for (i = 0; i < number_objective; i++)
     {
-        re = fsum + obj[i] - 1;
-        if (re > 0) re = 0;
-        ind->cv = re + ind->cv;
+        if ( fsum + obj[i] -1 < 0)
+            re = re + fsum + obj[i] - 1;
+
     }
+
+    ind->cv = re;
 }
