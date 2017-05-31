@@ -46,8 +46,8 @@ int initialization_real (char* argv)
     print_error (config == NULL, 2, "Fail to read configure file: ", configFileName);
     fscanf (config, "%s %s", dummy, algorithm_name);
     fscanf (config, "%s %s", dummy, problem_name);
-//    fgets (problem_param_stream, 200, config); // What's this for?
-//    fgets (problem_param_stream, 200, config);
+    fgets (problem_param_stream, 200, config); // What's this for?
+    fgets (problem_param_stream, 200, config);
     fscanf (config, "%s %d", dummy, &number_variable);
     fscanf (config, "%s %d", dummy, &number_objective);
     fscanf (config, "%s %d", dummy, &popsize);
@@ -159,7 +159,7 @@ void initialize_nadirpoint (void * pop)
     nadir_point = (double *) malloc (sizeof(double) * number_objective);    // free in moead_free
 
     for (i = 0; i < number_objective; i++)
-        nadir_point[i] = 1e6;
+        nadir_point[i] = -INF;
 
     for (i = 0 ;i < popsize ; i ++)
         update_nadir_point (&(ptr->ind[i]));
