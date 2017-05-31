@@ -581,8 +581,8 @@ void CNSGA3 (population_real *parent_pop, population_real *offspring_pop, popula
     int i;
     int generation;
 
-    //initialize_uniform_weight ();
-    read_uniform_weight("1.dat");
+    initialize_uniform_weight ();
+    //read_uniform_weight("1.dat");
     // for assign_rank
     fronts      = (list **) malloc (2 * popsize * sizeof(list *));
     fronts_size = (int *) malloc (2 * popsize * sizeof(int));;
