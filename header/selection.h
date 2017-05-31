@@ -93,7 +93,7 @@ void fill_hype_sort (population_real* new_pop, population_real* mixed_pop, int s
 void hype_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
 /* SPEA2 */
-void fitness_spea2 (population_real *pop, int size);
-void selection_spea2 (population_real *pop1,int size1,population_real *pop2,int size2);
+void fitness_spea2 (population_real *pop, int total_size, int k_min, int *dominated_Num, int *bedominated_Num, int **dominated_Matrix, int *R_i, double **distance_Matrix, double* D_i, double *kth_distance);
+void selection_spea2 (population_real *mixed_pop,int total_size,population_real *archive,int archive_size, individual_real *temp_ind, population_real *temp_pop, double **distance_Matrix);
 
 # endif // Samaritan_SELECTION_H

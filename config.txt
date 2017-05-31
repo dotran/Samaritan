@@ -1,10 +1,10 @@
-algorithm_name: IBEA
-test_problem: DTLZ2
-test_problem_param: 4
+algorithm_name: CMOEAD
+test_problem: C2DTLZ2
+problem_param:
 number_variable 8
 number_objective 3
-popSize: 100
-max_evaluation: 30000
+popSize: 300
+max_evaluation: 90000
 runtime_output: 1
 output_interval: 10
 run_index_begin: 1
