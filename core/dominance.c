@@ -27,7 +27,7 @@
 
 #include "../header/global.h"
 
-int check_dominance(individual_real *a, individual_real *b)
+int check_dominance (individual_real *a, individual_real *b)
 {
     int i;
     int flag1;
