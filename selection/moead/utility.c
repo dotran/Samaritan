@@ -161,6 +161,7 @@ void read_uniform_weight (char *file)
     FILE *weight  = NULL;
     number_weight = popsize;
     weight = fopen (file, "r");
+    printf("weight file:%s",file);
 
     lambda = (double **) malloc (number_weight * sizeof(double *));
     for (i = 0; i < number_weight; i++)

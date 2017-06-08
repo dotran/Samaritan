@@ -64,6 +64,7 @@ double *ref_point;           // reference point for Hypervolume calculation
 /* MOEA/D variants */
 int neighbor_size;                           // neighborhood length
 int number_weight;                           // number of weight vectors
+char *weight_file;
 int function_type;                           // type of the aggregation function
 int maximumNumberOfReplacedSolutions;        // the maximum replacement number of a superior offspring
 double neighborhood_selection_probability;   // probability to replace in the neighborhood

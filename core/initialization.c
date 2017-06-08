@@ -29,7 +29,6 @@
 # include "../header/utility.h"
 
 char line[BUFSIZE_L];
-char *weight_file;
 
 int initialization_real (int argc, char** argv)
 {
@@ -43,7 +42,10 @@ int initialization_real (int argc, char** argv)
 
     FILE *PF     = NULL;
     FILE *config = NULL;
+
     int flag_default = 1;
+
+    weight_file = NULL;
 
     if (argc == 1)
     {
@@ -87,7 +89,7 @@ int initialization_real (int argc, char** argv)
         fgets (analyse_stream, 200, config);
         fgets (analyse_stream, 200, config);
         fclose(config);
-        weight_file = NULL;
+
         // configure with argv
         while ( (c = getopt(argc, argv, "a:c:x:y:s:g:i:b:e:w:p:ho:")) != -1) {
             switch (c){
@@ -114,6 +116,7 @@ int initialization_real (int argc, char** argv)
                     break;
                 case 'a':
                     strcpy(algorithm_name,optarg);
+                    break;
                 case 'x':
                     number_variable = atof(optarg);
                     break;
@@ -134,9 +137,11 @@ int initialization_real (int argc, char** argv)
                     break;
                 case 'e':
                     run_index_end = atof(optarg);
+                    break;
                 case 'w':
                     weight_file = malloc(sizeof(char)*BUFSIZE_L);
                     strcpy(weight_file,optarg);
+
                     break;
                 case 'o':
 
@@ -147,8 +152,9 @@ int initialization_real (int argc, char** argv)
                     {
                         while(analyse_stream[pos]!=0)pos++;
                         strcpy(analyse_stream+pos,optarg);
+
                     }
-                    printf("stream:%s\n",analyse_stream);
+
                     break;
                 case 'h':
                     printf("Usage: Samaritan [-options] [args...]\n");
