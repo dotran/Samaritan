@@ -29,35 +29,143 @@
 # include "../header/utility.h"
 
 char line[BUFSIZE_L];
+char *weight_file;
 
-int initialization_real (char* argv)
+int initialization_real (int argc, char** argv)
 {
     int i, j;
     int random;
     char configFileName[BUFSIZE_S];
     char PF_name[BUFSIZE_S];
 
+    int c;
+    char *arg_stream;
+    int arg_count;
+
     FILE *PF     = NULL;
     FILE *config = NULL;
 
-    // read some parameters from configure file
-    strcpy (configFileName, argv);
-    config = fopen (configFileName, "r");
-    print_error (config == NULL, 2, "Fail to read configure file: ", configFileName);
-    fscanf (config, "%s %s", dummy, algorithm_name);
-    fscanf (config, "%s %s", dummy, problem_name);
-    fgets (problem_param_stream, 200, config);
-    fgets (problem_param_stream, 200, config);
-    fscanf (config, "%s %d", dummy, &number_variable);
-    fscanf (config, "%s %d", dummy, &number_objective);
-    fscanf (config, "%s %d", dummy, &popsize);
-    fscanf (config, "%s %d", dummy, &max_evaluation);
-    fscanf (config, "%s %d", dummy, &runtime_output);
-    fscanf (config, "%s %d", dummy, &output_interval);
-    fscanf (config, "%s %d", dummy, &run_index_begin);
-    fscanf (config, "%s %d", dummy, &run_index_end);
-    fgets (analyse_stream, 200, config);
-    fgets (analyse_stream, 200, config);
+    if (argc == 1)
+    {
+        printf("Configured based on defaut file: \'config.txt\'\n");
+        config = fopen ("config.txt", "r");
+        print_error (config == NULL, 1, "Fail to read configure file: config.txt");
+        fscanf (config, "%s %s", dummy, algorithm_name);
+        fscanf (config, "%s %s", dummy, problem_name);
+        fgets (problem_param_stream, 200, config);
+        fgets (problem_param_stream, 200, config);
+        fscanf (config, "%s %d", dummy, &number_variable);
+        fscanf (config, "%s %d", dummy, &number_objective);
+        fscanf (config, "%s %d", dummy, &popsize);
+        fscanf (config, "%s %d", dummy, &max_evaluation);
+        fscanf (config, "%s %d", dummy, &runtime_output);
+        fscanf (config, "%s %d", dummy, &output_interval);
+        fscanf (config, "%s %d", dummy, &run_index_begin);
+        fscanf (config, "%s %d", dummy, &run_index_end);
+        fgets (analyse_stream, 200, config);
+        fgets (analyse_stream, 200, config);
+        fclose(config);
+        weight_file = NULL;
+    }
+    else
+    {
+        //  first setting with default file
+        config = fopen ("config.txt", "r");
+        print_error (config == NULL, 1, "Fail to read configure file: config.txt");
+        fscanf (config, "%s %s", dummy, algorithm_name);
+        fscanf (config, "%s %s", dummy, problem_name);
+        fgets (problem_param_stream, 200, config);
+        fgets (problem_param_stream, 200, config);
+        fscanf (config, "%s %d", dummy, &number_variable);
+        fscanf (config, "%s %d", dummy, &number_objective);
+        fscanf (config, "%s %d", dummy, &popsize);
+        fscanf (config, "%s %d", dummy, &max_evaluation);
+        fscanf (config, "%s %d", dummy, &runtime_output);
+        fscanf (config, "%s %d", dummy, &output_interval);
+        fscanf (config, "%s %d", dummy, &run_index_begin);
+        fscanf (config, "%s %d", dummy, &run_index_end);
+        fgets (analyse_stream, 200, config);
+        fgets (analyse_stream, 200, config);
+        fclose(config);
+        weight_file = NULL;
+        // configure with argv
+        while ( (c = getopt(argc, argv, "c:x:y:s:g:i:b:e:w:p:h:")) != -1) {
+            switch (c){
+                case 'c':
+                    strcpy (configFileName, optarg);
+                    config = fopen (configFileName, "r");
+                    print_error (config == NULL, 2, "Fail to read configure file: ", configFileName);
+                    fscanf (config, "%s %s", dummy, algorithm_name);
+                    fscanf (config, "%s %s", dummy, problem_name);
+                    fgets (problem_param_stream, 200, config);
+                    fgets (problem_param_stream, 200, config);
+                    fscanf (config, "%s %d", dummy, &number_variable);
+                    fscanf (config, "%s %d", dummy, &number_objective);
+                    fscanf (config, "%s %d", dummy, &popsize);
+                    fscanf (config, "%s %d", dummy, &max_evaluation);
+                    fscanf (config, "%s %d", dummy, &runtime_output);
+                    fscanf (config, "%s %d", dummy, &output_interval);
+                    fscanf (config, "%s %d", dummy, &run_index_begin);
+                    fscanf (config, "%s %d", dummy, &run_index_end);
+                    fgets (analyse_stream, 200, config);
+                    fgets (analyse_stream, 200, config);
+                    fclose(config);
+                    break;
+                case 'x':
+                    number_variable = atof(optarg);
+                    break;
+                case 'y':
+                    number_objective = atof(optarg);
+                    break;
+                case 'p':
+                    strcpy(problem_name,optarg);
+                    break;
+                case 's':
+                    popsize = atof(optarg);
+                    break;
+                case 'g':
+                    max_evaluation = atof(optarg);
+                    break;
+                case 'i':
+                    run_index_begin = atof(optarg);
+                    break;
+                case 'e':
+                    run_index_end = atof(optarg);
+                case 'w':
+                    weight_file = malloc(sizeof(char)*BUFSIZE_L);
+                    strcpy(weight_file,optarg);
+                    break;
+                case 'h':
+                    printf("Usage: Samaritan [-options] [args...]\n");
+                    printf("Where options includes:\n");
+                    printf("\t-c <filename> \tsetting configure file \n\t\t!!remark: args before -c may be covered by the settings from the configure file \n");
+                    printf("\t-x <value> \tsetting number of variable\n");
+                    printf("\t-y <value> \tsetting number of objective\n");
+                    printf("\t-s <value> \tsetting population size\n");
+                    printf("\t-g <value> \tsetting max evaluation\n");
+                    printf("\t-i <value> \tsetting output interval\n");
+                    printf("\t-b <value> \tsetting beginning run index \n");
+                    printf("\t-e <value> \tsetting beginning run index \n");
+                    printf("\t-w <filename> \tsetting weight vector file \n");
+
+                case ':':       /*  option without operand */
+                    line[0] = optopt;
+                    line[1] = 0;
+                    print_error(1,3,"Option -",line,"requires an operand");
+                    break;
+                case '?':
+                    line[0] = optopt;
+                    line[1] = 0;
+                    print_error(1,3,"Unrecognized option -",line,"\n Samaritan -h for help.");
+                    break;
+                default:
+                    break;
+
+
+            }
+        }
+
+    }
 
     // SBX parameter settings
     pcross_real = 0.9;

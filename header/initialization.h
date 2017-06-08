@@ -32,7 +32,7 @@
 # include "rand.h"
 # include "print.h"
 
-int initialization_real (char* argv);
+int initialization_real (int argc, char** argv);
 void initialize_idealpoint (void * pop);
 void initialize_nadirpoint (void * pop);
 

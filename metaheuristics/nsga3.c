@@ -505,7 +505,7 @@ void getIntercepts (population_real *pop, int size)
     for (i = 0; i < number_objective; i++)
     {
         maxObjValues[i] = -EPS ;
-        nadirPoint[i] = -EPS ;
+        nadirPoint[i] = -EPS ;  //??
         //nadirPoint[i] =  1e4;
     }
     /* traverse all the individuals of the population and get their maximum value of objective (The simplest way of

@@ -27,6 +27,7 @@
 
 # include "header/rand.h"
 # include "header/metaheuristics.h"
+#include <unistd.h>
 
 /* common paramters */
 int run_index;
@@ -85,7 +86,7 @@ int main(int argc, char *argv[])
 {
     int i;
     // initialize parameter settings
-    initialization_real ("config.txt");
+    initialization_real (argc,argv);
 
     population_real *parent_pop;
     population_real *offspring_pop;

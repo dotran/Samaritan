@@ -52,6 +52,12 @@ void moead_free ()
 }
 void initialize_uniform_weight ()
 {
+    if(weight_file != NULL)
+    {
+        read_uniform_weight(weight_file);
+        free(weight_file);
+        return;
+    }
     int i, j, l;
     int ptr;
     int layer;
