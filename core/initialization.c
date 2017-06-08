@@ -89,7 +89,7 @@ int initialization_real (int argc, char** argv)
         fclose(config);
         weight_file = NULL;
         // configure with argv
-        while ( (c = getopt(argc, argv, "c:x:y:s:g:i:b:e:w:p:h:")) != -1) {
+        while ( (c = getopt(argc, argv, "c:x:y:s:g:i:b:e:w:p:h")) != -1) {
             switch (c){
                 case 'c':
                     strcpy (configFileName, optarg);
