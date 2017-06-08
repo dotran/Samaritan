@@ -91,6 +91,11 @@ void track_evolution (void *ptr, int id, int end)
                 analyse_list[HV] = 1;
             else if (!strcmp(name, "PLOT"))
                 analyse_list[PLOT] = 1;
+            else if (!strcmp(name, "analyse:"))
+                ;
+            else
+                print_error(1,2,"unknown setting for analyse ",name);
+
             if (analyse_stream[read_ptr] == 0)
                 break;
             read_ptr++;
