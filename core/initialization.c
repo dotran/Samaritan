@@ -39,15 +39,15 @@ int initialization_real (int argc, char** argv)
     char PF_name[BUFSIZE_S];
 
     int c;
-    char *arg_stream;
-    int arg_count;
+    int pos;
 
     FILE *PF     = NULL;
     FILE *config = NULL;
+    int flag_default = 1;
 
     if (argc == 1)
     {
-        printf("Configured based on defaut file: \'config.txt\'\n");
+
         config = fopen ("config.txt", "r");
         print_error (config == NULL, 1, "Fail to read configure file: config.txt");
         fscanf (config, "%s %s", dummy, algorithm_name);
@@ -89,9 +89,10 @@ int initialization_real (int argc, char** argv)
         fclose(config);
         weight_file = NULL;
         // configure with argv
-        while ( (c = getopt(argc, argv, "c:x:y:s:g:i:b:e:w:p:h")) != -1) {
+        while ( (c = getopt(argc, argv, "a:c:x:y:s:g:i:b:e:w:p:ho:")) != -1) {
             switch (c){
                 case 'c':
+                    flag_default = 0;
                     strcpy (configFileName, optarg);
                     config = fopen (configFileName, "r");
                     print_error (config == NULL, 2, "Fail to read configure file: ", configFileName);
@@ -111,6 +112,8 @@ int initialization_real (int argc, char** argv)
                     fgets (analyse_stream, 200, config);
                     fclose(config);
                     break;
+                case 'a':
+                    strcpy(algorithm_name,optarg);
                 case 'x':
                     number_variable = atof(optarg);
                     break;
@@ -135,10 +138,28 @@ int initialization_real (int argc, char** argv)
                     weight_file = malloc(sizeof(char)*BUFSIZE_L);
                     strcpy(weight_file,optarg);
                     break;
+                case 'o':
+
+                    optind--;
+                    pos = 0;
+                    analyse_stream[0] = 0;
+                    for (; optind < argc && *argv[optind] != '-'; optind++)
+                    {
+                        while(analyse_stream[pos]!=0)pos++;
+                        strcpy(analyse_stream+pos,optarg);
+                    }
+                    printf("stream:%s\n",analyse_stream);
+                    break;
                 case 'h':
                     printf("Usage: Samaritan [-options] [args...]\n");
                     printf("Where options includes:\n");
                     printf("\t-c <filename> \tsetting configure file \n\t\t!!remark: args before -c may be covered by the settings from the configure file \n");
+                    printf("\t-w <filename> \tsetting weight vector file \n");
+
+                    printf("\t-a <string> \tsetting algorithm\n");
+                    printf("\t-p <string> \tsetting problem\n");
+                    printf("\t-o [string ...] \tsetting analyse\n");
+
                     printf("\t-x <value> \tsetting number of variable\n");
                     printf("\t-y <value> \tsetting number of objective\n");
                     printf("\t-s <value> \tsetting population size\n");
@@ -146,7 +167,7 @@ int initialization_real (int argc, char** argv)
                     printf("\t-i <value> \tsetting output interval\n");
                     printf("\t-b <value> \tsetting beginning run index \n");
                     printf("\t-e <value> \tsetting beginning run index \n");
-                    printf("\t-w <filename> \tsetting weight vector file \n");
+                    exit(0);
 
                 case ':':       /*  option without operand */
                     line[0] = optopt;
@@ -166,7 +187,8 @@ int initialization_real (int argc, char** argv)
         }
 
     }
-
+    if( flag_default )
+        printf("All/Other parameters configured based on the defaut file: \'config.txt\'\n");
     // SBX parameter settings
     pcross_real = 0.9;
     eta_c       = 20.0;
