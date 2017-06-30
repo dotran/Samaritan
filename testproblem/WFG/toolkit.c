@@ -584,7 +584,7 @@ void WFG44_shape( double *y, int y_size ,double * result )
     calculate_x( y,temp, y_size);
     for( m = 1; m <= y_size; m++ )
     {
-        result[m-1] =  pow(convex( temp, y_size,m ),0.25);
+        result[m-1] =  pow(convex( temp, y_size,m ),3.0);
     }
 
     calculate_f(1.0,temp[y_size-1],result,y_size,result);
@@ -596,7 +596,7 @@ void WFG45_shape( double *y, int y_size ,double * result )
     calculate_x( y,temp, y_size);
     for( m = 1; m <= y_size-1; m++ )
     {
-        result[m-1] =  convex( temp, y_size,m );
+        result[m-1] =  concave( temp, y_size,m );
     }
     result[y_size-1] = mixed(temp,2,1.0);
 

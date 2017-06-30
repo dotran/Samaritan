@@ -255,7 +255,7 @@ void fill_nd_pop (population_real *mixed_pop, population_real *new_pop)
 
     rank           = 0;
     num_candidates = 0;
-    while (num_candidates < popsize && rank < max_rank)
+    while (num_candidates < popsize && rank <= max_rank)
     {
         temp           = fronts[rank]->child;
         selected_count = num_candidates;

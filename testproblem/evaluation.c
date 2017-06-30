@@ -47,6 +47,7 @@ void evaluate_individual (individual_real *ind)
     (strcmp (problem_name, "ZDT6")  != 0)? :(zdt6 (ind), flag = 1);
     (strcmp (problem_name, "DTLZ1") != 0)? :(dtlz1 (ind), flag = 1);
     (strcmp (problem_name, "DTLZ2") != 0)? :(dtlz2 (ind), flag = 1);
+    (strcmp (problem_name, "DTLZC2") != 0)? :(dtlz2_convex (ind), flag = 1);
     (strcmp (problem_name, "DTLZ3") != 0)? :(dtlz3 (ind), flag = 1);
     (strcmp (problem_name, "DTLZ4") != 0)? :(dtlz4 (ind), flag = 1);
     (strcmp (problem_name, "DTLZ5") != 0)? :(dtlz5 (ind), flag = 1);

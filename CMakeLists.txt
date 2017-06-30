@@ -92,6 +92,7 @@ set(SOURCE_FILES
         testproblem/ZDT/ZDT6.c
         testproblem/DTLZ/DTLZ1.c
         testproblem/DTLZ/DTLZ2.c
+        testproblem/DTLZ/DTLZ2_convex.c
         testproblem/DTLZ/DTLZ3.c
         testproblem/DTLZ/DTLZ4.c
         testproblem/DTLZ/DTLZ5.c

@@ -1,12 +1,12 @@
-algorithm_name: NSGA3
-test_problem: C2DTLZ2
-problem_param:
-number_variable 8
-number_objective 3
-popSize: 100
-max_evaluation: 90000
+algo_name: MOEAD
+tst_prob: WFG44
+parameters: 3
+num_var: 7
+num_obj: 4
+popSize: 286
+max_eval: 114400
 runtime_output: 1
 output_interval: 10
-run_index_begin: 1
-run_index_end: 1
+ind_begin: 1
+ind_end: 1
 analyse: FUN PLOT

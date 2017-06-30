@@ -39,6 +39,7 @@ void zdt4 (individual_real* ind);
 void zdt6 (individual_real* ind);
 void dtlz1 (individual_real* ind);
 void dtlz2 (individual_real* ind);
+void dtlz2_convex (individual_real *ind);
 void dtlz3 (individual_real* ind);
 void dtlz4 (individual_real* ind);
 void dtlz5 (individual_real* ind);
