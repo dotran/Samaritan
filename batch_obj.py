@@ -17,11 +17,11 @@
 
 import subprocess
 
-methods=['NSGA3','MOEAD']  # ,'IBEA','NSGA2','HypE','SMSEMOA'
+methods=['MOEAD','NSGA3']  # ,'IBEA','NSGA2','HypE','SMSEMOA'
 num_methods=len(methods)
 problem_suite=['WFG']
 num_suite=len(problem_suite)
-problem_number=[[44]]
+problem_number=[[43,44,45,47,48]]
 num_obj=[3,4]
 #num_var=[2,4,8,16]
 popsize=300
@@ -39,12 +39,13 @@ for m in range(num_methods):
                     popsize=286
                 else:
                     popsize=300
-                evaluation= popsize*400
+                evaluation= popsize*300
+                
 #                if problem_number[ps][pn]==1:
 #                    nv=num_obj[on]+4
 #                else:
 #                    nv=num_obj[on]+9
-                nv=7
+                nv=100
                 f=open('config.txt','w')
                 f.write('algo_name: '+methods[m]+'\n')
                 f.write('tst_prob: '+problem_suite[ps]+str(problem_number[ps][pn])+'\n')
@@ -57,7 +58,7 @@ for m in range(num_methods):
                 f.write('output_interval: '+str(output_interval)+'\n')
                 f.write('ind_begin: '+str(index_begin)+'\n')
                 f.write('ind_end: '+str(index_end)+'\n')
-                f.write('analyse: FUN PLOT') 
+                f.write('analyse: FUN HV PLOT') 
                 f.close()
                 subprocess.run("Samaritan.exe")
             

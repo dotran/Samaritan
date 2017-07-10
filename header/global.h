@@ -112,7 +112,7 @@ enum MoeadFunction{WS, N_WS, TCH, N_TCH, ITCH, N_ITCH, PBI, N_PBI};
 static int weight_gaps_table[8][3] = {{0,   0, 0},
                                       {0,   0, 0},
                                       {299, 0, 0},  // 2 obj 100->100
-                                      {23,  0, 0},  // 3 obj 12->91
+                                      {13,  0, 0},  // 3 obj 12->91, 13->105, 23->300
                                       {10,  0, 0},  // 4 obj
                                       {6,   4, 0},  // 5 obj
                                       {5,   2, 0},  // 6 obj

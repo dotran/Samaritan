@@ -71,7 +71,7 @@ void calculate_f (double D, double x, double* h, int size, double *result)
     int S = 1;
     for( i = 0; i < size; i++ )
     {
-        //S = S *2;
+        //S = S *2;  // Change S_m here. 
         result[i] = ( D*x + S*h[i] );
     }
 }

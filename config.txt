@@ -1,12 +1,12 @@
 algo_name: MOEAD
-tst_prob: WFG44
-parameters: 3
-num_var: 7
-num_obj: 4
-popSize: 286
-max_eval: 114400
+tst_prob: WFG9
+parameters: 4
+num_var: 24
+num_obj: 3
+popSize: 105
+max_eval: 52500
 runtime_output: 1
 output_interval: 10
 ind_begin: 1
 ind_end: 1
-analyse: FUN PLOT
+analyse: FUN HV PLOT
