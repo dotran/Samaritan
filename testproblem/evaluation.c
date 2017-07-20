@@ -66,6 +66,7 @@ void evaluate_individual (individual_real *ind)
     (strcmp (problem_name, "WFG2") != 0)? :(wfg2 (ind), flag = 1);
     (strcmp (problem_name, "WFG3") != 0)? :(wfg3 (ind), flag = 1);
     (strcmp (problem_name, "WFG4") != 0)? :(wfg4 (ind), flag = 1);
+    (strcmp (problem_name, "WFG41") != 0)? :(wfg41 (ind), flag = 1);
     (strcmp (problem_name, "WFG42") != 0)? :(wfg42 (ind), flag = 1);
     (strcmp (problem_name, "WFG43") != 0)? :(wfg43 (ind), flag = 1);
     (strcmp (problem_name, "WFG44") != 0)? :(wfg44 (ind), flag = 1);

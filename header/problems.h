@@ -58,6 +58,7 @@ void wfg1 (individual_real* ind);
 void wfg2 (individual_real* ind);
 void wfg3 (individual_real* ind);
 void wfg4 (individual_real* ind);
+void wfg41 (individual_real* ind);
 void wfg42 (individual_real* ind);
 void wfg43 (individual_real* ind);
 void wfg44 (individual_real* ind);
@@ -76,4 +77,5 @@ void c1dtlz3 (individual_real* ind);
 void c2dtlz2 (individual_real* ind);
 void c3dtlz1 (individual_real* ind);
 void c3dtlz4 (individual_real* ind);
+
 # endif // Samaritan_PROBLEMS_H
