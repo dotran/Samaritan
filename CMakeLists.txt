@@ -37,6 +37,7 @@ set(SOURCE_FILES
         metaheuristics/moead_stm.c
         metaheuristics/moead_stm_dra.c
         metaheuristics/smsemoa.c
+        metaheuristics/spea2.c
         metaheuristics/ibea.c
         metaheuristics/hype.c
         metaheuristics/nsga3.c
@@ -52,16 +53,17 @@ set(SOURCE_FILES
         selection/nsga2/crowddist.c
         selection/nsga2/fillnds.c
         selection/nsga2/qsort.c
-
         selection/moead/update.c
         selection/moead/utility.c
         selection/moead_stm/stm_selection.c
         selection/moead_stm/utility.c
         selection/smsemoa/fillnds_hv.c
         selection/hype/fill.c
+        selection/spea2/spea2_selection.c
 
         reproduction/crossover/crossover_moead.c
         reproduction/crossover/crossover_nsga2.c
+        reproduction/crossover/crossover_spea2.c
         reproduction/crossover/crossover_steadystate.c
         reproduction/crossover/differential_evolution.c
         reproduction/crossover/sbx.c
@@ -124,9 +126,11 @@ set(SOURCE_FILES
         testproblem/WFG/WFG7.c
         testproblem/WFG/WFG8.c
         testproblem/WFG/WFG9.c
+        testproblem/WFG/WFG4x.c
         config.txt
+
         main.c
-        metaheuristics/spea2.c selection/spea2/spea2_selection.c reproduction/crossover/crossover_spea2.c)
+        )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(Samaritan ${SOURCE_FILES})
 set(CMAKE_C_FLAGS  ${CMAKE_C_FLAGS} -pthread)
