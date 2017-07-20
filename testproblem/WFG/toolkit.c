@@ -1,6 +1,7 @@
 /*
  * toolkit.c:
- *  This file contains the essential toolkit functions used in WFG problem instances.
+ *  This file contains the essential toolkit functions used in WFG problem instances. Note that these functions are
+ *  developed based on the source code provided by the Walking Fish Group (http://www.wfg.csse.uwa.edu.au/toolkit/).
  *
  * Authors:
  *  Ke Li <k.li@exeter.ac.uk>

@@ -1,5 +1,5 @@
 /*
- * DTLZ3.c
+ * C1-DTLZ3.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -26,7 +26,7 @@
 void c1dtlz3 (individual_real *ind)
 {
     int i, j, k, aux;
-    double gx, fsum, re, r = 9;
+    double gx, fsum, re, r = 9.0; // r determines the outermost feasible boundary's radius
     double *xreal, *obj;
 
     obj   = ind->obj;
@@ -35,7 +35,7 @@ void c1dtlz3 (individual_real *ind)
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for (i = number_variable - k; i < number_variable; i++)
-        gx += pow((xreal[i] - 0.5), 2.0) - cos(20.0 * PI * (xreal[i] - 0.5));
+        gx += pow ((xreal[i] - 0.5), 2.0) - cos (20.0 * PI * (xreal[i] - 0.5));
     gx = 100.0 * (k + gx);
 
     for (i = 0; i < number_objective; i++)
@@ -44,17 +44,17 @@ void c1dtlz3 (individual_real *ind)
     for (i = 0; i < number_objective; i++)
     {
         for (j = 0; j < number_objective - (i + 1); j++)
-            obj[i] *= cos(PI * 0.5 * xreal[j]);
+            obj[i] *= cos (PI * 0.5 * xreal[j]);
         if (i != 0)
         {
             aux     = number_objective - (i + 1);
-            obj[i] *= sin(PI * 0.5 * xreal[aux]);
+            obj[i] *= sin (PI * 0.5 * xreal[aux]);
         }
     }
     fsum = 0;
     for (i = 0; i < number_objective; i++)
         fsum = obj[i] * obj[i] + fsum;
-    re = (fsum - 16) * (fsum - r * r);
+    re = (fsum - 16.0) * (fsum - r * r);
     if (re > 0) re = 0;
 
     ind->cv = re;

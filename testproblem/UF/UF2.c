@@ -38,13 +38,13 @@ void uf2 (individual_real *ind)
     {
         if (i % 2 == 0)
         {
-            yj = xreal[i - 1] - 0.3 * xreal[0] * (xreal[0] * cos (24.0 * PI * xreal[0] + 4.0 * i * PI / number_variable) + 2.0) * sin (6.0 * PI * xreal[0] + i * PI / number_variable);
+            yj   = xreal[i - 1] - 0.3 * xreal[0] * (xreal[0] * cos (24.0 * PI * xreal[0] + 4.0 * i * PI / number_variable) + 2.0) * sin (6.0 * PI * xreal[0] + i * PI / number_variable);
             sum2 += yj * yj;
             count2++;
         }
         else
         {
-            yj = xreal[i - 1] - 0.3 * xreal[0] * (xreal[0] * cos (24.0 * PI * xreal[0] + 4.0 * i * PI / number_variable) + 2.0) * cos(6.0 * PI * xreal[0] + i * PI / number_variable);
+            yj   = xreal[i - 1] - 0.3 * xreal[0] * (xreal[0] * cos (24.0 * PI * xreal[0] + 4.0 * i * PI / number_variable) + 2.0) * cos (6.0 * PI * xreal[0] + i * PI / number_variable);
             sum1 += yj * yj;
             count1++;
         }

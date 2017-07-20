@@ -1,5 +1,5 @@
 /*
- * DTLZ4.c
+ * C3-DTLZ4.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -36,7 +36,7 @@ void c3dtlz4 (individual_real *ind)
     alpha = 100.0;
     k     = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
-        gx += pow((xreal[i] - 0.5), 2.0);
+        gx += pow ((xreal[i] - 0.5), 2.0);
 
     for (i = 0; i < number_objective; i++)
         obj[i] = 1.0 + gx;
@@ -44,11 +44,11 @@ void c3dtlz4 (individual_real *ind)
     for (i = 0; i < number_objective; i++)
     {
         for (j = 0; j < number_objective - (i + 1); j++)
-            obj[i] *= cos(PI * 0.5 * pow(xreal[j], alpha));
+            obj[i] *= cos (PI * 0.5 * pow (xreal[j], alpha));
         if (i != 0)
         {
             aux     = number_objective - (i + 1);
-            obj[i] *= sin(PI * 0.5 * pow(xreal[aux], alpha));
+            obj[i] *= sin (PI * 0.5 * pow (xreal[aux], alpha));
         }
     }
 
@@ -58,10 +58,8 @@ void c3dtlz4 (individual_real *ind)
     re = 0;
     for (i = 0; i < number_objective; i++)
     {
-        if (fsum - obj[i]* obj[i] + obj[i]* obj[i] / 4 -1 < 0)
-        re = re + fsum - obj[i]* obj[i] + obj[i]* obj[i] / 4 -1 ;
-
+        if (fsum - obj[i]* obj[i] + obj[i]* obj[i] / 4.0 - 1.0 < 0)
+        re = re + fsum - obj[i]* obj[i] + obj[i]* obj[i] / 4.0 - 1.0;
     }
     ind->cv = re;
-
 }

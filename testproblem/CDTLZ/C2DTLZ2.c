@@ -1,5 +1,5 @@
 /*
- * DTLZ2.c
+ * C2-DTLZ2.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -27,7 +27,7 @@ void c2dtlz2 (individual_real *ind)
 {
     int i, j, k, aux;
     double re, gx, fsum, sum1, sum2, sqr;
-    double r = 0.3;  // parameter for C2-DTLZ2
+    double r = 0.3;  // r determines the size, i.e., radius, of each feasible region
     double *xreal, *obj;
 
     obj   = ind->obj;
@@ -36,7 +36,7 @@ void c2dtlz2 (individual_real *ind)
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
-        gx += pow((xreal[i] - 0.5), 2.0);
+        gx += pow ((xreal[i] - 0.5), 2.0);
 
     for (i = 0; i < number_objective; i++)
         obj[i] = 1.0 + gx;
@@ -44,20 +44,20 @@ void c2dtlz2 (individual_real *ind)
     for (i = 0; i < number_objective; i++)
     {
         for (j = 0; j < number_objective - (i + 1); j++)
-            obj[i] *= cos(PI * 0.5 * xreal[j]);
+            obj[i] *= cos (PI * 0.5 * xreal[j]);
         if (i != 0)
         {
             aux     = number_objective - (i + 1);
-            obj[i] *= sin(PI * 0.5 * xreal[aux]);
+            obj[i] *= sin (PI * 0.5 * xreal[aux]);
         }
     }
-    fsum = 0;
+    fsum = 0.0;
     for(i = 0; i < number_objective; i++)
         fsum = fsum + obj[i] * obj[i];
 
     re   = (obj[0] - 1) * (obj[0] - 1) + fsum - obj[0] * obj[0] - r * r;
     sum2 = 0;
-    sqr  = sqrt(number_objective);
+    sqr  = sqrt (number_objective);
     for (i = 0; i < number_objective; i++)
     {
         sum1 = (obj[i] - 1) * (obj[i] - 1) + fsum - obj[i] * obj[i] - r * r;

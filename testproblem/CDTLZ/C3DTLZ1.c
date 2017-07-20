@@ -1,5 +1,5 @@
 /*
- * DTLZ1.c
+ * C3-DTLZ1.c
  *
  * Authors:
  *  Renzhi Chen <rxc332@cs.bham.ac.uk>
@@ -35,7 +35,7 @@ void c3dtlz1 (individual_real *ind)
     gx = 0.0;
     k  = number_variable - number_objective + 1;
     for(i = number_variable - k; i < number_variable; i++)
-        gx += pow((xreal[i] - 0.5), 2.0) - cos(20.0 * PI * (xreal[i] - 0.5));
+        gx += pow ((xreal[i] - 0.5), 2.0) - cos (20.0 * PI * (xreal[i] - 0.5));
     gx = 100.0 * (k + gx);
 
     for (i = 0; i < number_objective; i++)
@@ -59,7 +59,7 @@ void c3dtlz1 (individual_real *ind)
     re = 0;
     for (i = 0; i < number_objective; i++)
     {
-        if ( fsum + obj[i] -1 < 0)
+        if (fsum + obj[i] - 1 < 0)
             re = re + fsum + obj[i] - 1;
 
     }
