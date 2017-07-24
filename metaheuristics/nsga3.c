@@ -39,7 +39,6 @@ int cur_size;
 
 int *fronts_size;
 int *candidate_flag;
-int *association_flag;
 int *associationCount;
 int *lastAssociationCount;
 int *ReferenceDirection;
@@ -255,7 +254,7 @@ void fill_nd_pop (population_real *mixed_pop, population_real *new_pop)
 
     rank           = 0;
     num_candidates = 0;
-    while (num_candidates < popsize && rank < max_rank)
+    while (num_candidates < popsize && rank <= max_rank)
     {
         temp           = fronts[rank]->child;
         selected_count = num_candidates;
@@ -395,30 +394,30 @@ double* gaussianElimination (double **A, double *b, double *x)
 /* Fill the next parent population by adding one member from the last front */
 void niching (population_real *mix_pop, population_real *new_pop)
 {
-    int i, j, rand;
+    int rand;
     int min_idx, min_size, direction_idx;
-    int selected_count2, newMemberIndex, remainingIndvsCount, minDirClusterSize;
-    list *temp1;
+    int selected_count2, newMemberIndex, remainingIndvsCount, minAssociations;
+
     double min_dist;
     struct int_vector *minlist;
 
-    for (i = 0; i < number_weight; i++)
+    for (int i = 0; i < number_weight; i++)
     {
         associationCount[i] = 0;
-        association_flag[i] = 1;
         lastAssociationCount[i] = 0;
     }
 
-    for (i = 0; i < selected_count; i++)
+    for (int i = 0; i < selected_count; i++)
         associationCount[ReferenceDirection[i]] = associationCount[ReferenceDirection[i]] + 1;
 
-    for (i = selected_count; i < num_candidates; i++)
+    for (int i = selected_count; i < num_candidates; i++)
     {
         lastAssociationCount[ReferenceDirection[i]] = lastAssociationCount[ReferenceDirection[i]] + 1;
         candidate_flag[i] = 1;
     }
 
     remainingIndvsCount = popsize - selected_count;
+
     minlist = malloc (sizeof(struct int_vector));
     minlist->next  = NULL;
     minlist->value = -1;
@@ -426,24 +425,27 @@ void niching (population_real *mix_pop, population_real *new_pop)
     selected_count2 = 0;
     while (remainingIndvsCount > 0)
     {
-        minDirClusterSize = -1;
-        for (i = 0; i < number_weight; i++)
+        minAssociations = -1;
+        for (int i = 0; i < number_weight; i++)
         {
-            if (association_flag[i] == 0)
+            if (lastAssociationCount[i] == 0)
                 continue;
-            if (associationCount[i] <= minDirClusterSize || minDirClusterSize == -1)
-                minDirClusterSize = associationCount[i];
+
+            if (associationCount[i] <= minAssociations || minAssociations == -1)
+                minAssociations = associationCount[i];
         }
+
         min_size = 0;
         minlist  = malloc (sizeof(struct int_vector));
         minlist->next  = NULL;
         minlist->value = -1;
 
-        for (i = 0; i < number_weight; i++)
+        for (int i = 0; i < number_weight; i++)
         {
-            if (association_flag[i] == 0)
+            if (lastAssociationCount[i] == 0)
                 continue;
-            if (associationCount[i] == minDirClusterSize)
+
+            if (associationCount[i] == minAssociations)
             {
                 int_vector_pushback (minlist, i) ;
                 min_size++;
@@ -454,41 +456,42 @@ void niching (population_real *mix_pop, population_real *new_pop)
         direction_idx = int_vector_get(minlist, rand);
 
         int_vector_free (minlist);
-        if (lastAssociationCount[direction_idx] == 0)
-            association_flag[direction_idx] = 0;
+
+        // If not already represented...
+        newMemberIndex = -1;
+        if (associationCount[direction_idx] == 0)
+        {
+            // ...select the one with the smallest perpendicular distance to the current reference vector
+            min_idx  = -1;
+            min_dist = -1;
+            for (int i = selected_count; i < num_candidates; i++)
+            {
+                if (direction_idx == ReferenceDirection[i] && candidate_flag[i] && (min_idx == -1 || PerpendicularDistance[i] < min_dist))
+                {
+                    min_dist = PerpendicularDistance[i];
+                    min_idx  = i;
+                }
+            }
+            newMemberIndex = min_idx;
+        }
         else
         {
-            newMemberIndex = -1;
-            if (associationCount[direction_idx] == 0)
-            {
-                // select the one with the smallest perpendicular distance to the current reference vector
-                min_idx  = -1;
-                min_dist = -1;
-                for (i = selected_count; i < num_candidates; i++)
-                {
-                    if (direction_idx == ReferenceDirection[i] && candidate_flag[i] && (min_idx == -1 || PerpendicularDistance[i] < min_dist))
-                    {
-                        min_dist = PerpendicularDistance[i];
-                        min_idx  = i;
-                    }
+            // ...otherwise choose a 'random' individual
+            for (int i = selected_count; i < num_candidates; i++) {
+                if (direction_idx == ReferenceDirection[i] && candidate_flag[i]) {
+                    newMemberIndex = i;
+                    break;
                 }
-                newMemberIndex = min_idx;
             }
-            else
-            {
-                for (i = selected_count; i < num_candidates; i++)
-                    if (direction_idx == ReferenceDirection[i] && candidate_flag[i])
-                        break;
-                newMemberIndex = i;
-            }
-            copy_ind (&mix_pop->ind[newMemberIndex], &new_pop->ind[selected_count + selected_count2]);
-
-            associationCount[direction_idx]     = associationCount[direction_idx] + 1;
-            lastAssociationCount[direction_idx] = lastAssociationCount[direction_idx] -1;
-            candidate_flag[newMemberIndex]      = 0;
-            selected_count2++;
-            remainingIndvsCount--;
         }
+
+        copy_ind (&mix_pop->ind[newMemberIndex], &new_pop->ind[selected_count + selected_count2]);
+
+        associationCount[direction_idx]     = associationCount[direction_idx] + 1;
+        lastAssociationCount[direction_idx] = lastAssociationCount[direction_idx] -1;
+        candidate_flag[newMemberIndex]      = 0;
+        selected_count2++;
+        remainingIndvsCount--;
     }
 }
 
@@ -584,7 +587,6 @@ void NSGA3 (population_real *parent_pop, population_real *offspring_pop, populat
     // for niching
     ReferenceDirection    = (int *) malloc (2 * popsize * sizeof(int));
     candidate_flag        = (int *) malloc (2 * popsize * sizeof(int));
-    association_flag      = (int *) malloc (number_weight * sizeof(int));
     associationCount      = (int *) malloc (number_weight * sizeof(int));
     lastAssociationCount  = (int *) malloc (number_weight * sizeof(int));
     intercepts            = (double *) malloc (number_objective * sizeof(double));
@@ -660,7 +662,6 @@ void NSGA3 (population_real *parent_pop, population_real *offspring_pop, populat
     free (candidate_pop);
     free (associationCount);
     free (lastAssociationCount);
-    free (association_flag);
     for(i = 0; i < number_objective; i++)
         free (unitDirections[i]);
     for (i = 0; i < 2 * popsize; i++)
