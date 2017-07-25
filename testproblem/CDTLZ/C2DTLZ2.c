@@ -27,11 +27,16 @@ void c2dtlz2 (individual_real *ind)
 {
     int i, j, k, aux;
     double re, gx, fsum, sum1, sum2, sqr;
-    double r = 0.3;  // r determines the size, i.e., radius, of each feasible region
+    double r;  // r determines the size, i.e., radius, of each feasible region
     double *xreal, *obj;
 
     obj   = ind->obj;
     xreal = ind->xreal;
+
+    if (obj <= 3)   // recommended by C-NSGA-III paper
+        r = 0.4;
+    else
+        r = 0.5;
 
     gx = 0.0;
     k  = number_variable - number_objective + 1;
