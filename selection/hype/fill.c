@@ -254,7 +254,7 @@ void hype_fill (population_real *mixed_pop, population_real *new_pop, int count,
     struct double_with_index *hv;
 
     hv  = malloc (front_size * sizeof(struct double_with_index));
-    rho = malloc (sizeof(double) * param_k + 1);
+    rho = malloc (sizeof(double) * popsize);
 
     nrOfSamples = 10000;
     while (front_size + count > popsize)
