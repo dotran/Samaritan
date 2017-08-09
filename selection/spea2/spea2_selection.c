@@ -57,6 +57,7 @@ double search_k_minimum (double *a, int k, int size)
             a[temp_int] = temp;
         }
     }
+
     return (k_min);
 }
 
@@ -127,171 +128,6 @@ void fitness_spea2 (population_real *pop, int total_size, int k_min, int *domina
     }
 }
 
-void truncate_pop (population_real *tmppop, int tmppop_size, population_real *pop2, int archive_size, double **distance_Matrix)
-{
-    int i, j, flag;
-    list *elist, *temp_list, *plist;
-    double temp1, temp2;
-
-    elist         = (list *) malloc(sizeof(list));
-    elist->index  = -1;
-    elist->parent = NULL;
-    elist->child  = NULL;
-    temp_list     = elist;
-
-    for (i = 0; i < tmppop_size; i++)
-    {
-        insert(temp_list, i);
-        temp_list = temp_list->child;
-    }
-
-    for (i = 0; i < tmppop_size; i++)
-    {
-        distance_Matrix[i][i] = INF;
-        for (j = i + 1; j < tmppop_size; j++)
-        {
-            distance_Matrix[i][j] = distance_Matrix[j][i] = euclidian_distance(tmppop->ind[i].xreal, tmppop->ind[j].xreal, number_variable);
-        }
-    }
-
-    for (i = 0; i < tmppop_size - archive_size; i++)
-    {
-        temp_list = elist->child;
-
-        while (temp_list != NULL)
-        {
-            flag = 0;
-            temp1 = distance_Matrix[temp_list->index][0];
-
-            for (j = 1; j < tmppop_size; j++)
-            {
-                if (distance_Matrix[temp_list->index][j] < temp1)
-                {
-                    temp1 = distance_Matrix[temp_list->index][j];
-                    flag  = j;
-                }
-            }
-            temp_list->index2 = flag;
-            temp_list = temp_list->child;
-        }
-
-        temp_list = elist->child;
-        temp1 = distance_Matrix[temp_list->index][temp_list->index2];
-        temp_list = elist->child;
-        plist = temp_list;
-        while (temp_list != NULL)
-        {
-            if (distance_Matrix[temp_list->index][temp_list->index2] < temp1)
-            {
-                temp1 = distance_Matrix[temp_list->index][temp_list->index2];
-                plist = temp_list;
-                temp_list = temp_list->child;
-            }
-            else
-            {
-                temp_list = temp_list->child;
-            }
-        }
-
-        if (plist != NULL)
-        {
-            if (plist->index == 0)
-            {
-                temp1 = distance_Matrix[plist->index2][plist->index + 1];
-
-                for (j = 2; j < tmppop_size; j++) {
-                    if (distance_Matrix[plist->index2][j] < temp1) {
-                        temp1 = distance_Matrix[plist->index2][j];
-                    }
-                }
-            }
-            else
-            {
-                temp1 = distance_Matrix[plist->index2][0];
-                for (j = 1; j < tmppop_size; j++)
-                {
-                    if ((j != plist->index) && (distance_Matrix[plist->index2][j] < temp1))
-                    {
-                        temp1 = distance_Matrix[plist->index2][j];
-                    }
-                }
-            }
-            if (plist->index2 == 0)
-            {
-                temp2 = distance_Matrix[plist->index][plist->index2 + 1];
-                for (j = 2; j < tmppop_size; j++)
-                {
-                    if (distance_Matrix[plist->index][j] < temp2)
-                    {
-                        temp2 = distance_Matrix[plist->index][j];
-                    }
-                }
-            } else {
-                temp2 = distance_Matrix[plist->index2][0];
-                for (j = 1; j < tmppop_size; j++)
-                {
-                    if ((j != plist->index2) && (distance_Matrix[plist->index][j] < temp2))
-                    {
-                        temp2 = distance_Matrix[plist->index][j];
-                    }
-                }
-            }
-            temp_list = elist->child;
-            if (temp1 < temp2) {
-                while (temp_list != NULL) {
-                    if (temp_list->index != plist->index2)
-                    {
-                        temp_list = temp_list->child;
-                    }
-                    else
-                    {
-                        for (j = 0; j < tmppop_size; j++)
-                        {
-                            distance_Matrix[j][plist->index2] = INF;
-                        }
-                        del (temp_list);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                while (temp_list != NULL)
-                {
-                    if (temp_list->index != plist->index)
-                    {
-                        temp_list = temp_list->child;
-                    }
-                    else
-                    {
-                        for (j = 0; j < tmppop_size; j++)
-                        {
-                            distance_Matrix[j][plist->index] = INF;
-                        }
-                        del (temp_list);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    temp_list = elist->child;
-    i = 0;
-    while (temp_list != NULL)
-    {
-        copy_ind(&(tmppop->ind[temp_list->index]), &(pop2->ind[i]));
-        i++;
-        temp_list = temp_list->child;
-    }
-    while (elist != NULL)
-    {
-        temp_list = elist;
-        elist = elist->child;
-        free(temp_list);
-    }
-}
-
 void selection_spea2 (population_real *mixed_pop,int total_size,population_real *archive,int archive_size, individual_real *temp_ind, population_real *temp_pop, double **distance_Matrix)
 {
     int i, j, flag;
@@ -310,6 +146,9 @@ void selection_spea2 (population_real *mixed_pop,int total_size,population_real 
     }
     if (num_nondominated <= archive_size)
     {
+        // Sorting the list should be far more efficient
+        // TODO: Implement some kind of benchmarks to measure average running time of implementations
+
         for (i = 0; i < archive_size; i++)
         {
             ind1 = &(mixed_pop->ind[i]);
@@ -334,16 +173,85 @@ void selection_spea2 (population_real *mixed_pop,int total_size,population_real 
     }
     else // Requires truncation: num_nondominated > archive_size
     {
-        j = 0;
+        list* start = (list *) malloc(sizeof(list));
+        start->index = NULL;
+        list* end = start;
+
+        int oa_size = 0; // oa - oversized archive
+
+        // Copy non-dominated solutions into a list
+        list* non_dom_individual;
         for (i = 0; i < total_size; i++)
         {
-            if (mixed_pop->ind[i].fitness < 1.0)
-            {
-                copy_ind (&(mixed_pop->ind[i]), &(temp_pop->ind[j]));
-                j += 1;
+            if (mixed_pop->ind[i].fitness < 1.0) {
+
+                copy_ind (&(mixed_pop->ind[i]), &(temp_pop->ind[oa_size]));
+
+                non_dom_individual = (list *) malloc(sizeof(list));
+                non_dom_individual->index = i;
+                non_dom_individual->index2 = oa_size;
+                non_dom_individual->parent = end;
+                non_dom_individual->child = NULL;
+
+                end->child = non_dom_individual;
+
+                end = non_dom_individual;
+
+                oa_size ++;
             }
         }
-        truncate_pop (temp_pop, j, archive, archive_size,distance_Matrix);
+
+        // Calculate the distances between the non-dominated solutions
+        for (i = 0; i < oa_size; i++)
+        {
+            distance_Matrix[i][i] = INF;
+            for (j = i + 1; j < oa_size; j++)
+            {
+                distance_Matrix[i][j] = distance_Matrix[j][i] = euclidian_distance(temp_pop->ind[i].xreal, temp_pop->ind[j].xreal, number_variable);
+            }
+        }
+
+        int temp_i = 0;
+        double temp_val;
+
+        while(oa_size > archive_size) {
+            temp_val = INF;
+
+            // Find the closest element
+            for(i = 0; i < oa_size; i++) {
+                for(j = 0; j < oa_size; j++) {
+                    if(distance_Matrix[i][j] < temp_val) {
+                        temp_i = i;
+                        temp_val = distance_Matrix[i][j];
+                    }
+                }
+            }
+
+            // Remove it from the list
+            list* temp_list = start;
+            while(temp_list->child != NULL) {
+                temp_list = temp_list->child;
+
+                if(temp_list->index2 == temp_i) {
+                    del(temp_list);
+                    break;
+                }
+            }
+
+            oa_size --;
+        }
+
+        // Copy from list to archive
+        list* temp_list = start;
+
+        for(i = 0; i < oa_size; i++) {
+            temp_list = temp_list->child;
+            copy_ind (&(mixed_pop->ind[temp_list->index]), &(archive->ind[i]));
+
+            free(temp_list->parent);
+        }
+
+        free(temp_list);
     }
 
 }
