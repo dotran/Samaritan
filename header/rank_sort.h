@@ -29,7 +29,7 @@ typedef struct double_with_index
 {
     int idx;
     double x;
-}mysort;
+} mysort;
 
 int double_with_index_smaller_cmp (const void * a, const void * b);
 

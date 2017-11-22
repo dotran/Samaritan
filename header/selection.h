@@ -49,6 +49,9 @@ void cibea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp
 
 /* NSGA-II */
 void fill_nondominated_sort (population_real *new_pop, population_real *mixed_pop);
+void fill_g_nondominated_sort (population_real *new_pop, population_real *mixed_pop, double* reference_point);
+void fill_r_nondominated_sort (population_real *new_pop, population_real *mixed_pop, double* reference_point, double* weights, double non_dominance_threshold);
+void fill_R_nondominated_sort (population_real *new_pop, population_real *mixed_pop, double* reference_point, double* weights, double epsilon);
 void crowding_fill (population_real *mixed_pop, population_real *new_pop, int count, int front_size, list *elite);
 
 void fill_constraint_nondominated_sort (population_real *new_pop, population_real *mixed_pop);

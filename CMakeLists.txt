@@ -32,6 +32,7 @@ set(SOURCE_FILES
         core/vector.c
 
         metaheuristics/nsga2.c
+        metaheuristics/rnsga2.c
         metaheuristics/moead.c
         metaheuristics/moead_dra.c
         metaheuristics/moead_stm.c
@@ -130,7 +131,7 @@ set(SOURCE_FILES
         config.txt
 
         main.c
-        )
+        metaheuristics/Rnsga2.c metaheuristics/g-NSGA-II.c)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(Samaritan ${SOURCE_FILES})
 set(CMAKE_C_FLAGS  ${CMAKE_C_FLAGS} -pthread)

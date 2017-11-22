@@ -23,6 +23,7 @@
  */
 
 # include "../header/utility.h"
+# include "../header/rank_sort.h"
 
 /* Calculate the L2-norm of a vector */
 double norm_vector (double *a)
@@ -48,6 +49,19 @@ double euclidian_distance (double *a, double *b, int dimension)
         distance += (a[i] - b[i]) * (a[i] - b[i]);
 
     return sqrt(distance);
+}
+
+double normalised_euclidean_distance(const double *a, const double *b, const double* f_max, const double* f_min, int dimension) {
+
+    int i;
+    double distance;
+
+    distance = 0.0;
+    for(i = 0; i < dimension; i++)
+        distance += pow((a[i] - b[i]) / (f_max[i] - f_min[i]), 2);
+
+    return sqrt(distance);
+
 }
 
 
@@ -155,3 +169,38 @@ void update_nadir_point (individual_real *individual)
     return;
 }
 
+double weighted_euclidean_distance_ASF(const double *x, const double* y, const double* weights,
+                                       const double* max, const double* min, int dimension) {
+
+    double check_sum = 0;
+    for(int i = 0; i < dimension; i++) {
+        if(weights[i] > 1 || weights[i] < 0)
+            print_error(1, 3, "Weight  ", i, " exceeded bounds 0 to -1 at weighted_euclidean_distance_ASF");
+
+        check_sum += weights[i];
+    }
+
+    if(check_sum > 1)
+        print_error(1, 1, "Weights exceeded bounds 0 to -1 at weighted_euclidean_distance_ASF");
+
+    double sum = 0;
+    for(int i = 0; i < dimension; i++) {
+        double frac = (x[i] - y[i]) / (max[i] - min[i]);
+        sum += weights[i] * frac * frac;
+    }
+
+    return sqrt(sum);
+
+}
+
+struct double_with_index* index_sort(double* array, int size, __compar_fn_t compare) {
+    struct double_with_index* temp_ranking = malloc(sizeof(struct double_with_index) * size);
+    for(int i = 0; i < size; i++) {
+        temp_ranking[i].idx = i;
+        temp_ranking[i].x = array[i];
+    }
+
+    qsort (temp_ranking, size, sizeof(struct double_with_index), compare);
+
+    return temp_ranking;
+}

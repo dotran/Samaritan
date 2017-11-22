@@ -149,5 +149,9 @@ typedef struct double_lists
 
 void insert (list *node, int x);
 list* del (list *node);
+void append (list* node, list* to_list);
+int length(list* node);
+list* get_item(list* start, int n);
+list* free_list (list* node);
 
 # endif // Samaritan_GLOBAL_H

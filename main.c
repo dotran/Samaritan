@@ -101,42 +101,21 @@ int main(int argc, char *argv[])
 
     randomize ();
 
+    double reference_point[] = {0.2, 0.7};
+
+    double weights[number_objective];
+    for(i = 0; i < number_objective; i++)
+        weights[i] = 1/(double) number_objective;
+
+    double non_dominance_threshold = 0.0001;
+
     // run experiments
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
         printf ("-----------------------------\n");
         printf ("|\tThe %d run\t|\t", run_index);
-        if (!strcmp (algorithm_name, "NSGA2"))
-            NSGA2 (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "MOEAD"))
-            MOEAD (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "MOEAD_DRA"))
-            MOEAD_DRA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "MOEAD_STM"))
-            MOEAD_STM (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "MOEAD_STM_DRA"))
-            MOEAD_STM_DRA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "SMSEMOA"))
-            SMSEMOA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "IBEA"))
-            IBEA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "HYPE"))
-            HypE (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "NSGA3"))
-            NSGA3 (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "CNSGA2"))
-            CNSGA2 (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "CMOEAD"))
-            CMOEAD (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "CNSGA3"))
-            CNSGA3 (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "CSMSEMOA"))
-            CSMSEMOA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "CIBEA"))
-            CIBEA (parent_pop, offspring_pop, mixed_pop);
-        else if(!strcmp (algorithm_name, "SPEA2"))
-            SPEA2 (parent_pop, offspring_pop, mixed_pop);
-        else
-            print_error (1, 2, "UNKNOWN algorithm:", algorithm_name);
+
+        gNSGAII (parent_pop, offspring_pop, mixed_pop, reference_point);
+
         printf ("\n");
     }
     printf ("-----------------------------\n");

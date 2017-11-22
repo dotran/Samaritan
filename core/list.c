@@ -73,3 +73,56 @@ list* del (list *node)
     return (temp);
 }
 
+void append (list* node, list* to_list) {
+    list* temp_list = to_list;
+
+    while(temp_list->child != NULL)
+        temp_list = temp_list->child;
+
+    temp_list->child = node;
+    node->parent = temp_list;
+}
+
+list* get_item(list* start, int n) {
+
+    list* temp = start;
+
+    for(int i = 0; i < n; i++)
+        temp = temp->child;
+
+    list* out = malloc(sizeof(list));
+    out->child = NULL;
+    out->parent = NULL;
+    out->index = temp->index;
+    out->index2 = temp->index2;
+
+    return out;
+}
+
+int length(list *node)
+{
+    int size = 0;
+    list* temp = node;
+
+    if(temp == NULL)
+        return 0;
+
+    while(temp != NULL) {
+        size++;
+        temp = temp->child;
+    }
+
+    return size;
+}
+
+list* free_list (list* node) {
+
+    list* next_node = node;
+    list* temp_node = NULL;
+
+    while(next_node != NULL) {
+        temp_node = next_node->child;
+        free(next_node);
+        next_node = temp_node;
+    }
+}

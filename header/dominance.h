@@ -26,5 +26,8 @@
 # define Samaritan_DOMINANCE_H
 
 int check_dominance(individual_real *a, individual_real *b);
+int check_g_dominance(individual_real ind_a, individual_real ind_b, double* reference_point);
+
+list** nondominated_sort_idxs(population_real* pop, int popsize);
 
 # endif // Samaritan_DOMINANCE_H
