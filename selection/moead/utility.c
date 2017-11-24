@@ -50,6 +50,31 @@ void moead_free ()
 
     return;
 }
+
+void uniform_random_weights_const(double **lambda, int num_weights, int dimensions, double lower_bound, double upper_bound) {
+    for(int i = 0; i < num_weights; i++) {
+
+        for(int j = 0; j < dimensions; j++) {
+            double scale = rand() / (double) RAND_MAX;
+            lambda[i][j] = scale * (upper_bound - lower_bound) + lower_bound;
+        }
+
+        normalise_vector(lambda[i], dimensions);
+    }
+}
+
+void uniform_random_weights(double **lambda, int num_weights, int dimensions, const double* lower_bounds, const double* upper_bounds) {
+    for(int i = 0; i < num_weights; i++) {
+
+        for(int j = 0; j < dimensions; j++) {
+            double scale = rand() / (double) RAND_MAX;
+            lambda[i][j] = scale * (upper_bounds[j] - lower_bounds[j]) + lower_bounds[j];
+        }
+
+        normalise_vector(lambda[i], dimensions);
+    }
+}
+
 void initialize_uniform_weight ()
 {
     if(weight_file != NULL)

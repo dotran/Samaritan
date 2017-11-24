@@ -40,5 +40,9 @@ void update_ideal_point (individual_real *individual);
 void update_nadir_point (individual_real *individual);
 double weighted_euclidean_distance_ASF(const double *x, const double* y, const double* weights,
                                        const double* max, const double* min, int dimension);
+double tchebycheff_ASF(const double *x, const double* y, const double* weights, int dimensions);
+
 struct double_with_index* index_sort(double* array, int size, __compar_fn_t compare);
+
+void normalise_vector(double* vector, int length);
 #endif //SAMARITAN_UTILITY_H

@@ -26,10 +26,11 @@
  */
 
 # include "../../header/selection.h"
+#include "../../header/global.h"
 
 # define rho 1.1
 # define kappa 0.05
-# define indicator 0
+indicator_type indicator = EPSILON;
 
 int dominates(individual_real *ind1, individual_real *ind2)
 {
@@ -111,11 +112,10 @@ double calcIndicatorValue(individual_real *ind1, individual_real *ind2)
 {
     double indicatorValue;
 
-    if (indicator == 0)
+    if (indicator == EPSILON)
         indicatorValue = calcAddEpsIndicator(ind1, ind2);
-    else
-    {
-        if (dominates (ind1, ind2))
+    else if(indicator == HYPERVOLUME) {
+        if (dominates(ind1, ind2))
             indicatorValue = -calcHypervolumeIndicator(ind1, ind2, number_objective);
         else
             indicatorValue = calcHypervolumeIndicator(ind2, ind1, number_objective);
@@ -124,11 +124,47 @@ double calcIndicatorValue(individual_real *ind1, individual_real *ind2)
     return indicatorValue;
 }
 
+void pbea_calcFitnessComponents(void *ptr, double **fitcomp, int size, double* weights, double* reference_point, double specificity)
+{
+    double maxAbsIndicatorValue;
+    population_real* pop = ptr;
+
+    // determine indicator values and their maximum
+    maxAbsIndicatorValue = 0;
+
+    double smallest_asf = INF;
+
+    double asf_values[size];
+    for(int i = 0; i < size; i++) {
+        asf_values[i] = tchebycheff_ASF(pop->ind[i].obj, reference_point, weights, number_objective);
+
+        if(asf_values[i] < smallest_asf)
+            smallest_asf = asf_values[i];
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            fitcomp[i][j] = calcIndicatorValue(&pop->ind[i], &pop->ind[j]);
+            fitcomp[i][j] = fitcomp[i][j] / (asf_values[j] + specificity - smallest_asf);
+
+            if (maxAbsIndicatorValue < fabs(fitcomp[i][j]))
+                maxAbsIndicatorValue = fabs(fitcomp[i][j]);
+        }
+    }
+
+    // calculate for each pair of individuals the corresponding fitness component
+    for (int i = 0; i < size; i++)
+        for (int j = 0; j < size; j++)
+            fitcomp[i][j] = exp((-fitcomp[i][j] / maxAbsIndicatorValue) / kappa);
+}
+
 void calcFitnessComponents(void *ptr, double **fitcomp, int size)
 {
     int i, j;
     double maxAbsIndicatorValue;
-    population_real *pop = ptr;
+    population_real* pop = ptr;
 
     // determine indicator values and their maximum
     maxAbsIndicatorValue = 0;
@@ -146,8 +182,6 @@ void calcFitnessComponents(void *ptr, double **fitcomp, int size)
     for (i = 0; i < size; i++)
         for (j = 0; j < size; j++)
             fitcomp[i][j] = exp((-fitcomp[i][j] / maxAbsIndicatorValue) / kappa);
-
-    return;
 }
 
 /* Assign the fitness values to the solutions within a population */

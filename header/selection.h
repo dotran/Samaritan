@@ -37,14 +37,19 @@
 # include "../externals/IWFG/iwfg.h"
 
 /* IBEA */
+typedef enum {HYPERVOLUME, EPSILON} indicator_type ;
+extern indicator_type indicator;
+
 int dominates(individual_real *ind1, individual_real *ind2);
 double calcHypervolumeIndicator(individual_real* ind1, individual_real* ind2, int d);
 double calcAddEpsIndicator(individual_real *ind1, individual_real *ind2);
 double calcIndicatorValue(individual_real* ind1, individual_real* ind2);
 void calcFitnessComponents(void *ptr, double **fitcomp, int size);
+void pbea_calcFitnessComponents(void *ptr, double **fitcomp, int size, double* weights, double* reference_point, double specificity);
 void cal_fitnesses(void *ptr, double **fitcomp, int size);
 void environmental_selection(void *mixed_ptr, void *new_ptr, int *flag, double **fitcomp, int size);
 void ibea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp);
+void pbea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp, double* weights, double* reference_point, double specificity);
 void cibea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp);
 
 /* NSGA-II */
@@ -69,6 +74,8 @@ void q_sort_dist(population_real *pop, int *dist, int left, int right);
 double fitnessFunction (individual_real *individual, double *lambda);
 void comp_utility (population_real *pop, population_real *saved_values);
 void moead_free ();
+void uniform_random_weights(double **lambda, int num_weights, int dimensions, const double* lower_bounds, const double* upper_bounds);
+void uniform_random_weights_const(double **lambda, int num_weights, int dimensions, double lower_bound, double upper_bound);
 void initialize_uniform_weight ();
 void initialize_layers_weight ();
 void read_uniform_weight(char *file);

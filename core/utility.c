@@ -193,6 +193,34 @@ double weighted_euclidean_distance_ASF(const double *x, const double* y, const d
 
 }
 
+double tchebycheff_ASF(const double *x, const double* y, const double* weights, int dimensions) {
+
+    double check_sum = 0;
+    for(int i = 0; i < dimensions; i++) {
+        if(weights[i] > 1 || weights[i] < 0)
+            print_error(1, 3, "Weight  ", i, " exceeded bounds 0 to -1 at weighted_euclidean_distance_ASF");
+
+        check_sum += weights[i];
+    }
+
+    if(check_sum > 1)
+        print_error(1, 1, "Weights exceeded bounds 0 to -1 at weighted_euclidean_distance_ASF");
+
+    double curr_diff = 0, max_diff = -INF, diff_sum = 0;
+    for(int i = 0; i < dimensions; i++) {
+
+        curr_diff = weights[i] * (x[i] - y[i]);
+
+        if(curr_diff > max_diff)
+            max_diff = curr_diff;
+
+        diff_sum += curr_diff;
+    }
+
+    return max_diff + (0.00001 * diff_sum);
+
+}
+
 struct double_with_index* index_sort(double* array, int size, __compar_fn_t compare) {
     struct double_with_index* temp_ranking = malloc(sizeof(struct double_with_index) * size);
     for(int i = 0; i < size; i++) {
@@ -203,4 +231,14 @@ struct double_with_index* index_sort(double* array, int size, __compar_fn_t comp
     qsort (temp_ranking, size, sizeof(struct double_with_index), compare);
 
     return temp_ranking;
+}
+
+void normalise_vector(double* vector, int length) {
+    double z = 0;
+
+    for(int i = 0; i < length; i++)
+        z += vector[i];
+
+    for (int i = 0; i < length; i++)
+        vector[i] = vector[i] / z;
 }

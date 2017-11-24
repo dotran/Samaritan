@@ -41,12 +41,14 @@ void NSGA2 (population_real *parent_pop, population_real *offspring_pop, populat
 void rNSGA2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop, double* reference_point, double* weights, double non_dominance_threshold);
 void RNSGA2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop, double* reference_point, double* weights, double epsilon);
 void gNSGAII (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop, double* reference_point);
+void RMEAD2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop, double* reference_point, double radius);
 void MOEAD (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void MOEAD_DRA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void MOEAD_STM (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void MOEAD_STM_DRA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void SMSEMOA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void IBEA (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
+void PBEA (population_real* parent_pop, population_real* offspring_pop, population_real* mixed_pop, double* reference_point, double* weights, double specificity);
 void HypE (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void NSGA3 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);
 void SPEA2 (population_real *parent_pop, population_real *offspring_pop, population_real *mixed_pop);

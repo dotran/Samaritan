@@ -76,9 +76,9 @@ void environmental_selection (void *mixed_ptr, void *new_ptr, int *flag, double 
     return;
 }
 
+
 void ibea_selection (void *mixed_pop, void *new_pop, int *flag, double **fitcomp)
 {
-    int i;
     int size;
 
     size = 2 * popsize;
@@ -86,9 +86,14 @@ void ibea_selection (void *mixed_pop, void *new_pop, int *flag, double **fitcomp
     cal_fitnesses (mixed_pop, fitcomp, size);
     environmental_selection (mixed_pop, new_pop, flag, fitcomp, size);
 
-    return;
 }
 
+void pbea_selection(void *mixed_pop, void *new_pop, int *flag, double **fitcomp, double* weights, double* reference_point, double specificity) {
+    int size = 2 * popsize;
+    pbea_calcFitnessComponents (mixed_pop, fitcomp, size, weights, reference_point, specificity);
+    cal_fitnesses (mixed_pop, fitcomp, size);
+    environmental_selection (mixed_pop, new_pop, flag, fitcomp, size);
+}
 
 void cibea_selection (void *mixed_ptr, void *new_ptr, int *flag, double **fitcomp) {
     int i;

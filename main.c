@@ -101,20 +101,22 @@ int main(int argc, char *argv[])
 
     randomize ();
 
-    double reference_point[] = {0.2, 0.7};
+    double reference_point[2] = {0.25, 0.25};
 
     double weights[number_objective];
     for(i = 0; i < number_objective; i++)
         weights[i] = 1/(double) number_objective;
 
     double non_dominance_threshold = 0.0001;
+    double specificity = 0.02;
+    double radius = 2;
 
     // run experiments
     for (run_index = run_index_begin; run_index <= run_index_end; run_index++) {
         printf ("-----------------------------\n");
         printf ("|\tThe %d run\t|\t", run_index);
 
-        gNSGAII (parent_pop, offspring_pop, mixed_pop, reference_point);
+        RMEAD2(parent_pop, offspring_pop, mixed_pop, reference_point, radius);
 
         printf ("\n");
     }
